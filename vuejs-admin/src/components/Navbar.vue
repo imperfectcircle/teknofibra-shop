@@ -17,7 +17,7 @@
                         alt=""
                         class="rounded-full w-10 mr-2"
                     />
-                    John Smith
+                    {{ currentUser.name }}
                     <ChevronDownIcon
                         class="-mr-1 ml-2 h-5 w-5 text-black hover:text-black/50"
                         aria-hidden="true"
@@ -56,6 +56,7 @@
                         </MenuItem>
                         <MenuItem v-slot="{ active }">
                             <button
+                                @click="logout"
                                 :class="[
                                     active
                                         ? 'bg-indigo-600 text-white'
@@ -86,8 +87,18 @@ import {
 } from "@heroicons/vue/24/outline";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import store from "../store";
+import router from "../router";
+import { computed } from "vue";
 
 const emit = defineEmits(["toggle-sidebar"]);
+const currentUser = computed(() => store.state.user.data);
+
+const logout = () => {
+    store.dispatch("logout").then(() => {
+        router.push({ name: "login" });
+    });
+};
 </script>
 
 <style scoped></style>
