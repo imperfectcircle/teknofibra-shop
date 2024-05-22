@@ -1,6 +1,6 @@
 <template>
     <div
-        class="w-[200px] bg-indigo-600 text-gray-100 py-8 pl-4 space-y-2 rounded-l-2xl"
+        class="w-[200px] bg-indigo-600 text-gray-100 py-8 pl-4 pr-2 space-y-2 rounded-l-2xl"
     >
         <router-link
             :to="{ name: 'app.dashboard' }"
