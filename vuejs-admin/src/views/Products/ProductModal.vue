@@ -1,185 +1,203 @@
 <template>
-    <div class="flex items-center justify-between mb-3">
-        <h1 class="text-3xl font-semibold">Prodotti</h1>
-        <button
-            class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            type="submit"
-        >
-            Aggiungi un nuovo prodotto
-        </button>
-    </div>
-    <div class="bg-white p-4 rounded-lg shadow">
-        <div class="flex justify-between border-b-2 pb-3">
-            <div class="flex items-center">
-                <span class="whitespace-nowrap mr-3">Per Pagina</span>
-                <select
-                    @change="getProducts(null)"
-                    v-model="perPage"
-                    class="appearance-none relative block w-24 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                >
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </div>
-            <div class="">
-                <input
-                    v-model="search"
-                    @change="getProducts(null)"
-                    class="appearance-none relative block w-48 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Cerca Prodotti"
-                />
-            </div>
-        </div>
-        <table class="table-auto w-full">
-            <thead>
-                <tr>
-                    <TableHeaderCell
-                        @click="sortProduct"
-                        field="id"
-                        :sort-field="sortField"
-                        :sort-direction="sortDirection"
-                        >ID</TableHeaderCell
-                    >
-                    <th class="border-b-2 p-2 text-left bg-gray-100">
-                        Immagine
-                    </th>
-                    <TableHeaderCell
-                        @click="sortProduct"
-                        field="title"
-                        :sort-field="sortField"
-                        :sort-direction="sortDirection"
-                        >Titolo</TableHeaderCell
-                    >
-                    <TableHeaderCell
-                        @click="sortProduct"
-                        field="price"
-                        :sort-field="sortField"
-                        :sort-direction="sortDirection"
-                        >Prezzo</TableHeaderCell
-                    >
-                    <TableHeaderCell
-                        @click="sortProduct"
-                        field="updated_at"
-                        :sort-field="sortField"
-                        :sort-direction="sortDirection"
-                        >Aggiornato Al</TableHeaderCell
-                    >
-                </tr>
-            </thead>
-            <tbody v-if="products.loading">
-                <tr>
-                    <td colspan="5">
-                        <Spinner class="mt-10" v-if="products.loading" />
-                    </td>
-                </tr>
-            </tbody>
-            <tbody v-else>
-                <tr v-for="product of products.data">
-                    <td class="border-b p-2">{{ product.id }}</td>
-                    <td class="border-b p-2">
-                        <img
-                            class="w-16"
-                            :src="product.image"
-                            :alt="product.title"
-                        />
-                    </td>
-                    <td
-                        class="border-b p-2 max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis"
-                    >
-                        {{ product.title }}
-                    </td>
-                    <td class="border-b p-2">{{ product.price }}</td>
-                    <td class="border-b p-2">{{ product.updated_at }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div
-            v-if="!products.loading"
-            class="flex justify-between items-center mt-5"
-        >
-            <span
-                >Prodotti da {{ products.from }} a {{ products.to }} di
-                {{ products.total }}</span
+    <TransitionRoot appear :show="show" as="template">
+        <Dialog as="div" @close="closeModal" class="relative z-10">
+            <TransitionChild
+                as="template"
+                enter="duration-300 ease-out"
+                enter-from="opacity-0"
+                enter-to="opacity-100"
+                leave="duration-200 ease-in"
+                leave-from="opacity-100"
+                leave-to="opacity-0"
             >
-            <nav
-                v-if="products.total > products.limit"
-                class="relative z-0 inline-flex justify-center rounded-md shadow-sm -space-x-px"
-                aria-label="Pagination"
-            >
-                <a
-                    v-for="(link, i) of products.links"
-                    :key="i"
-                    :disabled="!link.url"
-                    href="#"
-                    @click="getForPage($event, link)"
-                    aria-current="page"
-                    class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
-                    :class="[
-                        link.active
-                            ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
-                        i === 0 ? 'rounded-l-md' : '',
-                        i === products.links.length - 1 ? 'rounded-r-md' : '',
-                        !link.url ? 'hidden' : '',
-                    ]"
-                    v-html="link.label"
+                <div class="fixed inset-0 bg-black/75" />
+            </TransitionChild>
+
+            <div class="fixed inset-0 overflow-y-auto">
+                <div
+                    class="flex min-h-full items-center justify-center p-4 text-center"
                 >
-                </a>
-            </nav>
-        </div>
-    </div>
+                    <TransitionChild
+                        as="template"
+                        enter="duration-300 ease-out"
+                        enter-from="opacity-0 scale-95"
+                        enter-to="opacity-100 scale-100"
+                        leave="duration-200 ease-in"
+                        leave-from="opacity-100 scale-100"
+                        leave-to="opacity-0 scale-95"
+                    >
+                        <DialogPanel
+                            class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all"
+                        >
+                            <Spinner
+                                v-if="loading"
+                                class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center"
+                            />
+                            <header
+                                class="py-3 px-4 flex justify-between items-center"
+                            >
+                                <DialogTitle
+                                    as="h3"
+                                    class="text-lg leading-6 font-medium text-gray-900"
+                                >
+                                    {{
+                                        product.id
+                                            ? `Aggiorna prodotto: "${props.product.title}"`
+                                            : "Crea un nuovo prodotto"
+                                    }}
+                                </DialogTitle>
+                                <button
+                                    @click="closeModal()"
+                                    class="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-black/20"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                        />
+                                    </svg>
+                                </button>
+                            </header>
+                            <form @submit.prevent="onSubmit">
+                                <div class="bg-white px-4 pt-5 pb-4">
+                                    <CustomInput
+                                        class="mb-2"
+                                        v-model="product.title"
+                                        label="Titolo Prodotto"
+                                    />
+                                    <CustomInput
+                                        type="file"
+                                        class="mb-2"
+                                        label="Immagine Prodotto"
+                                        @change="
+                                            (file) => (product.image = file)
+                                        "
+                                    />
+                                    <CustomInput
+                                        type="textarea"
+                                        class="mb-2"
+                                        v-model="product.description"
+                                        label="Descrizione"
+                                    />
+                                    <CustomInput
+                                        type="number"
+                                        class="mb-2"
+                                        v-model="product.price"
+                                        label="Prezzo"
+                                        prepend="€"
+                                    />
+                                </div>
+                                <footer
+                                    class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                                >
+                                    <button
+                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm bg-indigo-600 hover:bg-indigo-700"
+                                        type="submit"
+                                    >
+                                        {{ product.id ? "Aggiorna" : "Crea" }}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                        @click="closeModal"
+                                        ref="cancelButtonRef"
+                                    >
+                                        Annulla
+                                    </button>
+                                </footer>
+                            </form>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import store from "../../store/index";
+import { computed, onUpdated, ref } from "vue";
+import {
+    TransitionRoot,
+    TransitionChild,
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+} from "@headlessui/vue";
 import Spinner from "../../components/core/Spinner.vue";
-import { PRODUCTS_PER_PAGE } from "../../constants";
-import TableHeaderCell from "../../components/core/table/TableHeaderCell.vue";
+import store from "../../store";
+import CustomInput from "../../components/core/CustomInput.vue";
 
-const perPage = ref(PRODUCTS_PER_PAGE);
-const search = ref("");
-const products = computed(() => store.state.products);
-const sortField = ref("updated_at");
-const sortDirection = ref("desc");
+const loading = ref(false);
 
-onMounted(() => {
-    getProducts();
+const props = defineProps({
+    modelValue: Boolean,
+    product: {
+        required: true,
+        type: Object,
+    },
 });
 
-const getProducts = (url = null) => {
-    store.dispatch("getProducts", {
-        url,
-        sort_field: sortField.value,
-        sort_direction: sortDirection.value,
-        search: search.value,
-        perPage: perPage.value,
-    });
+const product = ref({
+    id: props.product.id,
+    title: props.product.title,
+    price: props.product.price,
+    image: props.product.image,
+    description: props.product.description,
+});
+
+const emit = defineEmits(["update:modelValue", "close"]);
+
+const show = computed({
+    get: () => props.modelValue,
+    set: (value) => {
+        emit("update:modelValue", value);
+    },
+});
+
+onUpdated(() => {
+    product.value = {
+        id: props.product.id,
+        title: props.product.title,
+        price: props.product.price,
+        image: props.product.image,
+        description: props.product.description,
+    };
+});
+
+const closeModal = () => {
+    show.value = false;
+    emit("close");
 };
 
-const getForPage = (ev, link) => {
-    if (!link.url || link.active) {
-        return;
-    }
-    getProducts(link.url);
-};
-
-const sortProduct = (field) => {
-    if (field === sortField.value) {
-        if (sortDirection.value === "desc") {
-            sortDirection.value = "asc";
-        } else {
-            sortDirection.value = "desc";
-        }
+const onSubmit = () => {
+    loading.value = true;
+    if (product.value.id) {
+        store.dispatch("updateProduct", product.value).then((response) => {
+            loading.value = false;
+            if (response.status === 200) {
+                // TODO: show notification
+                store.dispatch("getProducts");
+                closeModal();
+            }
+        });
     } else {
-        sortField.value = field;
-        sortDirection.value = "asc";
+        store.dispatch("createProduct", product.value).then((response) => {
+            loading.value = false;
+            if (response.status === 201) {
+                // TODO: show notification
+                store.dispatch("getProducts");
+                closeModal();
+            }
+        });
     }
-
-    getProducts();
 };
 </script>
 
