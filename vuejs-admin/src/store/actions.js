@@ -1,4 +1,5 @@
 import axiosClient from "../axios";
+import { setProducts } from "./mutations";
 
 export function getUser({ commit }, data) {
     return axiosClient.get("/user", data).then(({ data }) => {
@@ -21,4 +22,22 @@ export function logout({ commit }) {
 
         return response;
     });
+}
+
+export function getProducts(
+    { commit },
+    { url = null, search = "", perPage = 10 }
+) {
+    commit("setProducts", [true]);
+    url = url || "/product";
+    return axiosClient
+        .get(url, {
+            params: { search, per_page: perPage },
+        })
+        .then((res) => {
+            commit("setProducts", [false, res.data]);
+        })
+        .catch(() => {
+            commit("setProducts", [false]);
+        });
 }
