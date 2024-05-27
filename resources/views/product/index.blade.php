@@ -1,3 +1,3 @@
 <x-app-layout>
-    welcome
+    Lista prodotti
 </x-app-layout>
