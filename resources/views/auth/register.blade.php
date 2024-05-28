@@ -16,7 +16,7 @@
         </p>
         <div class="mb-4">
           <x-text-input
-            placeholder="Il tuo nome"
+            placeholder="Nome e Cognome"
             type="text"
             name="name"
             :value="old('name')"
@@ -54,7 +54,7 @@
         <button
           class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full"
         >
-          Registati
+          Registrati
         </button>
       </form>
 </x-guest-layout>
