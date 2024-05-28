@@ -34,7 +34,7 @@
             <div class="flex justify-between py-3 px-4">
             
             <button class="btn-primary" @click="addToCart()">
-                Aggiungi al carrello
+                Aggiungi al Carrello
             </button>
             </div>
         </div>

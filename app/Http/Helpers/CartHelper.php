@@ -11,7 +11,7 @@ class CartHelper
         $request = \request();
         $user = $request->user();
         if ($user) {
-            return CartItem::where('user_id', $user->id)->sun('quantity');
+            return CartItem::where('user_id', $user->id)->sum('quantity');
         } else {
             $cartItems = self::getCookieCartItems();
 

@@ -61,7 +61,7 @@ document.addEventListener("alpine:init", () => {
                     .then((result) => {
                         this.$dispatch("cart-change", { count: result.count });
                         this.$dispatch("notify", {
-                            message: "Elemento aggiunto al carrello",
+                            message: "Aticolo aggiunto al carrello",
                         });
                     })
                     .catch((response) => {
@@ -71,7 +71,7 @@ document.addEventListener("alpine:init", () => {
             removeItemFromCart() {
                 post(this.product.removeUrl).then((result) => {
                     this.$dispatch("notify", {
-                        message: "Elemento rimosso dal carrello",
+                        message: "Articolo rimosso dal carrello",
                     });
                     this.$dispatch("cart-change", { count: result.count });
                     this.cartItems = this.cartItems.filter(
