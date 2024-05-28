@@ -4,7 +4,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::controller(ProductController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/product/{product:slug}', 'view')->name('product.view');
+});
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
