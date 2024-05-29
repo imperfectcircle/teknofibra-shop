@@ -75,10 +75,12 @@
                         <p class="text-gray-500 mb-6">
                             Spedizione e tasse calcolate al momento del pagamento.
                         </p>
-
-                        <button type="submit" class="btn-primary w-full py-3 text-lg">
-                            Pocedi al Pagamento
-                        </button>
+                        <form action="{{ route('checkout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn-primary w-full py-3 text-lg">
+                                Procedi al Pagamento
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <!--/ Product Items -->
