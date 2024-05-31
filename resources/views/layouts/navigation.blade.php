@@ -4,7 +4,7 @@
       cartItemsCount: {{ \App\Http\Helpers\CartHelper::getCartItemsCount() }},
     }"
     @cart-change.window="cartItemsCount = $event.detail.count"
-    class="flex justify-between bg-slate-800 shadow-md text-white"
+    class="flex fixed top-0 left-0 w-full justify-between bg-slate-800 shadow-md text-white"
     >
       <div>
         <a href="{{ route('home') }}" class="block py-navbar-item pl-5"> Logo </a>
@@ -114,7 +114,7 @@
               
               <li class="hover:bg-slate-900">
                 <a
-                  href="/src/orders.html"
+                  href="{{ route('orders.index') }}"
                   class="flex items-center px-3 py-2 hover:bg-slate-900"
                 >
                   <svg
@@ -292,7 +292,7 @@
               
               <li>
                 <a
-                  href="/src/orders.html"
+                  href="{{ route('orders.index') }}"
                   class="flex px-3 py-2 hover:bg-slate-900"
                 >
                   <svg

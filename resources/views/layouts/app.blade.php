@@ -23,7 +23,7 @@
   <body>
     @include('layouts.navigation')
 
-    <main class="p-5">
+    <main class="p-5 mt-20">
       {{ $slot }}
     </main>
 
