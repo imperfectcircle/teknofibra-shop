@@ -34,6 +34,12 @@ class AuthController extends Controller
                 'message' => 'L\'utente non è un amministratore.'
             ], 403);
         }
+        if (!$user->email_verified_at) {
+            Auth::logout();
+            return response([
+                'message' => 'L\'indirizzo email non è stato verificato'
+            ], 403);
+        }
 
         $token = $user->createToken('main')->plainTextToken;
 
