@@ -17,7 +17,7 @@
             <img class="rounded-t-lg" src="{{ $product->image }}" alt="{{ $product->title }}" />
         </a>
         <div class="p-5 flex-grow">
-            <a href="#">
+            <a href="{{ route('product.view', $product->slug) }}">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $product->title }}</h5>
             </a>
             <p class="mb-3 font-normal text-lg text-gray-700 dark:text-gray-400">€ {{ $product->price }}</p>
