@@ -58,6 +58,22 @@ export function setOrders(state, [loading, data = null]) {
     state.orders.loading = loading;
 }
 
+export function setCustomers(state, [loading, data = null]) {
+    if (data) {
+        state.customers = {
+            ...state.customers,
+            data: data.data,
+            links: data.meta?.links,
+            page: data.meta.current_page,
+            limit: data.meta.per_page,
+            from: data.meta.from,
+            to: data.meta.to,
+            total: data.meta.total,
+        };
+    }
+    state.products.loading = loading;
+}
+
 export function showToast(state, message) {
     state.toast.show = true;
     state.toast.message = message;
@@ -66,4 +82,8 @@ export function showToast(state, message) {
 export function hideToast(state) {
     state.toast.show = false;
     state.toast.message = "";
+}
+
+export function setCountries(state, countries) {
+    state.countries = countries.data;
 }

@@ -229,7 +229,7 @@ function showAddNewModal() {
 }
 
 function deleteOrder(order) {
-    if (!confirm(`Are you sure you want to delete the order?`)) {
+    if (!confirm(`Sei sicuro di voler eliminare l'ordine?`)) {
         return;
     }
     store.dispatch("deleteOrder", order.id).then((res) => {

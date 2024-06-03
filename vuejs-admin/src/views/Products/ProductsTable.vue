@@ -127,7 +127,7 @@
                                                     class="mr-2 h-5 w-5 text-indigo-400"
                                                     aria-hidden="true"
                                                 />
-                                                Edit
+                                                Modifica
                                             </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
@@ -145,7 +145,7 @@
                                                     class="mr-2 h-5 w-5 text-indigo-400"
                                                     aria-hidden="true"
                                                 />
-                                                Delete
+                                                Elimina
                                             </button>
                                         </MenuItem>
                                     </div>

@@ -47,16 +47,16 @@ class ProfileRequest extends FormRequest
     public function attributes()
     {
         return [
-            'billing.address1' => 'Indirizzo 1',
-            'billing.address2' => 'Indirizzo 2',
+            'billing.address1' => 'Indirizzo',
+            'billing.address2' => 'Num. Civico',
             'billing.city' => 'Città',
-            'billing.state' => 'Stato',
+            'billing.state' => 'Stato/Provincia',
             'billing.zipcode' => 'CAP',
-            'billing.country_code' => 'Paese',
-            'shipping.address1' => 'Indirizzo 1',
-            'shipping.address2' => 'Indirizzo 2',
+            'billing.country_code' => 'Nazione',
+            'shipping.address1' => 'Indirizzo',
+            'shipping.address2' => 'Num. Civico',
             'shipping.city' => 'Città',
-            'shipping.state' => 'Stato',
+            'shipping.state' => 'Stato/Provincia',
             'shipping.zipcode' => 'CAP',
             'shipping.country_code' => 'Paese',
         ];
