@@ -94,6 +94,12 @@
                                         label="Prezzo"
                                         prepend="€"
                                     />
+                                    <CustomInput
+                                        type="checkbox"
+                                        class="mb-2"
+                                        v-model="product.published"
+                                        label="Pubblicato"
+                                    />
                                 </div>
                                 <footer
                                     class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
@@ -151,6 +157,7 @@ const product = ref({
     price: props.product.price,
     image: props.product.image,
     description: props.product.description,
+    published: props.product.published,
 });
 
 const emit = defineEmits(["update:modelValue", "close"]);
@@ -169,6 +176,7 @@ onUpdated(() => {
         price: props.product.price,
         image: props.product.image,
         description: props.product.description,
+        published: props.product.published,
     };
 });
 
