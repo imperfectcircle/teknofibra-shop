@@ -48,7 +48,7 @@
             <span> Clienti </span>
         </router-link>
         <router-link
-            :to="{ name: 'app.dashboard' }"
+            :to="{ name: 'reports.orders' }"
             class="flex items-center py-1 px-2 rounded transition-colors hover:bg-black/30"
         >
             <span class="mr-2">

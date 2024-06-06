@@ -1,27 +1,32 @@
 <script>
 import { defineComponent, h } from "vue";
-
-import { Doughnut } from "vue-chartjs";
+import { Bar } from "vue-chartjs";
 import {
     Chart as ChartJS,
     Title,
     Tooltip,
     Legend,
-    ArcElement,
+    BarElement,
     CategoryScale,
+    LinearScale,
 } from "chart.js";
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
+ChartJS.register(
+    Title,
+    Tooltip,
+    Legend,
+    BarElement,
+    CategoryScale,
+    LinearScale
+);
 
 export default defineComponent({
-    name: "DoughnutChart",
-    components: {
-        Doughnut,
-    },
+    name: "BarChart",
+    components: { Bar },
     props: {
         chartId: {
             type: String,
-            default: "doughnut-chart",
+            default: "bar-chart",
         },
         width: {
             type: Number,
@@ -40,8 +45,8 @@ export default defineComponent({
             default: () => {},
         },
         plugins: {
-            type: Array,
-            default: () => [],
+            type: Object,
+            default: () => {},
         },
         data: {
             type: Object,
@@ -49,13 +54,10 @@ export default defineComponent({
         },
     },
     setup(props) {
-        const chartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-        };
+        const chartOptions = { responsive: true };
 
         return () =>
-            h(Doughnut, {
+            h(Bar, {
                 chartData: props.data,
                 chartOptions,
                 chartId: props.chartId,
@@ -68,5 +70,3 @@ export default defineComponent({
     },
 });
 </script>
-
-<style scoped></style>

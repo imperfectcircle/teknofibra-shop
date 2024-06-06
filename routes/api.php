@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\UserController;
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -35,6 +36,11 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::get('/dashboard/orders-by-country', 'ordersByCountry');
         Route::get('/dashboard/latest-customers', 'latestCustomers');
         Route::get('/dashboard/latest-orders', 'latestOrders');
+    });
+
+    Route::controller(ReportController::class)->group(function () {
+        Route::get('/report/orders', 'orders');
+        Route::get('/report/customers', 'customers');
     });
 });
 
