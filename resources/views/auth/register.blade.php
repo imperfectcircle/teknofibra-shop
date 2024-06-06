@@ -14,6 +14,12 @@
             >Accedi con un account esistente</a
           >
         </p>
+
+        @if (session('error'))
+          <div class="py-2 px-3 bg-red-500 text-white mb-3 rounded text-center">
+            {{ session('error') }}
+          </div>
+        @endif
         <div class="mb-4">
           <x-text-input
             placeholder="Nome e Cognome"

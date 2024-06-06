@@ -6,11 +6,8 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Customer;
 use App\Traits\ReportTrait;
-use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Collection;
 
 class ReportController extends Controller
 {
@@ -46,7 +43,7 @@ class ReportController extends Controller
         $labels = [];
         $now = Carbon::now();
         while ($fromDate < $now) {
-            $key = $fromDate->format('d-m-Y');
+            $key = $fromDate->format('Y-m-d');
             $labels[] = $key;
             $fromDate = $fromDate->addDay(1);
             $days[] = isset($records[$key]) ? $records[$key]['count'] : 0;

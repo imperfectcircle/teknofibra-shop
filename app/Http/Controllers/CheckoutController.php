@@ -13,6 +13,8 @@ use App\Enums\PaymentStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Helpers\CartHelper as Cart;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CheckoutController extends Controller
@@ -20,6 +22,11 @@ class CheckoutController extends Controller
     public function checkout(Request $request) {
         /** @var |App\Models\User $user */
         $user = $request->user();
+
+        $customer = $user->customer;
+        if (!$customer->billingAddress || !$customer->shippingAddress) {
+            return redirect()->route('profile')->with('error', 'Per favore, fornisci il tuo indirizzo di spedizione');
+        } 
 
         $stripe = new \Stripe\StripeClient(getenv('STRIPE_SECRET_KEY'));
 
@@ -57,34 +64,42 @@ class CheckoutController extends Controller
             'customer_creation' => 'always',
         ]);
 
-        // Create Order
-        $orderData = [
-            'total_price' => $totalPrice,
-            'status' => OrderStatus::Unpaid,
-            'created_by' => $user->id,
-            'updated_by' => $user->id,
-        ];
+        DB::beginTransaction();
+        try {
+            // Create Order
+            $orderData = [
+                'total_price' => $totalPrice,
+                'status' => OrderStatus::Unpaid,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ];
 
-        $order = Order::create($orderData);
+            $order = Order::create($orderData);
 
-        // Create Order Items
-        foreach ($orderItems as $orderItem) {
-            $orderItem['order_id'] = $order->id;
-            OrderItem::create($orderItem);
+            // Create Order Items
+            foreach ($orderItems as $orderItem) {
+                $orderItem['order_id'] = $order->id;
+                OrderItem::create($orderItem);
+            }
+
+            // Create Payment
+            $paymentData = [
+                'order_id' => $order->id,
+                'amount' => $totalPrice,
+                'status' => PaymentStatus::Pending,
+                'type' => 'cc',
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+                'session_id' => $checkout_session->id,
+            ];
+
+            Payment::create($paymentData);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::critical(__METHOD__ . ' method does not work' . $e->getMessage());
+            throw $e;
         }
-
-        // Create Payment
-        $paymentData = [
-            'order_id' => $order->id,
-            'amount' => $totalPrice,
-            'status' => PaymentStatus::Pending,
-            'type' => 'cc',
-            'created_by' => $user->id,
-            'updated_by' => $user->id,
-            'session_id' => $checkout_session->id,
-        ];
-
-        Payment::create($paymentData);
+        DB::commit();
 
         CartItem::where('user_id', $user->id)->delete();
 
@@ -207,17 +222,30 @@ class CheckoutController extends Controller
 
     private function updateOrderAndSession(Payment $payment)
     {
-        $payment->status = PaymentStatus::Paid->value;
-        $payment->update();
+        DB::beginTransaction();
+        try {
+            $payment->status = PaymentStatus::Paid->value;
+            $payment->update();
 
-        $order = $payment->order;
+            $order = $payment->order;
 
-        $order->status = OrderStatus::Paid->value;
-        $order->update();
+            $order->status = OrderStatus::Paid->value;
+            $order->update();
+        }catch (\Exception $e) {
+            DB::rollBack();
+            Log::critical(__METHOD__ . ' method does not work' . $e->getMessage());
+            throw $e;
+        }
 
-        $adminUsers = User::where('is_admin', 1)->get();
-        foreach ([...$adminUsers, $order->user] as $user) {
-            Mail::to($user)->send(new NewOrderEmail($order, (bool)$user->is_admin));
+        DB::commit();
+        
+        try {
+            $adminUsers = User::where('is_admin', 1)->get();
+            foreach ([...$adminUsers, $order->user] as $user) {
+                Mail::to($user)->send(new NewOrderEmail($order, (bool)$user->is_admin));
+            }
+        } catch (\Exception $e) {
+            Log::critical('Error sending email: ' . $e->getMessage());
         }
     }
 }

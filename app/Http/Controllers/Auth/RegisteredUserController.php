@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Helpers\CartHelper as Cart;
+use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RegisteredUserController extends Controller
 {
@@ -38,22 +40,30 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        DB::beginTransaction();
+        try {
+            $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+            ]);
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        $customer = new Customer();
-        $names = explode(' ', $user->name);
-        $customer->user_id = $user->id;
-        $customer->first_name = $names[0];
-        $customer->last_name = Arr::last($names);
-        $customer->save();
+            $customer = new Customer();
+            $names = explode(' ', $user->name);
+            $customer->user_id = $user->id;
+            $customer->first_name = $names[0];
+            $customer->last_name = Arr::last($names);
+            $customer->save();
 
-        Auth::login($user);
+            Auth::login($user);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', 'Unable to register right now.');
+        }
+
+        DB::commit();
 
         Cart::moveCartItemsIntoDb();
 

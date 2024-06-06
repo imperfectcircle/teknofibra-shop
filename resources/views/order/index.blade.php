@@ -37,10 +37,10 @@
                             >
                         </td>
                         <td class="py-1 px-2">€ {{$order->total_price}}</td>
-                        <td class="py-1 px-2 whitespace-nowrap">{{$order->items()->count()}} Articoli</td>
+                        <td class="py-1 px-2 whitespace-nowrap">{{$order->items_count}} Articoli</td>
                         <td class="py-1 px-2 flex gap-2 w-[100px]">
                             @if (!$order->isPaid())
-                                <form action="{{ route('checkout-order', $order) }}"
+                                <form action="{{ route('cart.checkout-order', $order) }}"
                                         method="POST">
                                     @csrf
                                     <button

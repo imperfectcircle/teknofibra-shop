@@ -287,8 +287,8 @@ function deleteCustomer(customer) {
     if (!confirm(`Sei sicuro di voler eliminare il cliente??`)) {
         return;
     }
-    store.dispatch("deleteCustomer", customer.id).then((res) => {
-        // TODO Show notification
+    store.dispatch("deleteCustomer", customer).then((res) => {
+        store.commit("showToast", "Il cliente è stato rimosso con successo");
         store.dispatch("getCustomers");
     });
 }

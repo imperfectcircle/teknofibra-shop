@@ -7,27 +7,32 @@
                     class="mb-2"
                     v-model="customer.first_name"
                     label="Nome"
+                    :errors="errors.first_name"
                 />
                 <CustomInput
                     class="mb-2"
                     v-model="customer.last_name"
                     label="Cognome"
+                    :errors="errors.last_name"
                 />
                 <CustomInput
                     class="mb-2"
                     v-model="customer.email"
                     label="Email"
+                    :errors="errors.email"
                 />
                 <CustomInput
                     class="mb-2"
                     v-model="customer.phone"
                     label="Telefono"
+                    :errors="errors.phone"
                 />
                 <CustomInput
                     type="checkbox"
                     class="mb-2"
                     v-model="customer.status"
                     label="Attivo"
+                    :errors="errors.status"
                 />
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -42,18 +47,22 @@
                             <CustomInput
                                 v-model="customer.billingAddress.address1"
                                 label="Indirizzo"
+                                :errors="errors['billingAddress.address1']"
                             />
                             <CustomInput
                                 v-model="customer.billingAddress.address2"
                                 label="Num. Civico"
+                                :errors="errors['billingAddress.address2']"
                             />
                             <CustomInput
                                 v-model="customer.billingAddress.city"
                                 label="Città"
+                                :errors="errors['billingAddress.city']"
                             />
                             <CustomInput
                                 v-model="customer.billingAddress.zipcode"
                                 label="CAP"
+                                :errors="errors['billingAddress.zipcode']"
                             />
 
                             <CustomInput
@@ -61,11 +70,13 @@
                                 :select-options="countries"
                                 v-model="customer.billingAddress.country_code"
                                 label="Nazione"
+                                :errors="errors['billingAddress.country_code']"
                             />
                             <CustomInput
-                                v-if="!billingCountry.states"
+                                v-if="billingCountry && !billingCountry.states"
                                 v-model="customer.billingAddress.state"
                                 label="Stato/Provincia"
+                                :errors="errors['billingAddress.state']"
                             />
                             <CustomInput
                                 v-else
@@ -73,6 +84,7 @@
                                 :select-options="billingStateOptions"
                                 v-model="customer.billingAddress.state"
                                 label="State"
+                                :errors="errors['billingAddress.state']"
                             />
                         </div>
                     </div>
@@ -88,29 +100,37 @@
                             <CustomInput
                                 v-model="customer.shippingAddress.address1"
                                 label="Indirizzo"
+                                :errors="errors['shippingAddress.address1']"
                             />
                             <CustomInput
                                 v-model="customer.shippingAddress.address2"
                                 label="Num. Civico"
+                                :errors="errors['shippingAddress.address2']"
                             />
                             <CustomInput
                                 v-model="customer.shippingAddress.city"
                                 label="Città"
+                                :errors="errors['shippingAddress.city']"
                             />
                             <CustomInput
                                 v-model="customer.shippingAddress.zipcode"
                                 label="CAP"
+                                :errors="errors['shippingAddress.zipcode']"
                             />
                             <CustomInput
                                 type="select"
                                 :select-options="countries"
                                 v-model="customer.shippingAddress.country_code"
                                 label="Nazione"
+                                :errors="errors['shippingAddress.country_code']"
                             />
                             <CustomInput
-                                v-if="!shippingCountry.states"
+                                v-if="
+                                    shippingCountry && !shippingCountry.states
+                                "
                                 v-model="customer.shippingAddress.state"
                                 label="Stato/Provincia"
+                                :errors="errors['shippingAddress.state']"
                             />
                             <CustomInput
                                 v-else
@@ -118,6 +138,7 @@
                                 :select-options="shippingStateOptions"
                                 v-model="customer.shippingAddress.state"
                                 label="Stato"
+                                :errors="errors['shippingAddress.state']"
                             />
                         </div>
                     </div>
@@ -155,6 +176,25 @@ const router = useRouter();
 const route = useRoute();
 
 const title = ref("");
+const errors = ref({
+    first_name: [],
+    last_name: [],
+    email: [],
+    phone: [],
+    status: [],
+    "billingAddress.address1": [],
+    "billingAddress.address2": [],
+    "billingAddress.city": [],
+    "billingAddress.zipcode": [],
+    "billingAddress.country_code": [],
+    "billingAddress.state": [],
+    "shippingAddress.address1": [],
+    "shippingAddress.address2": [],
+    "shippingAddress.city": [],
+    "shippingAddress.zipcode": [],
+    "shippingAddress.country_code": [],
+    "shippingAddress.state": [],
+});
 const customer = ref({
     billingAddress: {},
     shippingAddress: {},
@@ -196,14 +236,22 @@ function onSubmit() {
     if (customer.value.id) {
         console.log(customer.value.status);
         customer.value.status = !!customer.value.status;
-        store.dispatch("updateCustomer", customer.value).then((response) => {
-            loading.value = false;
-            if (response.status === 200) {
-                // TODO show notification
-                store.dispatch("getCustomers");
-                router.push({ name: "app.customers" });
-            }
-        });
+        store
+            .dispatch("updateCustomer", customer.value)
+            .then((response) => {
+                loading.value = false;
+                if (response.status === 200) {
+                    store.commit(
+                        "showToast",
+                        "Il cliente è stato aggiornato con successo"
+                    );
+                    store.dispatch("getCustomers");
+                    router.push({ name: "app.customers" });
+                }
+            })
+            .catch((err) => {
+                errors.value = err.response.data.errors;
+            });
     } else {
         store
             .dispatch("createCustomer", customer.value)

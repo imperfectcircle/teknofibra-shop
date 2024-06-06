@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\AddressType;
-use App\Http\Requests\PasswordUpdateRequest;
-use App\Http\Requests\ProfileRequest;
 use App\Models\Country;
-use App\Models\CustomerAddress;
+use App\Enums\AddressType;
 use Illuminate\Http\Request;
+use App\Models\CustomerAddress;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Password;
+use App\Http\Requests\PasswordUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -36,22 +38,30 @@ class ProfileController extends Controller
         /** @var \App\Models\Customer $customer */
         $customer = $user->customer;
 
-        $customer->update($customerData);
+        DB::beginTransaction();
+        try {
+            $customer->update($customerData);
 
-        if ($customer->shippingAddress) {
-            $customer->shippingAddress->update($shippingData);
-        } else {
-            $shippingData['customer_id'] = $customer->user_id;
-            $shippingData['type'] = AddressType::Shipping->value;
-            CustomerAddress::create($shippingData);
+            if ($customer->shippingAddress) {
+                $customer->shippingAddress->update($shippingData);
+            } else {
+                $shippingData['customer_id'] = $customer->user_id;
+                $shippingData['type'] = AddressType::Shipping->value;
+                CustomerAddress::create($shippingData);
+            }
+            if ($customer->billingAddress) {
+                $customer->billingAddress->update($billingData);
+            } else {
+                $billingData['customer_id'] = $customer->user_id;
+                $billingData['type'] = AddressType::Billing->value;
+                CustomerAddress::create($billingData);
+            }
+        }catch (\Exception $e) {
+            DB::rollBack();
+            Log::critical(__METHOD__ . ' method does not work' . $e->getMessage());
+            throw $e;
         }
-        if ($customer->billingAddress) {
-            $customer->billingAddress->update($billingData);
-        } else {
-            $billingData['customer_id'] = $customer->user_id;
-            $billingData['type'] = AddressType::Billing->value;
-            CustomerAddress::create($billingData);
-        }
+        DB::commit();
 
         $request->session()->flash('flash_message', 'Profilo aggiornato con successo.');
 

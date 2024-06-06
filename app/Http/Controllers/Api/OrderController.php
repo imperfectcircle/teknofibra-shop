@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Order;
 use App\Enums\OrderStatus;
-use Illuminate\Http\Request;
 use App\Mail\OrderUpdateEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -21,6 +20,8 @@ class OrderController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         $query = Order::query()
+            ->withCount('items')
+            ->with('user.customer')
             ->where('id', 'like', "%{$search}%")
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
@@ -30,6 +31,7 @@ class OrderController extends Controller
 
     public function view(Order $order)
     {
+        $order->load('items.product');
         return new OrderResource($order);
     }
 
