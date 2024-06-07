@@ -5,6 +5,7 @@
                     'image' => $product->image,
                     'title' => $product->title,
                     'price' => $product->price,
+                    'quantity' => $product->quantity,
                     'addToCartUrl' => route('cart.add', $product)
                 ]) }})" class="container mx-auto">
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
@@ -96,22 +97,31 @@
                     {{$product->title}}
                 </h1>
                 <div class="text-xl font-bold mb-6">€ {{$product->price}}</div>
+                @if ($product->quantity <= 0)
+                    <div class="bg-red-500 text-white py-2 px-3 rounded mb-3 text-center">
+                        Questo prodotto al momento è esaurito.
+                    </div>
+                @endif
                 <div class="flex items-center justify-between mb-5">
                     <label for="quantity" class="block font-bold mr-4">
                         Quantità
                     </label>
                     <input
+                        :disabled="product.quantity <= 0"
                         type="number"
                         name="quantity"
                         x-ref="quantityEl"
                         value="1"
                         min="1"
                         class="w-32 focus:border-purple-500 focus:outline-none rounded"
+                        :class="product.quantity <= 0 ? 'bg-gray-300' : 'bg-white'"
                     />
                 </div>
                 <button
+                    :disabled="product.quantity <= 0"
                     @click="addToCart($refs.quantityEl.value)"
                     class="btn-primary py-4 text-lg flex justify-center min-w-0 w-full mb-6"
+                    :class="product.quantity <= 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +145,7 @@
                         x-collapse.min.120px
                         class="text-gray-500 wysiwyg-content"
                     >
-                        {{ $product->description }}
+                        {!! $product->description !!}
                     </div>
                     <p class="text-right">
                         <a

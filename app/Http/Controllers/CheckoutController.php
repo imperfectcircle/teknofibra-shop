@@ -35,6 +35,19 @@ class CheckoutController extends Controller
         $orderItems = [];
         $lineItems = [];
         $totalPrice = 0;
+
+        foreach ($products as $product) {
+            $quantity = $cartItems[$product->id]['quantity'];
+            if ($product->quantity !== null && $product->quantity < $quantity) {
+                $message = match ($product->quantity) {
+                    0 => 'Il Prodotto "'.$product->title.'" è terminato',
+                    1 => 'È rimasto un solo articolo del Prodotto "'.$product->title,
+                    default => 'Ci sono solo ' . $product->quantity . ' articoli rimasti per il Prodotto "'.$product->title,
+                };
+                return redirect()->back()->with('error', $message);
+            }
+        }
+
         foreach ($products as $product) {
             $quantity = $cartItems[$product->id]['quantity'];
             $totalPrice += $product->price * $quantity;
@@ -131,6 +144,13 @@ class CheckoutController extends Controller
                 $this->updateOrderAndSession($payment);
             }
 
+            // Aggiorna la quantità dei prodotti nel magazzino
+            $order = $payment->order;
+            foreach ($order->items as $item) {
+                $product = $item->product;
+                $product->quantity -= $item->quantity;
+                $product->save();
+            }
                 
             $customer = \Stripe\Customer::retrieve($session->customer);
 

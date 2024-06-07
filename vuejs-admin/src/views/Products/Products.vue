@@ -1,13 +1,12 @@
 <template>
     <div class="flex items-center justify-between mb-3">
         <h1 class="text-3xl font-semibold">Prodotti</h1>
-        <button
-            @click="showProductModal"
+        <router-link
+            :to="{ name: 'app.products.create' }"
             class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            type="submit"
         >
             Aggiungi un nuovo prodotto
-        </button>
+        </router-link>
     </div>
     <ProductModal
         v-model="showModal"
@@ -29,14 +28,9 @@ const productModel = ref({
     ...DEFAULT_EMPTY_OBJECT,
 });
 
-const showProductModal = () => {
-    showModal.value = true;
-};
-
 const editProduct = (product) => {
     store.dispatch("getProduct", product.id).then(({ data }) => {
         productModel.value = data;
-        showProductModal();
     });
 };
 

@@ -28,7 +28,7 @@
             <thead>
                 <tr>
                     <TableHeaderCell
-                        @click="sortProduct"
+                        @click="sortProduct('id')"
                         field="id"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
@@ -38,25 +38,32 @@
                         Immagine
                     </th>
                     <TableHeaderCell
-                        @click="sortProduct"
+                        @click="sortProduct('title')"
                         field="title"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
                         >Titolo</TableHeaderCell
                     >
                     <TableHeaderCell
-                        @click="sortProduct"
+                        @click="sortProduct('price')"
                         field="price"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
                         >Prezzo</TableHeaderCell
                     >
                     <TableHeaderCell
-                        @click="sortProduct"
+                        @click="sortProduct('quantity')"
+                        field="quantity"
+                        :sort-field="sortField"
+                        :sort-direction="sortDirection"
+                        >Quantità</TableHeaderCell
+                    >
+                    <TableHeaderCell
+                        @click="sortProduct('updated_at')"
                         field="updated_at"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
-                        >Aggiornato Al</TableHeaderCell
+                        >Aggiornato al</TableHeaderCell
                     >
                     <TableHeaderCell field="actions"> Azioni </TableHeaderCell>
                 </tr>
@@ -86,7 +93,10 @@
                     >
                         {{ product.title }}
                     </td>
-                    <td class="border-b p-2">{{ product.price }}</td>
+                    <td class="border-b p-2">
+                        {{ $filters.currencyEUR(product.price) }}
+                    </td>
+                    <td class="border-b p-2">{{ product.quantity }}</td>
                     <td class="border-b p-2">{{ product.updated_at }}</td>
                     <td class="border-b-2 p-2">
                         <Menu as="div" class="relative inline-block text-left">
@@ -113,14 +123,17 @@
                                 >
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                            <button
+                                            <router-link
+                                                :to="{
+                                                    name: 'app.products.edit',
+                                                    params: { id: product.id },
+                                                }"
                                                 :class="[
                                                     active
                                                         ? 'bg-indigo-600 text-white'
                                                         : 'text-gray-900',
                                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                                 ]"
-                                                @click="editProduct(product)"
                                             >
                                                 <PencilIcon
                                                     :active="active"
@@ -128,7 +141,7 @@
                                                     aria-hidden="true"
                                                 />
                                                 Modifica
-                                            </button>
+                                            </router-link>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                             <button
@@ -250,10 +263,6 @@ const sortProduct = (field) => {
     getProducts();
 };
 
-const editProduct = (product) => {
-    emit("clickEdit", product);
-};
-
 const deleteProduct = (product) => {
     if (
         !confirm(`Sei sicuro di voler eliminare il prodotto ${product.title}?`)
@@ -262,7 +271,7 @@ const deleteProduct = (product) => {
     }
 
     store.dispatch("deleteProduct", product.id).then((res) => {
-        // TODO: show notification
+        store.commit("showToast", "Il prodotto è stato eliminato con successo");
         store.dispatch("getProducts");
     });
 };

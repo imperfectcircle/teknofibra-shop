@@ -18,13 +18,15 @@ document.addEventListener("alpine:init", () => {
         interval: null,
         timeout: null,
         message: null,
+        tyoe: null,
         close() {
             this.visible = false;
             clearInterval(this.interval);
         },
-        show(message) {
+        show(message, type) {
             this.visible = true;
             this.message = message;
+            this.type = type;
 
             if (this.interval) {
                 clearInterval(this.interval);
@@ -65,7 +67,12 @@ document.addEventListener("alpine:init", () => {
                         });
                     })
                     .catch((response) => {
-                        console.log(response);
+                        this.$dispatch("notify", {
+                            message:
+                                response.message ||
+                                "Server Error. Please try again later.",
+                            type: "error",
+                        });
                     });
             },
             removeItemFromCart() {
@@ -82,12 +89,21 @@ document.addEventListener("alpine:init", () => {
             changeQuantity() {
                 post(this.product.updateQuantityUrl, {
                     quantity: product.quantity,
-                }).then((result) => {
-                    this.$dispatch("cart-change", { count: result.count });
-                    this.$dispatch("notify", {
-                        message: "La quantità è stata aggiornata",
+                })
+                    .then((result) => {
+                        this.$dispatch("cart-change", { count: result.count });
+                        this.$dispatch("notify", {
+                            message: "La quantità è stata aggiornata",
+                        });
+                    })
+                    .catch((response) => {
+                        this.$dispatch("notify", {
+                            message:
+                                response.message ||
+                                "Server Error. Please try again later.",
+                            type: "error",
+                        });
                     });
-                });
             },
         };
     });

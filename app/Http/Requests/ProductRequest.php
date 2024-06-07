@@ -25,6 +25,7 @@ class ProductRequest extends FormRequest
             'title' => 'required|max:2000',
             'image' => 'nullable|image',
             'price' => 'required|numeric',
+            'quantity' => 'nullable|numeric',
             'description' => 'nullable|string',
             'published' => 'required|boolean',
         ];
@@ -38,6 +39,7 @@ class ProductRequest extends FormRequest
             'image.image' => 'Inserisci un immagine con formato valido (jpg, jpeg, png, bmp, svg o webp)',
             'price.required' => 'Il campo prezzo è un campo obbligatorio',
             'price.numeric' => 'Il campo prezzo deve essere un numero',
+            'quantity.numeric' => 'Il campo quantità deve essere un numero',
             'description.string' => 'Il campo descrizione deve essere una stringa',
         ];
     }
