@@ -21,6 +21,15 @@
             <span> Prodotti </span>
         </router-link>
         <router-link
+            :to="{ name: 'app.categories' }"
+            class="flex items-center py-1 px-2 rounded transition-colors hover:bg-black/30"
+        >
+            <span class="mr-2">
+                <TagIcon class="w-6" />
+            </span>
+            <span> Categorie </span>
+        </router-link>
+        <router-link
             :to="{ name: 'app.orders' }"
             class="flex items-center py-1 px-2 rounded transition-colors hover:bg-black/30"
         >
@@ -65,6 +74,7 @@ import {
     UserIcon,
     UserGroupIcon,
     ArchiveBoxIcon,
+    TagIcon,
     ChartBarIcon,
     ClipboardDocumentListIcon,
 } from "@heroicons/vue/24/outline";

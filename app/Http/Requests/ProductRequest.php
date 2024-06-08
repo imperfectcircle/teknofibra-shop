@@ -23,7 +23,10 @@ class ProductRequest extends FormRequest
     {
         return [
             'title' => 'required|max:2000',
-            'image' => 'nullable|image',
+            'images.*' => 'nullable|image',
+            'deleted_images.*' => 'nullable|numeric',
+            'image_positions.*' => 'nullable|numeric',
+            'categories.*' => 'nullable|numeric|exists:categories,id',
             'price' => 'required|numeric',
             'quantity' => 'nullable|numeric',
             'description' => 'nullable|string',
@@ -36,7 +39,7 @@ class ProductRequest extends FormRequest
         return [
             'title.required' => 'Il campo titolo è un campo obbligatorio',
             'title.max' => 'Il campo titolo deve avere massimo 2000 caratteri',
-            'image.image' => 'Inserisci un immagine con formato valido (jpg, jpeg, png, bmp, svg o webp)',
+            'images.image' => 'Inserisci un immagine con formato valido (jpg, jpeg, png, bmp, svg o webp)',
             'price.required' => 'Il campo prezzo è un campo obbligatorio',
             'price.numeric' => 'Il campo prezzo deve essere un numero',
             'quantity.numeric' => 'Il campo quantità deve essere un numero',

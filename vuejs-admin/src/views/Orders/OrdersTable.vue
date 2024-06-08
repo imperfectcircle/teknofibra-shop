@@ -172,7 +172,7 @@ import { computed, onMounted, ref } from "vue";
 import store from "../../store";
 import Spinner from "../../components/core/Spinner.vue";
 import { PRODUCTS_PER_PAGE } from "../../constants";
-import TableHeaderCell from "../../components/core/table/TableHeaderCell.vue";
+import TableHeaderCell from "../../components/core/Table/TableHeaderCell.vue";
 import OrderStatus from "./OrderStatus.vue";
 
 const perPage = ref(PRODUCTS_PER_PAGE);

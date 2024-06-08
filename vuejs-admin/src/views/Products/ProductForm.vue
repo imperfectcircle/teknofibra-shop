@@ -51,20 +51,20 @@
                         label="Pubblicato"
                         :errors="errors['published']"
                     />
-                    <!-- <treeselect
+                    <treeselect
                         v-model="product.categories"
                         :multiple="true"
                         :options="options"
                         :errors="errors['categories']"
-                    /> -->
+                    />
                 </div>
                 <div class="col-span-1 px-4 pt-5 pb-4">
-                    <!-- <image-preview
+                    <image-preview
                         v-model="product.images"
                         :images="product.images"
                         v-model:deleted-images="product.deleted_images"
                         v-model:image-positions="product.image_positions"
-                    /> -->
+                    />
                 </div>
             </div>
             <footer
@@ -101,11 +101,11 @@ import CustomInput from "../../components/core/CustomInput.vue";
 import store from "../../store/index.js";
 import Spinner from "../../components/core/Spinner.vue";
 import { useRoute, useRouter } from "vue-router";
-// import ImagePreview from "../../components/ImagePreview.vue";
-// import the component
-// import Treeselect from "vue3-treeselect";
-// import the styles
-// import "vue3-treeselect/dist/vue3-treeselect.css";
+import ImagePreview from "../../components/ImagePreview.vue";
+//import the component
+import Treeselect from "vue3-treeselect";
+//import the styles
+import "vue3-treeselect/dist/vue3-treeselect.css";
 import axiosClient from "../../axios.js";
 
 const route = useRoute();
@@ -158,7 +158,7 @@ function onSubmit($event, close = false) {
                     product.value = response.data;
                     store.commit(
                         "showToast",
-                        "Il Prodotto è stato aggiornato con successo"
+                        "Prodotto aggiornato con successo."
                     );
                     store.dispatch("getProducts");
                     if (close) {
@@ -177,10 +177,7 @@ function onSubmit($event, close = false) {
                 loading.value = false;
                 if (response.status === 201) {
                     product.value = response.data;
-                    store.commit(
-                        "showToast",
-                        "Il Prodotto è stato creato con successo"
-                    );
+                    store.commit("showToast", "Prodotto creato con successo.");
                     store.dispatch("getProducts");
                     if (close) {
                         router.push({ name: "app.products" });

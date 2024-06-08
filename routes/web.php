@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['guestOrVerified'])->group(function () {
     Route::controller(ProductController::class)->group(function () {
         Route::get('/', 'index')->name('home');
+        Route::get('/category/{category:slug}', 'byCategory')->name('byCategory');
         Route::get('/product/{product:slug}', 'view')->name('product.view');
     });
 

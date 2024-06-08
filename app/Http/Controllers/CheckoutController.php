@@ -48,6 +48,9 @@ class CheckoutController extends Controller
             }
         }
 
+        DB::beginTransaction();
+        try {
+
         foreach ($products as $product) {
             $quantity = $cartItems[$product->id]['quantity'];
             $totalPrice += $product->price * $quantity;
@@ -67,6 +70,13 @@ class CheckoutController extends Controller
                 'quantity' => $quantity,
                 'unit_price' => $product->price,
             ];
+
+            // Update product quantity
+            $product->quantity -= $quantity;
+            if ($product->quantity < 0) {
+                throw new \Exception('Quantità non sufficiente per il prodotto "'.$product->title.'"');
+            }
+            $product->save();
         }
 
         $checkout_session = $stripe->checkout->sessions->create([
@@ -77,8 +87,7 @@ class CheckoutController extends Controller
             'customer_creation' => 'always',
         ]);
 
-        DB::beginTransaction();
-        try {
+        
             // Create Order
             $orderData = [
                 'total_price' => $totalPrice,
@@ -107,16 +116,19 @@ class CheckoutController extends Controller
             ];
 
             Payment::create($paymentData);
+
+            DB::commit();
+        
+        
+
+        CartItem::where('user_id', $user->id)->delete();
+
+        return redirect($checkout_session->url);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::critical(__METHOD__ . ' method does not work' . $e->getMessage());
             throw $e;
         }
-        DB::commit();
-
-        CartItem::where('user_id', $user->id)->delete();
-
-        return redirect($checkout_session->url);
     }
 
     public function success(Request $request) {
@@ -144,14 +156,6 @@ class CheckoutController extends Controller
                 $this->updateOrderAndSession($payment);
             }
 
-            // Aggiorna la quantità dei prodotti nel magazzino
-            $order = $payment->order;
-            foreach ($order->items as $item) {
-                $product = $item->product;
-                $product->quantity -= $item->quantity;
-                $product->save();
-            }
-                
             $customer = \Stripe\Customer::retrieve($session->customer);
 
             return view('checkout.success', compact('customer'));

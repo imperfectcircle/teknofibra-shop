@@ -1,4 +1,4 @@
-const state = {
+export default {
     user: {
         token: sessionStorage.getItem("TOKEN"),
         data: {},
@@ -58,6 +58,8 @@ const state = {
         { key: "6m", text: "Ultimi 6 Mesi" },
         { key: "all", text: "Sempre" },
     ],
+    categories: {
+        loading: false,
+        data: [],
+    },
 };
-
-export default state;

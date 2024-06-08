@@ -200,14 +200,13 @@ import { computed, onMounted, ref } from "vue";
 import store from "../../store";
 import Spinner from "../../components/core/Spinner.vue";
 import { USERS_PER_PAGE } from "../../constants";
-import TableHeaderCell from "../../components/core/table/TableHeaderCell.vue";
+import TableHeaderCell from "../../components/core/Table/TableHeaderCell.vue";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import {
     EllipsisVerticalIcon,
     PencilIcon,
     TrashIcon,
 } from "@heroicons/vue/24/outline";
-import UserModal from "./UserModal.vue";
 
 const perPage = ref(USERS_PER_PAGE);
 const search = ref("");

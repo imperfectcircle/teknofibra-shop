@@ -83,8 +83,15 @@
                     <td class="border-b p-2">{{ product.id }}</td>
                     <td class="border-b p-2">
                         <img
+                            v-if="product.image_url"
                             class="w-16"
                             :src="product.image_url"
+                            :alt="product.title"
+                        />
+                        <img
+                            v-else
+                            class="w-16 h-16 object-cover"
+                            src="../../assets/noImage.png"
                             :alt="product.title"
                         />
                     </td>
@@ -211,15 +218,13 @@ import { computed, onMounted, ref } from "vue";
 import store from "../../store/index";
 import Spinner from "../../components/core/Spinner.vue";
 import { PRODUCTS_PER_PAGE } from "../../constants";
-import TableHeaderCell from "../../components/core/table/TableHeaderCell.vue";
+import TableHeaderCell from "../../components/core/Table/TableHeaderCell.vue";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import {
     EllipsisVerticalIcon,
     PencilIcon,
     TrashIcon,
 } from "@heroicons/vue/24/outline";
-
-const emit = defineEmits(["clickEdit"]);
 
 const perPage = ref(PRODUCTS_PER_PAGE);
 const search = ref("");

@@ -8,22 +8,15 @@
             Aggiungi un nuovo prodotto
         </router-link>
     </div>
-    <ProductModal
-        v-model="showModal"
-        :product="productModel"
-        @close="onModalClose"
-    />
     <ProductsTable @clickEdit="editProduct" />
 </template>
 
 <script setup>
 import { ref } from "vue";
-import ProductModal from "./ProductModal.vue";
 import ProductsTable from "./ProductsTable.vue";
 import store from "../../store";
 import { DEFAULT_EMPTY_OBJECT } from "../../constants";
 
-const showModal = ref(false);
 const productModel = ref({
     ...DEFAULT_EMPTY_OBJECT,
 });
@@ -32,12 +25,6 @@ const editProduct = (product) => {
     store.dispatch("getProduct", product.id).then(({ data }) => {
         productModel.value = data;
     });
-};
-
-const onModalClose = () => {
-    productModel.value = {
-        ...DEFAULT_EMPTY_OBJECT,
-    };
 };
 </script>
 

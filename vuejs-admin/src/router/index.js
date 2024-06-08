@@ -5,6 +5,7 @@ import RequestPassword from "../views/RequestPassword.vue";
 import ResetPassword from "../views/ResetPassword.vue";
 import AppLayout from "../components/AppLayout.vue";
 import Products from "../views/Products/Products.vue";
+import Categories from "../views/Categories/Categories.vue";
 import Users from "../views/Users/Users.vue";
 import Customers from "../views/Customers/Customers.vue";
 import CustomerView from "../views/Customers/CustomerView.vue";
@@ -52,6 +53,11 @@ const routes = [
                 props: {
                     id: (value) => /^\d+$/.test(value),
                 },
+            },
+            {
+                path: "categories",
+                name: "app.categories",
+                component: Categories,
             },
             {
                 path: "users",

@@ -2,7 +2,7 @@
     <div  x-data="productItem({{ json_encode([
                     'id' => $product->id,
                     'slug' => $product->slug,
-                    'image' => $product->image,
+                    'image' => $product->image ?: '/img/noimage.png',
                     'title' => $product->title,
                     'price' => $product->price,
                     'quantity' => $product->quantity,
@@ -12,7 +12,7 @@
             <div class="lg:col-span-3">
                 <div
                     x-data="{
-                      images: ['{{$product->image}}'],
+                      images: {{$product->images->map(fn($im) => $im->url) ?: '/img/noimage.png'}},
                       activeImage: null,
                       prev() {
                           let index = this.images.indexOf(this.activeImage);
@@ -152,7 +152,7 @@
                             @click="expanded = !expanded"
                             href="javascript:void(0)"
                             class="text-purple-500 hover:text-purple-700"
-                            x-text="expanded ? 'Read Less' : 'Read More'"
+                            x-text="expanded ? 'Vedi meno' : 'Vedi di più'"
                         ></a>
                     </p>
                 </div>

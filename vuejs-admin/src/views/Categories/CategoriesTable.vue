@@ -2,27 +2,9 @@
     <div class="bg-white p-4 rounded-lg shadow animate-fade-in-down">
         <div class="flex justify-between border-b-2 pb-3">
             <div class="flex items-center">
-                <span class="whitespace-nowrap mr-3">Per Pagina</span>
-                <select
-                    @change="getCustomers(null)"
-                    v-model="perPage"
-                    class="appearance-none relative block w-24 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                <span class="ml-3"
+                    >Trovate {{ categories.data.length }} categorie</span
                 >
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-                <span class="ml-3">Trovati {{ customers.total }} clienti</span>
-            </div>
-            <div>
-                <input
-                    v-model="search"
-                    @change="getCustomers(null)"
-                    class="appearance-none relative block w-48 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Type to Search customers"
-                />
             </div>
         </div>
 
@@ -33,7 +15,7 @@
                         field="id"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
-                        @click="sortCustomers('id')"
+                        @click="sortCategories('id')"
                     >
                         ID
                     </TableHeaderCell>
@@ -41,74 +23,74 @@
                         field="name"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
-                        @click="sortCustomers('name')"
+                        @click="sortCategories('name')"
                     >
                         Nome
                     </TableHeaderCell>
                     <TableHeaderCell
-                        field="email"
+                        field="slug"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
-                        @click="sortCustomers('email')"
+                        @click="sortCategories('slug')"
                     >
-                        Email
+                        Slug
                     </TableHeaderCell>
                     <TableHeaderCell
-                        field="phone"
+                        field="active"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
-                        @click="sortCustomers('phone')"
+                        @click="sortCategories('active')"
                     >
-                        Telefono
+                        Attiva
                     </TableHeaderCell>
                     <TableHeaderCell
-                        field="status"
+                        field="parent_id"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
-                        @click="sortCustomers('status')"
+                        @click="sortCategories('parent_id')"
                     >
-                        Status
+                        Genitore
                     </TableHeaderCell>
                     <TableHeaderCell
                         field="created_at"
                         :sort-field="sortField"
                         :sort-direction="sortDirection"
-                        @click="sortCustomers('created_at')"
+                        @click="sortCategories('created_at')"
                     >
-                        Data di Registrazione
+                        Data di Creazione
                     </TableHeaderCell>
-                    <TableHeaderCell field="actions"> Actions </TableHeaderCell>
+                    <TableHeaderCell field="actions"> Azioni </TableHeaderCell>
                 </tr>
             </thead>
-            <tbody v-if="customers.loading || !customers.data.length">
+            <tbody v-if="categories.loading || !categories.data.length">
                 <tr>
                     <td colspan="7">
-                        <Spinner v-if="customers.loading" />
+                        <Spinner v-if="categories.loading" />
                         <p v-else class="text-center py-8 text-gray-700">
-                            Non sono presenti clienti
+                            Non sono presenti Categorie
                         </p>
                     </td>
                 </tr>
             </tbody>
             <tbody v-else>
-                <tr v-for="(customer, index) of customers.data">
-                    <td class="border-b p-2">{{ customer.id }}</td>
+                <tr v-for="(category, index) of categories.data">
+                    <td class="border-b p-2">{{ category.id }}</td>
                     <td class="border-b p-2">
-                        {{ customer.first_name }} {{ customer.last_name }}
+                        {{ category.name }}
                     </td>
                     <td
                         class="border-b p-2 max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis"
                     >
-                        {{ customer.email }}
+                        {{ category.slug }}
                     </td>
                     <td class="border-b p-2">
-                        {{ customer.phone }}
+                        {{ category.active ? "Sì" : "No" }}
                     </td>
                     <td class="border-b p-2">
-                        {{ customer.status }}
+                        {{ category.parent?.name }}
                     </td>
                     <td class="border-b p-2">
-                        {{ customer.created_at }}
+                        {{ category.created_at }}
                     </td>
                     <td class="border-b p-2">
                         <Menu as="div" class="relative inline-block text-left">
@@ -136,25 +118,22 @@
                                 >
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                            <router-link
-                                                :to="{
-                                                    name: 'app.customers.view',
-                                                    params: { id: customer.id },
-                                                }"
+                                            <button
                                                 :class="[
                                                     active
                                                         ? 'bg-indigo-600 text-white'
                                                         : 'text-gray-900',
                                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                                 ]"
+                                                @click="editCategory(category)"
                                             >
                                                 <PencilIcon
                                                     :active="active"
                                                     class="mr-2 h-5 w-5 text-indigo-400"
                                                     aria-hidden="true"
                                                 />
-                                                Modifica
-                                            </router-link>
+                                                Edit
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                             <button
@@ -165,7 +144,7 @@
                                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                                 ]"
                                                 @click="
-                                                    deleteCustomer(customer)
+                                                    deleteCategory(category)
                                                 "
                                             >
                                                 <TrashIcon
@@ -173,7 +152,7 @@
                                                     class="mr-2 h-5 w-5 text-indigo-400"
                                                     aria-hidden="true"
                                                 />
-                                                Elimina
+                                                Delete
                                             </button>
                                         </MenuItem>
                                     </div>
@@ -184,41 +163,6 @@
                 </tr>
             </tbody>
         </table>
-
-        <div
-            v-if="!customers.loading"
-            class="flex justify-between items-center mt-5"
-        >
-            <div v-if="customers.data.length">
-                Clienti da {{ customers.from }} a {{ customers.to }}
-            </div>
-            <nav
-                v-if="customers.total > customers.limit"
-                class="relative z-0 inline-flex justify-center rounded-md shadow-sm -space-x-px"
-                aria-label="Pagination"
-            >
-                <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-                <a
-                    v-for="(link, i) of customers.links"
-                    :key="i"
-                    :disabled="!link.url"
-                    href="#"
-                    @click="getForPage($event, link)"
-                    aria-current="page"
-                    class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
-                    :class="[
-                        link.active
-                            ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
-                        i === 0 ? 'rounded-l-md' : '',
-                        i === customers.links.length - 1 ? 'rounded-r-md' : '',
-                        !link.url ? ' bg-gray-100 text-gray-700' : '',
-                    ]"
-                    v-html="link.label"
-                >
-                </a>
-            </nav>
-        </div>
     </div>
 </template>
 
@@ -226,7 +170,6 @@
 import { computed, onMounted, ref } from "vue";
 import store from "../../store";
 import Spinner from "../../components/core/Spinner.vue";
-import { CUSTOMERS_PER_PAGE } from "../../constants";
 import TableHeaderCell from "../../components/core/Table/TableHeaderCell.vue";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import {
@@ -234,19 +177,19 @@ import {
     PencilIcon,
     TrashIcon,
 } from "@heroicons/vue/24/outline";
+import CategoryModal from "./CategoryModal.vue";
 
-const perPage = ref(CUSTOMERS_PER_PAGE);
-const search = ref("");
-const customers = computed(() => store.state.customers);
-const sortField = ref("updated_at");
-const sortDirection = ref("desc");
+const categories = computed(() => store.state.categories);
+const sortField = ref("name");
+const sortDirection = ref("asc");
 
-const customer = ref({});
+const category = ref({});
+const showCategoryModal = ref(false);
 
 const emit = defineEmits(["clickEdit"]);
 
 onMounted(() => {
-    getCustomers();
+    getCategories();
 });
 
 function getForPage(ev, link) {
@@ -255,20 +198,18 @@ function getForPage(ev, link) {
         return;
     }
 
-    getCustomers(link.url);
+    getCategories(link.url);
 }
 
-function getCustomers(url = null) {
-    store.dispatch("getCustomers", {
+function getCategories(url = null) {
+    store.dispatch("getCategories", {
         url,
-        search: search.value,
-        per_page: perPage.value,
         sort_field: sortField.value,
         sort_direction: sortDirection.value,
     });
 }
 
-function sortCustomers(field) {
+function sortCategories(field) {
     if (field === sortField.value) {
         if (sortDirection.value === "desc") {
             sortDirection.value = "asc";
@@ -280,17 +221,28 @@ function sortCustomers(field) {
         sortDirection.value = "asc";
     }
 
-    getCustomers();
+    getCategories();
 }
 
-function deleteCustomer(customer) {
-    if (!confirm(`Sei sicuro di voler eliminare il cliente??`)) {
+function showAddNewModal() {
+    showCategoryModal.value = true;
+}
+
+function deleteCategory(category) {
+    if (!confirm(`Sei sicuro di voler eliminare questa Categoria?`)) {
         return;
     }
-    store.dispatch("deleteCustomer", customer).then((res) => {
-        store.commit("showToast", "Il cliente è stato rimosso con successo");
-        store.dispatch("getCustomers");
+    store.dispatch("deleteCategory", category).then((res) => {
+        store.commit(
+            "showToast",
+            "La Categoria è stata eliminata con successo"
+        );
+        store.dispatch("getCategories");
     });
+}
+
+function editCategory(p) {
+    emit("clickEdit", p);
 }
 </script>
 

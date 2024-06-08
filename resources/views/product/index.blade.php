@@ -1,4 +1,59 @@
+<?php
+/** @var \Illuminate\Database\Eloquent\Collection $products */
+$categoryList = \App\Models\Category::getActiveAsTree();
+
+?>
+
 <x-app-layout>
+
+    <x-category-list :category-list="$categoryList" class="-ml-5 -mt-5 -mr-5 px-4"/>
+
+    {{-- <div class="flex gap-2 items-center p-3 pb-0" x-data="{
+            selectedSort: '{{ request()->get('sort', '-updated_at') }}',
+            searchKeyword: '{{ request()->get('search') }}',
+            updateUrl() {
+                const params = new URLSearchParams(window.location.search)
+                if (this.selectedSort && this.selectedSort !== '-updated_at') {
+                    params.set('sort', this.selectedSort)
+                } else {
+                    params.delete('sort')
+                }
+
+                if (this.searchKeyword) {
+                    params.set('search', this.searchKeyword)
+                } else {
+                    params.delete('search')
+                }
+                window.location.href = window.location.origin + window.location.pathname + '?'
+                + params.toString();
+            }
+        }">
+        <form action="" method="GET" class="flex-1" @submit.prevent="updateUrl">
+            <x-text-input type="text" name="search" placeholder="Search for the products"
+                    x-model="searchKeyword"/>
+        </form>
+        <x-text-input
+            x-model="selectedSort"
+            @change="updateUrl"
+            type="select"
+            name="sort"
+            class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+            <option value="price">Price (ASC)</option>
+            <option value="-price">Price (DESC)</option>
+            <option value="title">Title (ASC)</option>
+            <option value="-title">Title (DESC)</option>
+            <option value="-updated_at">Last Modified at the top</option>
+            <option value="updated_at">Last Modified at the bottom</option>
+        </x-text-input>
+
+    </div>
+
+    <?php if ( $products->count() === 0 ): ?>
+    <div class="text-center text-gray-600 py-16 text-xl">
+        There are no products published
+    </div>
+    <?php else: ?> --}}
+
     <!-- Product List -->
     <div
     class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-5"
@@ -8,14 +63,14 @@
     <!-- Product Item -->
     <div x-data="productItem({{ json_encode([
         'id' => $product->id,
-        'image' => $product->image,
+        'image' => $product->image ?: '/img/noimage.png',
         'title' => $product->title,
         'price' => $product->price,
         'quantity' => $product->quantity,
         'addToCartUrl' => route('cart.add', $product),
     ]) }})" class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
         <a href="{{ route('product.view', $product->slug) }}">
-            <img class="rounded-t-lg" src="{{ $product->image }}" alt="{{ $product->title }}" />
+            <img class="rounded-t-lg" src="{{ $product->image ?: '/img/noimage.png' }}" alt="{{ $product->title }}" />
         </a>
         <div class="p-5 flex-grow">
             <a href="{{ route('product.view', $product->slug) }}">
@@ -75,5 +130,6 @@
         @endforeach
     </div>
     <!--/ Product List -->
-    {{ $products->links() }}
+    {{$products->appends(['sort' => request('sort'), 'search' => request('search')])->links()}}
+    {{-- <?php endif; ?> --}}
 </x-app-layout>
