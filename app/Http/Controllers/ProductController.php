@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 class ProductController extends Controller
 {
     public function index() {
-        $products = Product::query()->where('published', '=', 1)->orderBy('created_at', 'desc')->paginate(5);
-        return view('product.index', compact('products'));
+        $query = Product::query();
+
+        return $this->renderProducts($query);
     }
 
     public function byCategory(Category $category)
@@ -51,7 +52,6 @@ class ProductController extends Controller
                 $query->where('products.title', 'like', "%$search%")
                     ->orWhere('products.description', 'like', "%$search%");
             })
-
             ->paginate(5);
 
         return view('product.index', [

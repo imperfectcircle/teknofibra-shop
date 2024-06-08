@@ -8,7 +8,7 @@ $categoryList = \App\Models\Category::getActiveAsTree();
 
     <x-category-list :category-list="$categoryList" class="-ml-5 -mt-5 -mr-5 px-4"/>
 
-    {{-- <div class="flex gap-2 items-center p-3 pb-0" x-data="{
+    <div class="flex gap-2 items-center p-3 pb-0" x-data="{
             selectedSort: '{{ request()->get('sort', '-updated_at') }}',
             searchKeyword: '{{ request()->get('search') }}',
             updateUrl() {
@@ -29,7 +29,7 @@ $categoryList = \App\Models\Category::getActiveAsTree();
             }
         }">
         <form action="" method="GET" class="flex-1" @submit.prevent="updateUrl">
-            <x-text-input type="text" name="search" placeholder="Search for the products"
+            <x-text-input type="text" name="search" placeholder="Ricerca Prodotti"
                     x-model="searchKeyword"/>
         </form>
         <x-text-input
@@ -38,12 +38,12 @@ $categoryList = \App\Models\Category::getActiveAsTree();
             type="select"
             name="sort"
             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
-            <option value="price">Price (ASC)</option>
-            <option value="-price">Price (DESC)</option>
-            <option value="title">Title (ASC)</option>
-            <option value="-title">Title (DESC)</option>
-            <option value="-updated_at">Last Modified at the top</option>
-            <option value="updated_at">Last Modified at the bottom</option>
+            <option value="price">Prezzo (ASC)</option>
+            <option value="-price">Prezzo (DESC)</option>
+            <option value="title">Titolo (ASC)</option>
+            <option value="-title">Titolo (DESC)</option>
+            <option value="-updated_at">Ultimi Aggiornati in alto</option>
+            <option value="updated_at">Ultimi Aggiornati in basso</option>
         </x-text-input>
 
     </div>
@@ -52,7 +52,7 @@ $categoryList = \App\Models\Category::getActiveAsTree();
     <div class="text-center text-gray-600 py-16 text-xl">
         There are no products published
     </div>
-    <?php else: ?> --}}
+    <?php else: ?>
 
     <!-- Product List -->
     <div
@@ -131,5 +131,5 @@ $categoryList = \App\Models\Category::getActiveAsTree();
     </div>
     <!--/ Product List -->
     {{$products->appends(['sort' => request('sort'), 'search' => request('search')])->links()}}
-    {{-- <?php endif; ?> --}}
+    <?php endif; ?>
 </x-app-layout>
