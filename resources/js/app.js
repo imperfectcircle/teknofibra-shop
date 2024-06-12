@@ -1,4 +1,8 @@
 import "./bootstrap";
+import "flowbite";
+import "./tab";
+import "./scrollToTop";
+// import "./transparentNav";
 
 import Alpine from "alpinejs";
 import persist from "@alpinejs/persist";
@@ -18,7 +22,7 @@ document.addEventListener("alpine:init", () => {
         interval: null,
         timeout: null,
         message: null,
-        tyoe: null,
+        type: null,
         close() {
             this.visible = false;
             clearInterval(this.interval);

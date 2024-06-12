@@ -4,14 +4,17 @@
       cartItemsCount: {{ \App\Http\Helpers\CartHelper::getCartItemsCount() }},
     }"
     @cart-change.window="cartItemsCount = $event.detail.count"
-    class="flex justify-between bg-slate-800 shadow-md text-white"
+    id="header"
+    class="fixed top-0 left-0 z-50 w-full flex justify-between items-center bg-slate-800 shadow-md text-white"
     >
       <div>
-        <a href="{{ route('home') }}" class="block py-navbar-item pl-5"> Logo </a>
+        <a href="{{ route('home') }}" class="block py-navbar-item pl-5"> 
+          <img class="w-[250px]" src="/img/logo.png" alt="Teknofibra Logo">
+        </a>
       </div>
       <!-- Responsive Menu -->
       <div
-        class="block fixed z-10 top-0 bottom-0 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
+        class="block fixed z-10 top-0 bottom-0 pt-10 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
         :class="mobileMenuOpen ? 'left-0' : '-left-[220px]'"
       >
         
@@ -43,7 +46,7 @@
                 x-show="cartItemsCount"
                 x-transition
                 x-text="cartItemsCount"
-                class="py-[2px] px-[8px] rounded-full bg-red-500"
+                class="py-[2px] px-[8px] rounded-full bg-emerald-500"
               ></small>
               <!--/ Cart Items Counter -->
             </a>
@@ -193,7 +196,52 @@
         </ul>
       </div>
       <!--/ Responsive Menu -->
-      <nav class="hidden md:block">
+
+      <!-- Search & Sort -->
+      @if (request()->is('/'))
+        <div class="hidden md:flex md:gap-2 md:items-center p-3 pb-0 my-5" x-data="{
+          selectedSort: '{{ request()->get('sort', '-updated_at') }}',
+          searchKeyword: '{{ request()->get('search') }}',
+          updateUrl() {
+              const params = new URLSearchParams(window.location.search)
+              if (this.selectedSort && this.selectedSort !== '-updated_at') {
+                  params.set('sort', this.selectedSort)
+              } else {
+                  params.delete('sort')
+              }
+
+              if (this.searchKeyword) {
+                  params.set('search', this.searchKeyword)
+              } else {
+                  params.delete('search')
+              }
+              window.location.href = window.location.origin + window.location.pathname + '?'
+              + params.toString();
+          }
+        }">
+            <form action="" method="GET" class="flex-1" @submit.prevent="updateUrl">
+                <x-text-input class="text-black" type="text" name="search" placeholder="Ricerca Prodotti"
+                        x-model="searchKeyword"/>
+            </form>
+            <x-text-input
+                x-model="selectedSort"
+                @change="updateUrl"
+                type="select"
+                name="sort"
+                class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded text-black">
+                <option value="price">Prezzo (ASC)</option>
+                <option value="-price">Prezzo (DESC)</option>
+                <option value="title">Titolo (ASC)</option>
+                <option value="-title">Titolo (DESC)</option>
+                <option value="-updated_at">Ultimi Aggiornati in alto</option>
+                <option value="updated_at">Ultimi Aggiornati in basso</option>
+            </x-text-input>
+        </div>
+      @endif
+      
+      <!--/ Search & Sort -->
+      
+      <nav id="navbar" class="hidden md:block">
         <ul class="grid grid-flow-col items-center">
           <li>
             <a
@@ -220,7 +268,7 @@
                 x-transition
                 x-cloak
                 x-text="cartItemsCount"
-                class="absolute z-[100] top-4 -right-3 py-[2px] px-[8px] rounded-full bg-red-500"
+                class="absolute z-[100] top-4 -right-3 py-[2px] px-[8px] rounded-full bg-emerald-500"
               ></small>
             </a>
           </li>
@@ -390,4 +438,5 @@
           />
         </svg>
       </button>
+      
     </header>

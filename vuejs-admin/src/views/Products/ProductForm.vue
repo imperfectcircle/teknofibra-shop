@@ -158,7 +158,7 @@ function onSubmit($event, close = false) {
                     product.value = response.data;
                     store.commit(
                         "showToast",
-                        "Prodotto aggiornato con successo."
+                        "Prodotto aggiornato con successo"
                     );
                     store.dispatch("getProducts");
                     if (close) {
@@ -177,7 +177,7 @@ function onSubmit($event, close = false) {
                 loading.value = false;
                 if (response.status === 201) {
                     product.value = response.data;
-                    store.commit("showToast", "Prodotto creato con successo.");
+                    store.commit("showToast", "Prodotto creato con successo");
                     store.dispatch("getProducts");
                     if (close) {
                         router.push({ name: "app.products" });

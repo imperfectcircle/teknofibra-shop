@@ -54,8 +54,8 @@ class CartController extends Controller
             return response([
                 'message' => match ( $product->quantity ) {
                     0 => 'Questo Prodotto è attualmente esaurito',
-                    1 => 'È rimasto un solo Prodotto',
-                    default => 'Sono rimasti solo ' . $product->quantity . ' Prodotti'
+                    1 => 'È possibile aggiungere un solo Prodotto',
+                    default => 'È possibile aggiungere solo ' . $product->quantity . ' Prodotti'
                 }
             ], 422);
         }
@@ -138,8 +138,8 @@ class CartController extends Controller
             return response([
                 'message' => match ( $product->quantity ) {
                     0 => 'Questo Prodotto è attualmente esaurito',
-                    1 => 'È rimasto un solo Prodotto',
-                    default => 'Sono rimasti solo ' . $product->quantity . ' Prodotti'
+                    1 => 'È possibile aggiungere un solo Prodotto',
+                    default => 'È possibile aggiungere solo ' . $product->quantity . ' Prodotti'
                 }
             ], 422);
         }

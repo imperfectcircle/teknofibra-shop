@@ -98,6 +98,7 @@ export function createProduct({ commit }, product) {
 
 export function updateProduct({ commit }, product) {
     const id = product.id;
+
     if (product.images && product.images.length) {
         const form = new FormData();
         form.append("id", product.id);

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div  x-data="productItem({{ json_encode([
+    <div class="mt-10" x-data="productItem({{ json_encode([
                     'id' => $product->id,
                     'slug' => $product->slug,
                     'image' => $product->image ?: '/img/noimage.png',
@@ -9,26 +9,27 @@
                     'addToCartUrl' => route('cart.add', $product)
                 ]) }})" class="container mx-auto">
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
-            <div class="lg:col-span-3">
+            <div class="lg:col-span-3 flex flex-col items-end gap-5">
                 <div
+                    class="bg-white w-full md:w-9/12"
                     x-data="{
-                      images: {{$product->images->map(fn($im) => $im->url) ?: '/img/noimage.png'}},
-                      activeImage: null,
-                      prev() {
-                          let index = this.images.indexOf(this.activeImage);
-                          if (index === 0)
-                              index = this.images.length;
-                          this.activeImage = this.images[index - 1];
-                      },
-                      next() {
-                          let index = this.images.indexOf(this.activeImage);
-                          if (index === this.images.length - 1)
-                              index = -1;
-                          this.activeImage = this.images[index + 1];
-                      },
-                      init() {
-                          this.activeImage = this.images.length > 0 ? this.images[0] : null
-                      }
+                        images: {{$product->images->map(fn($im) => $im->url) ?: '/img/noimage.png'}},
+                        activeImage: null,
+                        prev() {
+                            let index = this.images.indexOf(this.activeImage);
+                            if (index === 0)
+                                index = this.images.length;
+                            this.activeImage = this.images[index - 1];
+                        },
+                        next() {
+                            let index = this.images.indexOf(this.activeImage);
+                            if (index === this.images.length - 1)
+                                index = -1;
+                            this.activeImage = this.images[index + 1];
+                        },
+                        init() {
+                            this.activeImage = this.images.length > 0 ? this.images[0] : null
+                        }
                     }"
                 >
                     <div class="relative">
@@ -92,19 +93,31 @@
                     </div>
                 </div>
             </div>
-            <div class="lg:col-span-2">
-                <h1 class="text-lg font-semibold">
+            <div class="lg:col-span-2 md:w-9/12">
+                <h1 class="text-2xl uppercase font-semibold">
                     {{$product->title}}
                 </h1>
-                <div class="text-xl font-bold mb-6">€ {{$product->price}}</div>
+                <div class="border-t-2 border-gray-300"></div>
+                <div class="mb-6">
+                    <div
+                        
+                        
+                        class="text-gray-500 wysiwyg-content min-h-[120px]"
+                    >
+                        {!! $product->description !!}
+                    </div>
+                    
+                </div>
+                <div class="border-t-2 border-gray-300"></div>
+                <p class="text-xl font-bold my-6">€ {{$product->price}}</p>
                 @if ($product->quantity <= 0)
                     <div class="bg-red-500 text-white py-2 px-3 rounded mb-3 text-center">
                         Questo prodotto al momento è esaurito.
                     </div>
                 @endif
-                <div class="flex items-center justify-between mb-5">
+                <div class="mb-5">
                     <label for="quantity" class="block font-bold mr-4">
-                        Quantità
+                        Qt.à
                     </label>
                     <input
                         :disabled="product.quantity <= 0"
@@ -139,23 +152,6 @@
                     </svg>
                     Aggiungi al carrello
                 </button>
-                <div class="mb-6" x-data="{expanded: false}">
-                    <div
-                        x-show="expanded"
-                        x-collapse.min.120px
-                        class="text-gray-500 wysiwyg-content"
-                    >
-                        {!! $product->description !!}
-                    </div>
-                    <p class="text-right">
-                        <a
-                            @click="expanded = !expanded"
-                            href="javascript:void(0)"
-                            class="text-purple-500 hover:text-purple-700"
-                            x-text="expanded ? 'Vedi meno' : 'Vedi di più'"
-                        ></a>
-                    </p>
-                </div>
             </div>
         </div>
     </div>
