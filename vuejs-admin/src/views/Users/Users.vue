@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center justify-between mb-3">
-        <h1 class="text-3xl font-semibold">Users</h1>
+        <h1 class="text-3xl font-semibold">Utenti</h1>
         <button
             type="button"
             @click="showAddNewModal()"

@@ -23,7 +23,13 @@ class OrderController extends Controller
         $query = Order::query()
             ->withCount('items')
             ->with('user.customer')
-            ->where('id', 'like', "%{$search}%")
+            ->where(function ($query) use ($search) {
+            $query->where('id', 'like', "%{$search}%")
+                ->orWhereHas('user.customer', function ($query) use ($search) {
+                    $query
+                        ->where(DB::raw("CONCAT(first_name, ' ', last_name)"), 'like', "%{$search}%");
+                });
+            })  
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 

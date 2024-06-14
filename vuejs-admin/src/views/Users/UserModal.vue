@@ -44,8 +44,8 @@
                                 >
                                     {{
                                         user.id
-                                            ? `Update user: "${props.user.name}"`
-                                            : "Create new User"
+                                            ? `Aggiorna utente: "${props.user.name}"`
+                                            : "Crea un nuovo utente"
                                     }}
                                 </DialogTitle>
                                 <button
@@ -74,17 +74,20 @@
                                         class="mb-2"
                                         v-model="user.name"
                                         label="Name"
+                                        :errors="errors['name']"
                                     />
                                     <CustomInput
                                         class="mb-2"
                                         v-model="user.email"
                                         label="Email"
+                                        :errors="errors['email']"
                                     />
                                     <CustomInput
                                         type="password"
                                         class="mb-2"
                                         v-model="user.password"
                                         label="Password"
+                                        :errors="errors['password']"
                                     />
                                 </div>
                                 <footer
@@ -92,7 +95,7 @@
                                 >
                                     <button
                                         type="submit"
-                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm hover:bg-indigo-700 focus:ring-indigo-500"
+                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm hover:text-white hover:bg-indigo-700 focus:ring-indigo-500"
                                     >
                                         Submit
                                     </button>
@@ -142,6 +145,7 @@ const user = ref({
 });
 
 const loading = ref(false);
+const errors = ref({});
 
 const emit = defineEmits(["update:modelValue", "close"]);
 
@@ -166,28 +170,34 @@ function closeModal() {
 function onSubmit() {
     loading.value = true;
     if (user.value.id) {
-        store.dispatch("updateUser", user.value).then((response) => {
-            loading.value = false;
-            if (response.status === 200) {
-                // TODO show notification
-                store.dispatch("getUsers");
-                closeModal();
-            }
-        });
-    } else {
         store
-            .dispatch("createUser", user.value)
+            .dispatch("updateUser", user.value)
             .then((response) => {
                 loading.value = false;
-                if (response.status === 201) {
-                    // TODO show notification
+                if (response.status === 200) {
+                    store.commit("showToast", "Utente aggiornato con successo");
                     store.dispatch("getUsers");
                     closeModal();
                 }
             })
             .catch((err) => {
                 loading.value = false;
-                debugger;
+                errors.value = err.response.data.errors;
+            });
+    } else {
+        store
+            .dispatch("createUser", user.value)
+            .then((response) => {
+                loading.value = false;
+                if (response.status === 201) {
+                    store.commit("showToast", "Utente creato con successo");
+                    store.dispatch("getUsers");
+                    closeModal();
+                }
+            })
+            .catch((err) => {
+                loading.value = false;
+                errors.value = err.response.data.errors;
             });
     }
 }

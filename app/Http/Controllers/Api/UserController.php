@@ -29,6 +29,11 @@ class UserController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         $query = User::query()
+            ->where('is_admin', true)
+            ->where(function ($query) use ($search) {
+                $query->where('email', 'like', "%{$search}%")
+                    ->orWhere('name', 'like', "%{$search}%");
+            })
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
