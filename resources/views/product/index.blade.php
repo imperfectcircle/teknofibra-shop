@@ -15,7 +15,7 @@ $categoryList = \App\Models\Category::getActiveAsTree();
         <!-- Carousel wrapper -->
         <div class="relative h-[50vh] overflow-hidden md:min-h-[65vh] bg-center bg-no-repeat bg-cover bg-custom-gradient-image -mt-5 -mb-5 -ml-5 -mr-5 grid place-items-center">
             <!-- Item 1 -->
-            <h1 class="my-10 text-center text-xl md:text-3xl lg:text-4xl font-semibold text-white">Scopri le Soluzioni Isolanti di Teknofibra: <br> Acquista Ora i Migliori Prodotti per l'Automotive e l'Aviazione!</h1>
+            <h1 class="my-10 text-center text-xl md:text-3xl lg:text-4xl font-semibold text-white">Scopri le Soluzioni Isolanti di TeKnofibra: <br> Acquista Ora i Migliori Prodotti per l'Automotive e l'Aviazione!</h1>
         </div>
         
         
