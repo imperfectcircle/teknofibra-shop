@@ -10,10 +10,14 @@ $categoryList = \App\Models\Category::getActiveAsTree();
         <!-- Carousel wrapper -->
         <div class="relative h-56 overflow-hidden md:min-h-[65vh] bg-center bg-no-repeat bg-cover bg-custom-gradient-image -mt-5 -mb-5 -ml-5 -mr-5">
             <!-- Item 1 -->
-            @foreach ($all as $item)
+            @foreach ($products as $item)
             <div class="hidden duration-700 ease-in-out m-10" data-carousel-item>
                 <a href="{{ route('product.view', $item->slug) }}">
-                    <img src="{{ $item->image  }}" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{ $item->title }}">
+                    @if ($item->images && count($item->images) > 0)
+                        <img src="{{ $item->image  }}" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{ $item->title }}">
+                    @else
+                        <img src="/img/noimage.png" class="absolute block w-full h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{ $item->title }}">
+                    @endif
                 </a>
             </div>
             @endforeach

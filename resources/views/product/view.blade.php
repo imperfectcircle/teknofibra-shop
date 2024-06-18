@@ -2,7 +2,7 @@
     <div class="mt-10" x-data="productItem({{ json_encode([
                     'id' => $product->id,
                     'slug' => $product->slug,
-                    'image' => $product->image ?: '/img/noimage.png',
+                    'image' => $product->image,
                     'title' => $product->title,
                     'price' => $product->price,
                     'quantity' => $product->quantity,
@@ -13,7 +13,7 @@
                 <div
                     class="bg-white w-full md:w-9/12"
                     x-data="{
-                        images: {{$product->images->map(fn($im) => $im->url) ?: '/img/noimage.png'}},
+                        images: {{$product->images->map(fn($im) => $im->url)}},
                         activeImage: null,
                         prev() {
                             let index = this.images.indexOf(this.activeImage);
@@ -33,14 +33,24 @@
                     }"
                 >
                     <div class="relative">
-                        <template x-for="image in images">
+                        {{-- @dd($product->images === 0) --}}
+                        @if ($product->images && count($product->images) > 0)
+                            <template x-for="image in images">
+                                <div
+                                    x-show="activeImage === image"
+                                    class="aspect-w-3 aspect-h-2"
+                                >
+                                    <img :src="image" alt="" class="w-auto mx-auto"/>
+                                </div>
+                            </template>
+                        @else
                             <div
-                                x-show="activeImage === image"
-                                class="aspect-w-3 aspect-h-2"
+                            
+                            class="aspect-w-3 aspect-h-2"
                             >
-                                <img :src="image" alt="" class="w-auto mx-auto"/>
+                            <img src="/img/noimage.png" alt="" class="w-auto mx-auto"/>
                             </div>
-                        </template>
+                        @endif
                         <a
                             @click.prevent="prev"
                             class="cursor-pointer bg-black/30 text-white absolute left-0 top-1/2 -translate-y-1/2"

@@ -54,9 +54,7 @@ class ProductController extends Controller
             })
             ->get();
 
-        $all = Product::all();
-
-        return view('product.index', compact('products', 'all'));
+        return view('product.index', compact('products'));
 
     }
 }

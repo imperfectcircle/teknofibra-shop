@@ -46,8 +46,8 @@ class ProductController extends Controller
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];
-        $imagePositions = $data['image_positions'] ?? [];
         $categories = $data['categories'] ?? [];
+        $imagePositions = $data['image_positions'] ?? [];
 
         $product = Product::create($data);
 
@@ -71,14 +71,14 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->validated();
+        @dd($data);
         $data['updated_by'] = $request->user()->id;
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];
         $deletedImages = $data['deleted_images'] ?? [];
-        $imagePositions = $data['image_positions'] ?? [];
         $categories = $data['categories'] ?? [];
-
+        $imagePositions = $data['image_positions'] ?? [];
         $this->saveCategories($categories, $product);
         $this->saveImages($images, $imagePositions, $product);
         if (count($deletedImages) > 0) {
@@ -101,11 +101,17 @@ class ProductController extends Controller
         return response()->noContent();
     }
 
+
+    /**
+    * @param UploadedFile[] $images
+    * @return string
+    * @throws \Exception
+    */
     private function saveImages($images, $positions, Product $product)
     {
         foreach ($positions as $id => $position) {
             ProductImage::query()
-                ->where('id', $id)
+                //->where('id', $id)
                 ->update(['position' => $position]);
         }
 
