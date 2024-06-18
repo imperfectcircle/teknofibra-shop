@@ -548,7 +548,6 @@ class CountrySeeder extends Seeder
             ['code' => 'lk', 'name' => 'Sri Lanka', 'states' => null],
             ['code' => 'sd', 'name' => 'Sudan', 'states' => null],
             ['code' => 'sr', 'name' => 'Suriname', 'states' => null],
-            ['code' => 'sz', 'name' => 'Swaziland', 'states' => null],
             ['code' => 'se', 'name' => 'Sweden', 'states' => null],
             ['code' => 'ch', 'name' => 'Switzerland', 'states' => json_encode($switzerlandStates)],
             ['code' => 'sy', 'name' => 'Syria', 'states' => null],
