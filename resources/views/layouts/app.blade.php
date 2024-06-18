@@ -73,7 +73,7 @@
       <lord-icon
           src="https://cdn.lordicon.com/dxnllioo.json"
           trigger="hover"
-          class="w-[40px] h-[40px]"
+          class="w-[30px] h-[30px]"
       >
       </lord-icon>
   </div>
