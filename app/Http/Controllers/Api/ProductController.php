@@ -71,7 +71,6 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->validated();
-        @dd($data);
         $data['updated_by'] = $request->user()->id;
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
