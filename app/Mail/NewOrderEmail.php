@@ -29,7 +29,7 @@ class NewOrderEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('ecommerce@teknofibra.it'),
+            from: new Address('shop@teknofibra.it'),
             subject: 'Nuovo Ordine Creato',
         );
     }
