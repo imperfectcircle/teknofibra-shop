@@ -255,17 +255,18 @@ class CheckoutController extends Controller
 
             $order->status = OrderStatus::Paid->value;
             $order->update();
+
+            DB::commit();
         }catch (\Exception $e) {
             DB::rollBack();
             Log::critical(__METHOD__ . ' method does not work' . $e->getMessage());
             throw $e;
         }
-
-        DB::commit();
         
         try {
             $adminUsers = User::where('is_admin', 1)->get();
-            foreach ([...$adminUsers, $order->user] as $user) {
+            $allUsers = collect([...$adminUsers, $order->user])->unique('id');
+            foreach ($allUsers as $user) {
                 Mail::to($user)->send(new NewOrderEmail($order, (bool)$user->is_admin));
             }
         } catch (\Exception $e) {
