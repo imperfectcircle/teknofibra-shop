@@ -90,7 +90,11 @@ export function createProduct({ commit }, product) {
         product.images.forEach((im) => form.append("images[]", im));
         form.append("description", product.description || "");
         form.append("published", product.published ? 1 : 0);
+        form.append("quantity", product.quantity);
         form.append("price", product.price);
+        product.categories.forEach((category) =>
+            form.append("categories[]", category)
+        );
         product = form;
     }
     return axiosClient.post("/products", product);
@@ -114,7 +118,11 @@ export function updateProduct({ commit }, product) {
         }
         form.append("description", product.description || "");
         form.append("published", product.published ? 1 : 0);
+        form.append("quantity", product.quantity);
         form.append("price", product.price);
+        product.categories.forEach((category) =>
+            form.append("categories[]", category)
+        );
         form.append("_method", "PUT");
         product = form;
     } else {
