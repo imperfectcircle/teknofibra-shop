@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::post('/webhook/stripe', [CheckoutController::class, 'webhook'])->name('webhook.stripe');
+Route::post('/webhook/sendcloud', [CheckoutController::class, 'sendcloud'])->name('webhook.sendcloud');
 
 
 //Route::get('/dashboard', function () {

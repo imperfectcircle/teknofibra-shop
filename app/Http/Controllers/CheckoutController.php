@@ -273,4 +273,8 @@ class CheckoutController extends Controller
             Log::critical('Error sending email: ' . $e->getMessage());
         }
     }
+
+    public function sendcloud() {
+        return response('', 200);
+    }
 }
