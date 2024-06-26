@@ -39,23 +39,6 @@
                     <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                             <button
-                                :class="[
-                                    active
-                                        ? 'bg-indigo-600 text-white'
-                                        : 'text-gray-900',
-                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                                ]"
-                            >
-                                <UserCircleIcon
-                                    :active="active"
-                                    class="mr-2 h-5 w-5 text-indigo-400 group-hover:text-white"
-                                    aria-hidden="true"
-                                />
-                                Profilo
-                            </button>
-                        </MenuItem>
-                        <MenuItem v-slot="{ active }">
-                            <button
                                 @click="logout"
                                 :class="[
                                     active

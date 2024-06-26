@@ -171,7 +171,7 @@
                                     type="text"
                                     name="billing[state]"
                                     x-model="billingAddress.state"
-                                    placeholder="Stato"
+                                    placeholder="Stato/Provincia"
                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                                 />
                                 <x-input-error :messages="$errors->get('billing.state')" class="mt-2" />
@@ -265,7 +265,7 @@
                                     type="text"
                                     name="shipping[state]"
                                     x-model="shippingAddress.state"
-                                    placeholder="Stato"
+                                    placeholder="Stato/Provincia"
                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                                 />
                                 <x-input-error :messages="$errors->get('shipping.state')" class="mt-2" />
