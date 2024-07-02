@@ -23,7 +23,8 @@
         "vue-chartjs": "^4.1.2",
         "vue-router": "^4.0.13",
         "vue3-treeselect": "^0.1.10",
-        "vuex": "^4.0.2"
+        "vuex": "^4.0.2",
+        "ws": "^7.5.10"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.0.4",
