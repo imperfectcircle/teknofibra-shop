@@ -3,13 +3,14 @@
 ?>
 
 <x-app-layout>
+    <h2 class="title">Orders</h2>
     <div class="container mx-auto lg:w-2/3 p-5">
         <h1 class="text-3xl font-bold mb-2">I Miei Ordini</h1>
         <div class="bg-white rounded-lg p-3 overflow-x-auto">
             <div class="overflow-x-scroll md:overflow-hidden">
                 <table class="table-auto w-full">
                     <thead>
-                    <tr class="border-b-2">
+                    <tr class="border-b-2 text-black">
                         <th class="text-left p-2">Ordine #</th>
                         <th class="text-left p-2">Data</th>
                         <th class="text-left p-2">Stato</th>
@@ -72,7 +73,7 @@
                 </table>
             </div>
         </div>
-        <div class="mt-3">
+        <div class="mt-3 bg-white rounded px-2 py-1">
             {{ $orders->links() }}
         </div>
     </div>

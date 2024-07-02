@@ -12,6 +12,7 @@
                 {{ session('error') }}
             </div>
         @endif
+        <h2 class="title">Profile</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <div class="bg-white p-3 shadow rounded-lg md:col-span-2">
                 <form x-data="{

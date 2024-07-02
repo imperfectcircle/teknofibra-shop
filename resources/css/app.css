@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.products {
+    @apply bg-gradient-to-tl from-slate-500 to-blue-500 text-white bg-fixed h-full;
+}
+
+.page {
+    @apply max-w-screen-lg mx-auto px-3;
+}
+
+.title {
+    @apply font-extrabold my-3 text-[2rem] text-center pt-5
+        2xl:text-[15rem] 2xl:fixed 2xl:bottom-0 2xl:rotate-[270deg] 2xl:z-0 2xl:w-96 2xl:-left-12 2xl:opacity-30 2xl:pointer-events-none;
+}
+
 @layer base {
     .py-navbar-item {
         @apply py-6;
@@ -111,6 +124,7 @@ body {
     position: absolute;
     width: 100%;
     bottom: 0;
+    border-radius: 0.5rem;
     left: 0;
     background: linear-gradient(
         hsl(0 0% 0% / 0),

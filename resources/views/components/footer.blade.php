@@ -1,4 +1,4 @@
-<footer>
+<footer class="relative z-10">
     <div class="grid grid-cols-1 md:grid-cols-3 h-fit">
         <div class="bg-slate-500 p-10 space-y-5 text-white">
             <img src="/img/logo.png" alt="Logo Teknofibra">

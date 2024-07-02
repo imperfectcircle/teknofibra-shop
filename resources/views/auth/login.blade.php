@@ -1,15 +1,14 @@
 <x-app-layout>
-
     <form action="{{ route('login') }}" method="post" class="w-[400px] mx-auto p-6 my-16">
         @csrf
         <h2 class="text-2xl font-semibold text-center mb-5">
           Accedi al tuo account
         </h2>
-        <p class="text-center text-gray-500 mb-6">
-          o
+        <p class="text-center text-white mb-6">
+          oppure
           <a
             href="{{ route('register') }}"
-            class="text-sm text-purple-700 hover:text-purple-600"
+            class="text-sm text-white underline hover:text-gray-300 transition-color"
             >Crea un nuovo account</a
           >
         </p>
@@ -43,7 +42,7 @@
             />
             <label for="loginRememberMe">Ricordami</label>
           </div>
-          <a href="{{ route('password.request') }}" class="text-sm text-purple-700 hover:text-purple-600">Password Dimenticata?</a>
+          <a href="{{ route('password.request') }}" class="text-sm text-white hover:text-gray-300 underline transition-colors">Password Dimenticata?</a>
         </div>
         <button
           class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full"

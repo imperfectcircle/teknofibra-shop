@@ -6,11 +6,11 @@
       >
       @csrf
         <h2 class="text-2xl font-semibold text-center mb-4">Crea un nuovo account</h2>
-        <p class="text-center text-gray-500 mb-3">
-          o
+        <p class="text-center text-white mb-3">
+          oppure
           <a
             href="{{ route('login') }}"
-            class="text-sm text-purple-700 hover:text-purple-600"
+            class="text-sm text-white hover:text-gray-300 transition-color underline"
             >Accedi con un account esistente</a
           >
         </p>

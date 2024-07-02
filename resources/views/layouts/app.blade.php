@@ -8,8 +8,9 @@
     <title>{{ config('app.name', 'Teknofibra Shop') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
@@ -24,7 +25,7 @@
   <body>
     @include('layouts.navigation')
 
-    <main class="p-5 mt-[81px] md:mt-[94px]">
+    <main class="p-5 mt-[81px] products">
       {{ $slot }}
     </main>
 
@@ -69,7 +70,7 @@
     <!--/ Toast -->
 
     {{-- Scroll to top --}}
-    <div id="scrollTop" class="scrollTop fixed bottom-5 right-5 md:bottom-10 md:right-10 rounded-full opacity-0 bg-white p-2 shadow transition-all duration-200" style="--clip-path: inset(0% 100% 0% 0%);">
+    <div id="scrollTop" class="scrollTop z-20 fixed bottom-5 right-5 md:bottom-10 md:right-10 rounded-full opacity-0 bg-white p-2 shadow transition-all duration-200" style="--clip-path: inset(0% 100% 0% 0%);">
       <lord-icon
           src="https://cdn.lordicon.com/dxnllioo.json"
           trigger="hover"
@@ -77,6 +78,47 @@
       >
       </lord-icon>
   </div>
+
+  @if (!Route::is('cart.index'))
+    <div class="z-20 fixed bottom-20 right-5 md:bottom-32 md:right-10 rounded-full bg-white p-2 shadow transition-all duration-200" x-data="{
+      mobileMenuOpen: false,
+      cartItemsCount: {{ \App\Http\Helpers\CartHelper::getCartItemsCount() }},
+    }"
+    @cart-change.window="cartItemsCount = $event.detail.count"
+    id="header"
+    class="fixed top-0 left-0 z-50 w-full flex justify-between items-center shadow-md text-white">
+      <a
+        href="{{ route('cart.index') }}"
+        class="relative flex items-center justify-between py-2 px-3"
+      >
+        <div class="flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-7 w-7 mr-2 -mt-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          
+        </div>
+        <!-- Cart Items Counter -->
+        <p
+          x-show="cartItemsCount"
+          x-transition
+          x-text="cartItemsCount"
+          class="py-[2px] px-[8px] rounded-full bg-emerald-500 text-white font-semibold"
+        ></p>
+        <!--/ Cart Items Counter -->
+      </a>
+    </div>
+  @endif
   <x-footer />
   </body>
 </html>

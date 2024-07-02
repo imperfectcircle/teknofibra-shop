@@ -28,6 +28,7 @@
                 return this.cartItems.reduce((accum, next) => accum + next.price * next.quantity, 0).toFixed(2)
             },
         }" class="bg-white p-4 rounded-lg shadow">
+        <h2 class="title">Cart</h2>
             <!-- Product Items -->
             <template x-if="cartItems.length">
                 <div>
@@ -40,7 +41,7 @@
                                     class="w-36 h-32 flex items-center justify-center overflow-hidden">
                                     <img :src="product.image" class="object-cover" alt=""/>
                                 </a>
-                                <div class="flex flex-col justify-between flex-1">
+                                <div class="flex flex-col justify-between flex-1 text-black">
                                     <div class="flex justify-between mb-3">
                                         <h3 x-text="product.title"></h3>
                                         <span class="text-lg font-semibold">
@@ -55,7 +56,7 @@
                                                 min="1"
                                                 x-model="product.quantity"
                                                 @change="changeQuantity()"
-                                                class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16"
+                                                class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16 text-black"
                                             />
                                         </div>
                                         <a

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="mt-10" x-data="productItem({{ json_encode([
+    <div class="pt-10" x-data="productItem({{ json_encode([
                     'id' => $product->id,
                     'slug' => $product->slug,
                     'image' => $product->image,
@@ -11,7 +11,7 @@
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
             <div class="lg:col-span-3 flex flex-col items-end gap-5">
                 <div
-                    class="bg-white w-full md:w-9/12"
+                    class="bg-transparent w-full md:w-9/12"
                     x-data="{
                         images: {{$product->images->map(fn($im) => $im->url)}},
                         activeImage: null,
@@ -104,15 +104,13 @@
                 </div>
             </div>
             <div class="lg:col-span-2 md:w-9/12">
-                <h1 class="text-2xl uppercase font-semibold">
+                <h1 class="text-2xl uppercase font-semibold pb-5">
                     {{$product->title}}
                 </h1>
                 <div class="border-t-2 border-gray-300"></div>
                 <div class="mb-6">
                     <div
-                        
-                        
-                        class="text-gray-500 wysiwyg-content min-h-[120px]"
+                        class="wysiwyg-content pt-5"
                     >
                         {!! $product->description !!}
                     </div>
@@ -136,7 +134,7 @@
                         x-ref="quantityEl"
                         value="1"
                         min="1"
-                        class="w-32 focus:border-purple-500 focus:outline-none rounded"
+                        class="w-32 focus:border-purple-500 focus:outline-none rounded text-black"
                         :class="product.quantity <= 0 ? 'bg-gray-300' : 'bg-white'"
                     />
                 </div>

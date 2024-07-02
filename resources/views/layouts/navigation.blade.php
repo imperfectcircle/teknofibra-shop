@@ -20,7 +20,7 @@
         
         <ul>
           <li>
-            <a
+            {{-- <a
               href="{{ route('cart.index') }}"
               class="relative flex items-center justify-between py-2 px-3 transition-colors hover:bg-slate-800"
             >
@@ -49,7 +49,7 @@
                 class="py-[2px] px-[8px] rounded-full bg-emerald-500"
               ></small>
               <!--/ Cart Items Counter -->
-            </a>
+            </a> --}}
           </li>
         @if (!Auth::guest())
           <li x-data="{open: false}" class="relative">
@@ -244,7 +244,7 @@
       <nav id="navbar" class="hidden md:block">
         <ul class="grid grid-flow-col items-center">
           <li>
-            <a
+            {{-- <a
               href="{{ route('cart.index') }}"
               class="relative inline-flex items-center py-navbar-item px-navbar-item hover:bg-slate-900"
             >
@@ -270,7 +270,7 @@
                 x-text="cartItemsCount"
                 class="absolute z-[100] top-4 -right-3 py-[2px] px-[8px] rounded-full bg-emerald-500"
               ></small>
-            </a>
+            </a> --}}
           </li>
         @if (!Auth::guest())
           <li x-data="{open: false}" class="relative">
