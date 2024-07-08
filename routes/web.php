@@ -1,11 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\LangController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CheckoutController;
 
 Route::middleware(['guestOrVerified'])->group(function () {
     Route::controller(ProductController::class)->group(function () {
@@ -41,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/orders/view/{order}', 'view')->name('order.view');
     });
 });
+
+Route::post('/lang/{locale}', [LangController::class, 'lang'])->name('public.lang');
 
 Route::post('/webhook/stripe', [CheckoutController::class, 'webhook'])->name('webhook.stripe');
 

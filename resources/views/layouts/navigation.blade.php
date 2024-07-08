@@ -7,10 +7,12 @@
     id="header"
     class="fixed top-0 left-0 z-50 w-full flex justify-between items-center bg-slate-800 shadow-md text-white"
     >
-      <div>
+      <div class="flex items-center space-x-5">
         <a href="{{ route('home') }}" class="block py-navbar-item pl-5"> 
           <img class="w-[250px]" src="/img/logo.png" alt="Teknofibra Logo">
         </a>
+        <x-locale lang='it' nation='it' />
+        <x-locale lang='en' nation='gb' />
       </div>
       <!-- Responsive Menu -->
       <div
@@ -72,7 +74,7 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-                Il Mio Account
+                {{ __('ui.myaccount') }}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +113,7 @@
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                   </svg>
-                  Il Mio Profilo
+                  {{ __('ui.myprofile') }}
                 </a>
               </li>
               
@@ -134,7 +136,7 @@
                       d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
                     />
                   </svg>
-                  I Miei Ordini
+                  {{ __('ui.myorders') }}
                 </a>
               </li>
               <li class="hover:bg-slate-900">
@@ -155,7 +157,7 @@
                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                             />
                         </svg>
-                        Esci
+                        {{ __('ui.logout') }}
                     </button>
                 </form>
               </li>
@@ -181,7 +183,7 @@
                   d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                 />
               </svg>
-              Accedi
+              {{ __('ui.login') }}
             </a>
           </li>
           <li class="px-3 py-3">
@@ -189,7 +191,7 @@
               href="{{ route('register') }}"
               class="block text-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors w-full"
             >
-              Registrati
+              {{ __('ui.signup') }}
             </a>
           </li>
         @endif
@@ -220,7 +222,7 @@
           }
         }">
             <form action="" method="GET" class="flex-1" @submit.prevent="updateUrl">
-                <x-text-input class="text-black" type="text" name="search" placeholder="Ricerca Prodotti"
+                <x-text-input class="text-black" type="text" name="search" placeholder="{{ __('ui.search') }}"
                         x-model="searchKeyword"/>
             </form>
             <x-text-input
@@ -229,12 +231,12 @@
                 type="select"
                 name="sort"
                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded text-black">
-                <option value="price">Prezzo (ASC)</option>
-                <option value="-price">Prezzo (DESC)</option>
-                <option value="title">Titolo (ASC)</option>
-                <option value="-title">Titolo (DESC)</option>
-                <option value="-updated_at">Ultimi Aggiornati in alto</option>
-                <option value="updated_at">Ultimi Aggiornati in basso</option>
+                <option value="price">{{ __('ui.price') }}</option>
+                <option value="-price">{{ __('ui.-price') }}</option>
+                <option value="title">{{ __('ui.name') }}</option>
+                <option value="-title">{{ __('ui.-name') }}</option>
+                <option value="-updated_at">{{ __('ui.date') }}</option>
+                <option value="updated_at">{{ __('ui.-date') }}</option>
             </x-text-input>
         </div>
       @endif
@@ -293,7 +295,7 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-                Il Mio Account
+                {{ __('ui.myaccount') }}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -334,7 +336,7 @@
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                   </svg>
-                  Il Mio Profilo
+                  {{ __('ui.myprofile') }}
                 </a>
               </li>
               
@@ -357,7 +359,7 @@
                       d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
                     />
                   </svg>
-                  I Miei Ordini
+                  {{ __('ui.myorders') }}
                 </a>
               </li>
               <li>
@@ -378,7 +380,7 @@
                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                             />
                         </svg>
-                        Esci
+                        {{ __('ui.logout') }}
                     </button>
                 </form>
               </li>
@@ -404,7 +406,7 @@
                   d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                 />
               </svg>
-              Accedi
+              {{ __('ui.login') }}
             </a>
           </li>
 
@@ -413,7 +415,7 @@
               href="{{ route('register') }}"
               class="inline-flex items-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors mx-5"
             >
-              Registrati
+              {{ __('ui.signup') }}
             </a>
           </li>
         @endif

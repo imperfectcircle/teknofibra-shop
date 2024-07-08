@@ -2,9 +2,9 @@
     <div class="grid grid-cols-1 md:grid-cols-3 h-fit">
         <div class="bg-slate-500 p-10 space-y-5 text-white">
             <img src="/img/logo.png" alt="Logo Teknofibra">
-            <p>TeKnofibra è un'azienda italiana leader nel settore dell'isolamento termico avanzato, offrendo soluzioni innovative per vari settori tra cui l'automobilismo, l'aviazione e il motociclismo. I nostri prodotti sono progettati per proteggere le parti più delicate dei veicoli e migliorare l'efficienza energetica. Grazie alla loro leggerezza e flessibilità, le soluzioni di TeKnofibra sono apprezzate dalle migliori squadre di corsa e da numerosi marchi prestigiosi in tutto il mondo​.</p>
-            <h2 class="text-2xl font-semibold">Metodi di Pagamento</h2>
-            <p>La sicurezza dei tuoi pagamenti è la nostra priorità. Tutte le transazioni su questo sito vengono elaborate tramite Stripe, una delle piattaforme di pagamento online più affidabili e sicure al mondo. Stripe utilizza tecnologie avanzate di crittografia per proteggere i tuoi dati finanziari, garantendo che le tue informazioni personali rimangano riservate e al sicuro. Puoi effettuare i tuoi acquisti con la massima tranquillità, sapendo che le tue transazioni sono gestite in modo sicuro e professionale.</p>
+            <p>{{ __('ui.presentation') }}</p>
+            <h2 class="text-2xl font-semibold">{{ __('ui.payment_title') }}</h2>
+            <p>{{ __('ui.payment_methods') }}</p>
             <div class="flex space-x-3">
                 <svg class="icon icon--full-color" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="53" height="33" aria-labelledby="pi-visa"><title id="pi-visa">Visa</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"></path></svg>
 
@@ -16,7 +16,7 @@
         <div class="md:col-span-2 bg-slate-700 p-10 text-white">
             <div class="grid grid-cols-1 md:grid-cols-3">
                 <div class="flex flex-col items-center md:block">
-                    <h2 class="text-2xl font-semibold mb-3">Seguici su</h2>
+                    <h2 class="text-2xl font-semibold mb-3">{{ __('ui.follow') }}</h2>
                     <div class="space-y-3 flex flex-col">
                         <a class="space-x-3 flex items-center" href="">
                             <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="none" viewBox="0 0 24 24">

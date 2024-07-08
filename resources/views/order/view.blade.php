@@ -1,20 +1,20 @@
 <x-app-layout>
 
     <div class="container mx-auto lg:w-2/3 p-5">
-        <h1 class="text-3xl font-bold mb-2">Ordine #{{$order->id}}</h1>
+        <h1 class="text-3xl font-bold mb-2">{{ __('orders.order_number') }} {{$order->id}}</h1>
         <div class="bg-white rounded-lg p-3">
-            <table>
+            <table class="text-black">
                 <tbody>
                 <tr>
-                    <td class="font-bold py-1 px-2">Ordine #</td>
+                    <td class="font-bold py-1 px-2">{{ __('orders.order_number') }}</td>
                     <td>{{$order->id}}</td>
                 </tr>
                 <tr>
-                    <td class="font-bold py-1 px-2">Data dell'Ordine</td>
+                    <td class="font-bold py-1 px-2">{{ __('orders.order_date') }}</td>
                     <td>{{$order->created_at}}</td>
                 </tr>
                 <tr>
-                    <td class="font-bold py-1 px-2">Stato dell'Ordine</td>
+                    <td class="font-bold py-1 px-2">{{ __('orders.order_status') }}</td>
                     <td>
                         <span
                             class="text-white py-1 px-2 rounded {{$order->isPaid() ? 'bg-emerald-500' : 'bg-gray-400'}}">
@@ -23,7 +23,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-bold py-1 px-2">SubTotale</td>
+                    <td class="font-bold py-1 px-2">{{ __('orders.order_subtotal') }}</td>
                     <td>€ {{ $order->total_price }}</td>
                 </tr>
                 </tbody>
@@ -33,7 +33,7 @@
 
             @foreach($order->items()->with('product')->get() as $item)
                 <!-- Order Item -->
-                <div class="flex flex-col sm:flex-row items-center  gap-4">
+                <div class="flex flex-col sm:flex-row items-center  gap-4 text-black">
                     <a href="{{ route('product.view', $item->product) }}"
                         class="w-36 h-32 flex items-center justify-center overflow-hidden">
                         <img src="{{$item->product->image}}" class="object-cover" alt=""/>
@@ -45,7 +45,7 @@
                             </h3>
                         </div>
                         <div class="flex justify-between items-center">
-                            <div class="flex items-center">Qtà: {{$item->quantity}}</div>
+                            <div class="flex items-center">{{ __('orders.order_quantity') }}: {{$item->quantity}}</div>
                             <span class="text-lg font-semibold"> € {{$item->unit_price}} </span>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                                 d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
                             />
                         </svg>
-                        Effettua il Pagamento
+                        {{ __('orders.make_payment') }}
                     </button>
                 </form>
             @endif

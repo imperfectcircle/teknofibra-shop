@@ -49,14 +49,14 @@
                     }
                 }" action="{{ route('profile.update') }}" method="post">
                     @csrf
-                    <h2 class="text-xl font-semibold mb-2">Dettagli Profilo</h2>
+                    <h2 class="text-xl font-semibold mb-5 text-black">{{ __('profile.profile_details') }}</h2>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div class="">
                             <x-text-input
                             type="text"
                             name="first_name"
                             value="{{old('first_name', $customer->first_name)}}"
-                            placeholder="Nome"
+                            placeholder="{{ __('profile.profile_name') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
@@ -66,7 +66,7 @@
                             type="text"
                             name="last_name"
                             value="{{old('last_name', $customer->last_name)}}"
-                            placeholder="Cognomee"
+                            placeholder="{{ __('profile.profile_lastname') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
@@ -77,7 +77,7 @@
                             type="text"
                             name="email"
                             value="{{old('email', $user->email)}}"
-                            placeholder="Indirizzo Email"
+                            placeholder="{{ __('profile.profile_email') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -87,20 +87,20 @@
                             type="text"
                             name="phone"
                             value="{{old('phone', $customer->phone)}}"
-                            placeholder="Telefono"
+                            placeholder="{{ __('profile.profile_phone') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
 
-                    <h2 class="text-xl mt-6 font-semibold mb-2">Indirizzo di Fatturazione</h2>
+                    <h2 class="text-xl mt-6 font-semibold mb-2 text-black">{{ __('profile.billing_address') }}</h2>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
                             <x-text-input
                                 type="text"
                                 name="billing[address1]"
                                 x-model="billingAddress.address1"
-                                placeholder="Indirizzo"
+                                placeholder="{{ __('profile.profile_address') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('billing.address1')" class="mt-2" />
@@ -110,7 +110,7 @@
                                 type="text"
                                 name="billing[address2]"
                                 x-model="billingAddress.address2"
-                                placeholder="Num. Civico"
+                                placeholder="{{ __('profile.profile_number') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('billing.address2')" class="mt-2" />
@@ -122,7 +122,7 @@
                                 type="text"
                                 name="billing[city]"
                                 x-model="billingAddress.city"
-                                placeholder="Città"
+                                placeholder="{{ __('profile.profile_city') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('billing.city')" class="mt-2" />
@@ -132,7 +132,7 @@
                                 type="text"
                                 name="billing[zipcode]"
                                 x-model="billingAddress.zipcode"
-                                placeholder="CAP"
+                                placeholder="{{ __('profile.profile_zipcode') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('billing.zipcode')" class="mt-2" />
@@ -144,7 +144,7 @@
                                      name="billing[country_code]"
                                      x-model="billingAddress.country_code"
                                      class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
-                                <option value="">Seleziona il Paese</option>
+                                <option value="">{{ __('profile.profile_country') }}</option>
                                 <template x-for="country of countries" :key="country.code">
                                     <option :selected="country.code === billingAddress.country_code"
                                             :value="country.code" x-text="country.name"></option>
@@ -158,7 +158,7 @@
                                         name="billing[state]"
                                         x-model="billingAddress.state"
                                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
-                                    <option value="">Seleziona lo Stato</option>
+                                    <option value="">{{ __('profile.profile_state') }}</option>
                                     <template x-for="[code, state] of Object.entries(billingCountryStates)"
                                             :key="code">
                                         <option :selected="code === billingAddress.state"
@@ -172,7 +172,7 @@
                                     type="text"
                                     name="billing[state]"
                                     x-model="billingAddress.state"
-                                    placeholder="Stato/Provincia"
+                                    placeholder="{{ __('profile.profile_province') }}"
                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                                 />
                                 <x-input-error :messages="$errors->get('billing.state')" class="mt-2" />
@@ -181,11 +181,11 @@
                     </div>
 
                     <div class="flex justify-between mt-6 mb-2">
-                        <h2 class="text-xl font-semibold">Indirizzo di Spedizione</h2>
+                        <h2 class="text-xl font-semibold text-black">{{ __('profile.shipping_address') }}</h2>
                         <label for="sameAsBillingAddress" class="text-gray-700">
                             <input @change="$event.target.checked ? shippingAddress = {...billingAddress} : ''"
                                 id="sameAsBillingAddress" type="checkbox"
-                                class="text-purple-600 focus:ring-purple-600 mr-2"> Uguale all'indirizzo di Fatturazione
+                                class="text-purple-600 focus:ring-purple-600 mr-2"> {{ __('profile.same_as') }}
                         </label>
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
@@ -194,7 +194,7 @@
                                 type="text"
                                 name="shipping[address1]"
                                 x-model="shippingAddress.address1"
-                                placeholder="Indirizzo"
+                                placeholder="{{ __('profile.profile_address') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('shipping.address1')" class="mt-2" />
@@ -204,7 +204,7 @@
                                 type="text"
                                 name="shipping[address2]"
                                 x-model="shippingAddress.address2"
-                                placeholder="Num. civico"
+                                placeholder="{{ __('profile.profile_number') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('shipping.address2')" class="mt-2" />
@@ -216,7 +216,7 @@
                                 type="text"
                                 name="shipping[city]"
                                 x-model="shippingAddress.city"
-                                placeholder="Città"
+                                placeholder="{{ __('profile.profile_city') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('shipping.city')" class="mt-2" />
@@ -226,7 +226,7 @@
                                 name="shipping[zipcode]"
                                 x-model="shippingAddress.zipcode"
                                 type="text"
-                                placeholder="CAP"
+                                placeholder="{{ __('profile.profile_zipcode') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                             <x-input-error :messages="$errors->get('shipping.zipcode')" class="mt-2" />
@@ -238,7 +238,7 @@
                                      name="shipping[country_code]"
                                      x-model="shippingAddress.country_code"
                                      class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
-                                <option value="">Seleziona il Paese</option>
+                                <option value="">{{ __('profile.profile_country') }}</option>
                                 <template x-for="country of countries" :key="country.code">
                                     <option :selected="country.code === shippingAddress.country_code"
                                             :value="country.code" x-text="country.name"></option>
@@ -252,7 +252,7 @@
                                          name="shipping[state]"
                                          x-model="shippingAddress.state"
                                          class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
-                                    <option value="">Seleziona lo Stato</option>
+                                    <option value="">{{ __('profile.profile_state') }}</option>
                                     <template x-for="[code, state] of Object.entries(shippingCountryStates)"
                                               :key="code">
                                         <option :selected="code === shippingAddress.state"
@@ -266,7 +266,7 @@
                                     type="text"
                                     name="shipping[state]"
                                     x-model="shippingAddress.state"
-                                    placeholder="Stato/Provincia"
+                                    placeholder="{{ __('profile.profile_province') }}"
                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                                 />
                                 <x-input-error :messages="$errors->get('shipping.state')" class="mt-2" />
@@ -274,18 +274,18 @@
                         </div>
                     </div>
 
-                    <x-primary-button class="w-full">Aggiorna</x-primary-button>
+                    <x-primary-button class="w-full">{{ __('profile.profile_update') }}</x-primary-button>
                 </form>
             </div>
             <div class="bg-white p-3 shadow rounded-lg">
                 <form action="{{route('profile_password.update')}}" method="post">
                     @csrf
-                    <h2 class="text-xl font-semibold mb-2">Aggiona Password</h2>
+                    <h2 class="text-xl font-semibold mb-2 text-black">{{ __('profile.update_password') }}</h2>
                     <div class="mb-3">
                         <x-text-input
                             type="password"
                             name="old_password"
-                            placeholder="La Password Attuale"
+                            placeholder="{{ __('profile.current_password') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                         <x-input-error :messages="$errors->get('old_password')" class="mt-2" />
@@ -294,7 +294,7 @@
                         <x-text-input
                             type="password"
                             name="new_password"
-                            placeholder="Nuova Password"
+                            placeholder="{{ __('profile.new_password') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                         <x-input-error :messages="$errors->get('new_password')" class="mt-2" />
@@ -303,11 +303,11 @@
                         <x-text-input
                             type="password"
                             name="new_password_confirmation"
-                            placeholder="Conferma la nuova Password"
+                            placeholder="{{ __('profile.confirm_password') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                     </div>
-                    <x-primary-button>Aggiorna</x-primary-button>
+                    <x-primary-button>{{ __('profile.update_password') }}</x-primary-button>
                 </form>
             </div>
         </div>
