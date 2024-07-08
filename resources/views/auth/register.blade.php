@@ -5,13 +5,13 @@
         class="w-[400px] mx-auto p-6 my-16"
       >
       @csrf
-        <h2 class="text-2xl font-semibold text-center mb-4">Crea un nuovo account</h2>
+        <h2 class="text-2xl font-semibold text-center mb-4">{{ __('register.create_new_account') }}</h2>
         <p class="text-center text-white mb-3">
-          oppure
+          {{ __('register.or') }}
           <a
             href="{{ route('login') }}"
             class="text-sm text-white hover:text-gray-300 transition-color underline"
-            >Accedi con un account esistente</a
+            >{{ __('register.login_to_account') }}</a
           >
         </p>
 
@@ -22,7 +22,7 @@
         @endif
         <div class="mb-4">
           <x-text-input
-            placeholder="Nome e Cognome"
+            placeholder="{{ __('register.name') }}"
             type="text"
             name="name"
             :value="old('name')"
@@ -32,7 +32,7 @@
         </p>
         <div class="mb-4">
           <x-text-input
-            placeholder="Il tuo indirizzo email"
+            placeholder="{{ __('register.email') }}"
             type="email"
             name="email"
             :value="old('email')"
@@ -41,7 +41,7 @@
         </div>
         <div class="mb-4">
           <x-text-input
-            placeholder="Password"
+            placeholder="{{ __('register.password') }}"
             type="password"
             name="password"
           />
@@ -50,7 +50,7 @@
         </div>
         <div class="mb-4">
           <x-text-input
-            placeholder="Ripeti la password"
+            placeholder="{{ __('register.confirm_password') }}"
             type="password"
             name="password_confirmation"
           />
@@ -60,7 +60,7 @@
         <button
           class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full"
         >
-          Registrati
+        {{ __('register.register') }}
         </button>
       </form>
 </x-guest-layout>

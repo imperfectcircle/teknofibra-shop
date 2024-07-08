@@ -2,14 +2,14 @@
     <form action="{{ route('password.email') }}" method="post" class="w-[400px] mx-auto p-6 my-16">
         @csrf
         <h2 class="text-2xl font-semibold text-center mb-5">
-            Inserisci la tua email per ottenere un link di reset 
+            {{ __('forgot.enter_email') }}
         </h2>
-        <p class="text-center text-gray-500 mb-6">
-          o
+        <p class="text-center text-sm text-white mb-6">
+          {{ __('register.or') }}
           <a
             href="{{ route('login') }}"
-            class="text-purple-600 hover:text-purple-500"
-            >Accedi con un account esistente</a
+            class="text-white text-sm underline hover:text-gray-300 transition-color"
+            >{{ __('register.login_to_account') }}</a
           >
         </p>
 
@@ -23,14 +23,14 @@
             :value="old('email')"
             required
             autofocus
-            placeholder="Il tuo indirizzo email"
+            placeholder="{{ __('forgot.email') }}"
           />
           <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
         <button
           class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full"
         >
-          Invia
+        {{ __('forgot.send_password_reset_link') }}
         </button>
       </form>
 </x-app-layout>
