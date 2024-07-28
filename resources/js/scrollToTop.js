@@ -32,29 +32,30 @@ if (document.querySelector("#scrollTop")) {
         scrollFunction();
     };
 
-    scrolltop.addEventListener("click", () => {
-        document.body.scrollTop = 0; // Safari
-        document.documentElement.scrollTop = 0;
-    });
+    const easeOutQuad = (t) => t * (2 - t);
 
-    // const scrolltop = document.querySelector("#scrollTop");
-    // const scrollFunction = () => {
-    //     if (
-    //         document.body.scrollTop > 100 ||
-    //         document.documentElement.scrollTop > 100
-    //     ) {
-    //         scrolltop.classList.remove("opacity-0", "cursor-default");
-    //         scrolltop.classList.add("opacity-100", "cursor-pointer");
-    //     } else {
-    //         scrolltop.classList.remove("opacity-100", "cursor-pointer");
-    //         scrolltop.classList.add("opacity-0", "cursor-default");
-    //     }
-    // };
-    // window.onscroll = () => {
-    //     scrollFunction();
-    // };
-    // scrolltop.addEventListener("click", () => {
-    //     document.body.scrollTop = 0; // Safari
-    //     document.documentElement.scrollTop = 0;
-    // });
+    const scrollToTop = () => {
+        const start =
+            document.documentElement.scrollTop || document.body.scrollTop;
+        const duration = 500;
+        const startTime = performance.now();
+
+        const animateScroll = (currentTime) => {
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1); // Ensure the progress does not exceed 1
+            const ease = easeOutQuad(progress);
+            const currentScroll = start * (1 - ease);
+
+            document.body.scrollTop = currentScroll; // For Safari
+            document.documentElement.scrollTop = currentScroll;
+
+            if (progress < 1) {
+                requestAnimationFrame(animateScroll);
+            }
+        };
+
+        requestAnimationFrame(animateScroll);
+    };
+
+    scrolltop.addEventListener("click", scrollToTop);
 }
