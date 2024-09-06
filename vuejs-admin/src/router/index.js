@@ -17,6 +17,7 @@ import Report from "../views/Reports/Report.vue";
 import OrdersReport from "../views/Reports/OrdersReport.vue";
 import CustomersReport from "../views/Reports/CustomersReport.vue";
 import ProductForm from "../views/Products/ProductForm.vue";
+import ShippingCosts from "../views/ShippingCosts/ShippingCosts.vue";
 
 const routes = [
     {
@@ -83,6 +84,11 @@ const routes = [
                 path: "customers/:id",
                 name: "app.customers.view",
                 component: CustomerView,
+            },
+            {
+                path: "shipping-costs",
+                name: "app.shipping-costs",
+                component: ShippingCosts,
             },
             {
                 path: "/report",
