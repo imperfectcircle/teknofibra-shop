@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div class="lg:col-span-2 md:w-9/12">
-                <h1 class="text-2xl uppercase font-semibold pb-5">
+                <h1 class="text-2xl font-semibold pb-5">
                     {{$product->title}}
                 </h1>
                 <div class="border-t-2 border-gray-300"></div>

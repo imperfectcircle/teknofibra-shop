@@ -27,6 +27,7 @@
             get cartTotal() {
                 return this.cartItems.reduce((accum, next) => accum + next.price * next.quantity, 0).toFixed(2)
             },
+            shippingCost: {{ $shippingCost }},
         }" class="bg-white p-4 rounded-lg shadow">
         <h2 class="title">Cart</h2>
             <!-- Product Items -->
@@ -75,13 +76,18 @@
                     <!-- Product Item -->
 
                     <div class="border-t border-gray-300 pt-4">
-                        <div class="flex justify-between">
+                        <div class="flex justify-between text-black">
                             <span class="font-semibold">Subtotale</span>
-                            <span id="cartTotal" class="text-xl" x-text="`€${cartTotal}`"></span>
+                            <span id="cartSubtotal" class="text-xl" x-text="`€${cartTotal}`"></span>
                         </div>
-                        <p class="text-gray-500 mb-6">
-                            Spedizione e tasse calcolate al momento del pagamento.
-                        </p>
+                        <div class="flex justify-between mt-2 text-black">
+                            <span class="font-semibold">Spese di spedizione</span>
+                            <span id="shippingCost" class="text-xl" x-text="`€${shippingCost.toFixed(2)}`"></span>
+                        </div>
+                        <div class="flex justify-between mt-2 mb-3 text-black">
+                            <span class="font-semibold">Totale</span>
+                            <span id="cartTotal" class="text-xl" x-text="`€${(parseFloat(cartTotal) + parseFloat(shippingCost)).toFixed(2)}`"></span>
+                        </div>
                         <form action="{{ route('checkout') }}" method="post">
                             @csrf
                             <button type="submit" class="btn-primary w-full py-3 text-lg">

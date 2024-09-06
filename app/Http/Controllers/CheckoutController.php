@@ -10,11 +10,12 @@ use App\Models\OrderItem;
 use App\Enums\OrderStatus;
 use App\Mail\NewOrderEmail;
 use App\Enums\PaymentStatus;
+use App\Models\ShippingCost;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Helpers\CartHelper as Cart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Helpers\CartHelper as Cart;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CheckoutController extends Controller
@@ -79,6 +80,21 @@ class CheckoutController extends Controller
             $product->save();
         }
 
+        $shippingCost = $this->calculateShippingCost($customer->shippingAddress->country_code);
+        
+
+        // Aggiungiamo le spese di spedizione come un elemento separato in Stripe
+        $lineItems[] = [
+            'price_data' => [
+                'currency' => 'eur',
+                'product_data' => [
+                    'name' => 'Spese di spedizione',
+                ],
+                'unit_amount_decimal' => $shippingCost * 100,
+            ],
+            'quantity' => 1,
+        ];
+
         $checkout_session = $stripe->checkout->sessions->create([
             'line_items' => $lineItems,
             'mode' => 'payment',
@@ -87,13 +103,12 @@ class CheckoutController extends Controller
             'customer_creation' => 'always',
         ]);
 
-        
-            // Create Order
             $orderData = [
                 'total_price' => $totalPrice,
                 'status' => OrderStatus::Unpaid,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
+                'shipping_cost' => $shippingCost,
             ];
 
             $order = Order::create($orderData);
@@ -228,15 +243,17 @@ class CheckoutController extends Controller
         // Handle the event
         switch ($event->type) {
             case 'checkout.session.completed':
-                $paymentIntent = $event->data->object;
-                $sessionId = $paymentIntent['id'];
+                $session = $event->data->object;
+                $sessionId = $session->id;
 
-                $payment = Payment::query()->where(['session_id' => $sessionId, 'status' => PaymentStatus::Pending])->first();
+                $payment = Payment::where('session_id', $sessionId)->first();
                 if ($payment) {
-                    $this->updateOrderAndSession($payment);
+                    $order = $payment->order;
+                    $order->update(['status' => OrderStatus::Paid]);
+                    $payment->update(['status' => PaymentStatus::Paid]);
                 }
-
-        // ... handle other event types
+                break;
+            // ... handle other event types
             default:
                 echo 'Received unknown event type ' . $event->type;
         }
@@ -276,5 +293,11 @@ class CheckoutController extends Controller
 
     public function sendcloud() {
         return response('', 200);
+    }
+
+    public function calculateShippingCost($countryCode)
+    {
+        $shippingCost = ShippingCost::where('country_code', $countryCode)->first();
+        return $shippingCost ? $shippingCost->cost : 0;
     }
 }

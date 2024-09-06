@@ -34,7 +34,7 @@ class ProductController extends Controller
     private function renderProducts(Builder $query)
     {
         $search = \request()->get('search');
-        $sort = \request()->get('sort', '-updated_at');
+        $sort = \request()->get('sort', 'title');
 
         if ($sort) {
             $sortDirection = 'asc';
