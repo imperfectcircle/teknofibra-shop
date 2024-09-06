@@ -44,9 +44,9 @@
                                 {{$item->product->title}}
                             </h3>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center">{{ __('orders.order_quantity') }}: {{$item->quantity}}</div>
-                            <span class="text-lg font-semibold"> € {{$item->unit_price}} </span>
+                        <div class="flex justify-between items-center space-x-3">
+                            <div class="flex items-center "><p>{{ __('orders.order_quantity') }}: {{$item->quantity}}</p></div>
+                            <div class="text-lg font-semibold"> € {{$item->unit_price}} </div>
                         </div>
                     </div>
                 </div>

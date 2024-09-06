@@ -104,7 +104,7 @@ class CheckoutController extends Controller
         ]);
 
             $orderData = [
-                'total_price' => $totalPrice,
+                'total_price' => $totalPrice, // Questo dovrebbe essere solo il totale dei prodotti
                 'status' => OrderStatus::Unpaid,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
@@ -196,13 +196,29 @@ class CheckoutController extends Controller
                     'currency' => 'eur',
                     'product_data' => [
                         'name' => $item->product->title,
-//                        'images' => [$product->image]
+                        //'images' => [$item->product->image]
                     ],
-                    'unit_amount_decimal' => $item->unit_price * 100,
+                    'unit_amount' => $item->unit_price * 100,
                 ],
                 'quantity' => $item->quantity,
             ];
         }
+
+        // Aggiungi le spese di spedizione come elemento separato
+        if ($order->shipping_cost > 0) {
+            $lineItems[] = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => 'Spese di spedizione',
+                    ],
+                    'unit_amount' => $order->shipping_cost * 100,
+                ],
+                'quantity' => 1,
+            ];
+        }
+
+        $totalAmount = $order->total_price + $order->shipping_cost;
 
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $lineItems,
@@ -213,8 +229,8 @@ class CheckoutController extends Controller
         ]);
 
         $order->payment->session_id = $session->id;
+        $order->payment->amount = $totalAmount;
         $order->payment->save();
-
 
         return redirect($session->url);
     }
@@ -250,7 +266,10 @@ class CheckoutController extends Controller
                 if ($payment) {
                     $order = $payment->order;
                     $order->update(['status' => OrderStatus::Paid]);
-                    $payment->update(['status' => PaymentStatus::Paid]);
+                    $payment->update([
+                        'status' => PaymentStatus::Paid,
+                        'total_amount' => $session->amount_total / 100, // Aggiorna il totale pagato
+                    ]);
                 }
                 break;
             // ... handle other event types

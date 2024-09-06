@@ -6,6 +6,7 @@ return [
     'order_date' => 'Data Ordine',
     'order_status' => 'Stato Ordine',
     'order_subtotal' => 'SubTotale',
+    'order_shipping_costs' => 'Spese di Spedizione',
     'order_items' => 'Articoli',
     'order_actions' => 'Azioni',
     'pay' => 'Paga',

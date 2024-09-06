@@ -15,6 +15,7 @@
                         <th class="text-left p-2">{{ __('orders.order_date') }}</th>
                         <th class="text-left p-2">{{ __('orders.order_status') }}</th>
                         <th class="text-left p-2">{{ __('orders.order_subtotal') }}</th>
+                        <th class="text-left p-2">{{ __('orders.order_shipping_costs') }}</th>
                         <th class="text-left p-2">{{ __('orders.order_items') }}</th>
                         <th class="text-left p-2">{{ __('orders.order_actions') }}</th>
                     </tr>
@@ -39,6 +40,7 @@
                                 >
                             </td>
                             <td class="py-1 px-2">€ {{$order->total_price}}</td>
+                            <td class="py-1 px-2">€ {{$order->shipping_cost}}</td>
                             <td class="py-1 px-2 whitespace-nowrap">{{$order->items_count}} {{ __('orders.order_items') }}</td>
                             <td class="py-1 px-2 flex gap-2 w-[100px]">
                                 @if (!$order->isPaid())
