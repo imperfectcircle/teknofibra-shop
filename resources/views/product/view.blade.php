@@ -40,7 +40,7 @@
                                     x-show="activeImage === image"
                                     class="aspect-w-3 aspect-h-2"
                                 >
-                                    <img :src="image" alt="" class="w-auto mx-auto"/>
+                                    <img :src="image" alt="{{ app()->getLocale() == 'en' ? $product->title_en : $product->title }}" class="w-auto mx-auto"/>
                                 </div>
                             </template>
                         @else
@@ -48,7 +48,7 @@
                             
                             class="aspect-w-3 aspect-h-2"
                             >
-                            <img src="/img/noimage.png" alt="" class="w-auto mx-auto"/>
+                            <img src="/img/noimage.png" alt="No Image Picture" class="w-auto mx-auto"/>
                             </div>
                         @endif
                         <a
@@ -105,14 +105,14 @@
             </div>
             <div class="lg:col-span-2 md:w-9/12">
                 <h1 class="text-2xl font-semibold pb-5">
-                    {{$product->title}}
+                    {{ app()->getLocale() == 'en' ? $product->title_en : $product->title }}
                 </h1>
                 <div class="border-t-2 border-gray-300"></div>
                 <div class="mb-6">
                     <div
                         class="wysiwyg-content pt-5"
                     >
-                        {!! $product->description !!}
+                        {!! app()->getLocale() == 'en' ? $product->description_en : $product->description !!}
                     </div>
                     
                 </div>
@@ -125,18 +125,21 @@
                 @endif
                 <div class="mb-5">
                     <label for="quantity" class="block font-bold mr-4">
-                        Qt.à
+                        {{ __('cart.quantity') }}
                     </label>
-                    <input
+                    <div class="flex items-end">
+                        <input
                         :disabled="product.quantity <= 0"
                         type="number"
                         name="quantity"
                         x-ref="quantityEl"
                         value="1"
                         min="1"
-                        class="w-32 focus:border-purple-500 focus:outline-none rounded text-black"
+                        class="w-32 focus:border-purple-500 focus:outline-none rounded text-black mr-3"
                         :class="product.quantity <= 0 ? 'bg-gray-300' : 'bg-white'"
                     />
+                    <p>mt/pz.</p>
+                    </div>
                 </div>
                 <button
                     :disabled="product.quantity <= 0"

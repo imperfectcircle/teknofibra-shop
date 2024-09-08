@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
-        <h1 class="text-3xl font-bold mb-6">I tuoi articoli nel carello</h1>
+        <h1 class="text-3xl font-bold mb-6">{{ __('cart.title') }}</h1>
 
         @if (session('error'))
             <div class="py-2 px-3 bg-red-500 text-white mb-3 rounded text-center">
@@ -16,6 +16,7 @@
                         'slug' => $product->slug,
                         'image' => $product->image,
                         'title' => $product->title,
+                        'title_en' => $product->title_en,
                         'price' => $product->price,
                         'quantity' => $cartItems[$product->id]['quantity'],
                         'href' => route('product.view', $product->slug),
@@ -44,14 +45,14 @@
                                 </a>
                                 <div class="flex flex-col justify-between flex-1 text-black">
                                     <div class="flex justify-between mb-3">
-                                        <h3 x-text="product.title"></h3>
+                                        <h3 x-text="{{ app()->getLocale() == 'en' ? 'product.title_en' : 'product.title' }}"></h3>
                                         <span class="text-lg font-semibold">
                                             €<span x-text="product.price"></span>
                                         </span>
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <div class="flex items-center">
-                                            Qtà:
+                                            {{ __('cart.quantity') }}:
                                             <input
                                                 type="number"
                                                 min="1"
@@ -64,7 +65,7 @@
                                             href="#"
                                             @click.prevent="removeItemFromCart()"
                                             class="text-purple-600 hover:text-purple-500"
-                                        >Rimuovi</a
+                                        >{{ __('cart.remove') }}</a
                                         >
                                     </div>
                                 </div>
@@ -77,21 +78,21 @@
 
                     <div class="border-t border-gray-300 pt-4">
                         <div class="flex justify-between text-black">
-                            <span class="font-semibold">Subtotale</span>
+                            <span class="font-semibold">{{ __('cart.subtotal') }}</span>
                             <span id="cartSubtotal" class="text-xl" x-text="`€${cartTotal}`"></span>
                         </div>
                         <div class="flex justify-between mt-2 text-black">
-                            <span class="font-semibold">Spese di spedizione</span>
+                            <span class="font-semibold">{{ __('cart.shipping_costs') }}</span>
                             <span id="shippingCost" class="text-xl" x-text="`€${shippingCost.toFixed(2)}`"></span>
                         </div>
                         <div class="flex justify-between mt-2 mb-3 text-black">
-                            <span class="font-semibold">Totale</span>
+                            <span class="font-semibold">{{ __('cart.total') }}</span>
                             <span id="cartTotal" class="text-xl" x-text="`€${(parseFloat(cartTotal) + parseFloat(shippingCost)).toFixed(2)}`"></span>
                         </div>
                         <form action="{{ route('checkout') }}" method="post">
                             @csrf
                             <button type="submit" class="btn-primary w-full py-3 text-lg">
-                                Procedi al Pagamento
+                                {{ __('cart.payment') }}
                             </button>
                         </form>
                     </div>

@@ -80,7 +80,7 @@
   </div>
 
   @if (!Route::is('cart.index'))
-    <div class="z-20 fixed bottom-20 right-5 md:bottom-32 md:right-10 rounded-full bg-white p-2 shadow transition-all duration-200" x-data="{
+    <div class="z-20 fixed bottom-20 right-5 md:bottom-32 md:right-10 rounded-full bg-gray-200 p-2 shadow transition-all duration-200" x-data="{
       mobileMenuOpen: false,
       cartItemsCount: {{ \App\Http\Helpers\CartHelper::getCartItemsCount() }},
     }"

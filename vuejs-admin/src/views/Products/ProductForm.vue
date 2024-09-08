@@ -16,19 +16,40 @@
         <form v-if="!loading" @submit.prevent="onSubmit">
             <div class="grid grid-cols-3">
                 <div class="col-span-2 px-4 pt-5 pb-4">
-                    <CustomInput
-                        class="mb-2"
-                        v-model="product.title"
-                        label="Titolo"
-                        :errors="errors['title']"
-                    />
-                    <CustomInput
-                        type="richtext"
-                        class="mb-2"
-                        v-model="product.description"
-                        label="Descrizione"
-                        :errors="errors['description']"
-                    />
+                    <div class="pb-3">
+                        <h1 class="font-semibold text-2xl mb-3">Italiano</h1>
+                        <CustomInput
+                            class="mb-2"
+                            v-model="product.title"
+                            label="Titolo"
+                            :errors="errors['title']"
+                        />
+
+                        <CustomInput
+                            type="richtext"
+                            class="mb-2"
+                            v-model="product.description"
+                            label="Descrizione"
+                            :errors="errors['description']"
+                        />
+                    </div>
+                    <div class="pb-3">
+                        <h1 class="font-semibold text-2xl mb-3">Inglese</h1>
+                        <CustomInput
+                            class="mb-2"
+                            v-model="product.title_en"
+                            label="Titolo Inglese"
+                            :errors="errors['title_en']"
+                        />
+
+                        <CustomInput
+                            type="richtext"
+                            class="mb-2"
+                            v-model="product.description_en"
+                            label="Descrizione Inglese"
+                            :errors="errors['description_en']"
+                        />
+                    </div>
                     <CustomInput
                         type="number"
                         class="mb-2"
@@ -37,6 +58,7 @@
                         prepend="€"
                         :errors="errors['price']"
                     />
+
                     <CustomInput
                         type="number"
                         class="mb-2"
@@ -114,10 +136,12 @@ const router = useRouter();
 const product = ref({
     id: null,
     title: null,
+    title_en: null,
     images: [],
     deleted_images: [],
     image_positions: {},
     description: "",
+    description_en: "",
     price: null,
     quantity: null,
     published: false,

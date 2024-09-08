@@ -67,7 +67,7 @@ document.addEventListener("alpine:init", () => {
                     .then((result) => {
                         this.$dispatch("cart-change", { count: result.count });
                         this.$dispatch("notify", {
-                            message: "Aticolo aggiunto al carrello",
+                            message: "Articolo aggiunto al carrello",
                         });
                     })
                     .catch((response) => {

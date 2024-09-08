@@ -98,13 +98,13 @@ $categoryList = \App\Models\Category::getActiveAsTree();
                             </div>
                             @endif
                             <div class="relative rounded-lg bg-white w-[320px] max-h-[240px] flex items-center justify-center">
-                                <img class="rounded-lg max-h-[240px] w-[320px] object-contain" src="{{ $product->image ?: '/img/noimage.png' }}" alt="{{ $product->title }}" />
+                                <img class="rounded-lg max-h-[240px] w-[320px] object-contain" src="{{ $product->image ?: '/img/noimage.png' }}" alt="{{ app()->getLocale() == 'en' ? $product->title_en : $product->title }}" />
                             </div>
                         
                     </a>
                     <div class="card-content p-5 text-white relative z-0">
                         <a href="{{ route('product.view', $product->slug) }}">
-                            <h5 class="mb-2 text-lg font-bold tracking-tight">{{ Str::limit($product->title, 100) }}</h5>
+                            <h5 class="mb-2 text-lg font-bold tracking-tight">{{ app()->getLocale() == 'en' ? Str::limit($product->title_en, 100) : Str::limit($product->title, 100) }}</h5>
                         </a>
                         <p class="mb-3 font-normal text-lg">€ {{ $product->price }}</p>
                         

@@ -23,6 +23,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'title' => 'required|max:2000',
+            'title_en' => 'required|max:2000',
             'images.*' => 'nullable|image',
             'deleted_images.*' => 'nullable|numeric',
             'image_positions.*' => 'nullable|numeric',
@@ -30,6 +31,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|numeric|min:0.01',
             'quantity' => 'nullable|numeric|min:0',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'published' => 'required|boolean',
         ];
     }
@@ -39,11 +41,14 @@ class ProductRequest extends FormRequest
         return [
             'title.required' => 'Il campo titolo è un campo obbligatorio',
             'title.max' => 'Il campo titolo deve avere massimo 2000 caratteri',
+            'title_en.required' => 'Il campo titolo inglese è un campo obbligatorio',
+            'title_en.max' => 'Il campo titolo inglese deve avere massimo 2000 caratteri',
             'images.image' => 'Inserisci un immagine con formato valido (jpg, jpeg, png, bmp, svg o webp)',
             'price.required' => 'Il campo prezzo è un campo obbligatorio',
             'price.numeric' => 'Il campo prezzo deve essere un numero',
             'quantity.numeric' => 'Il campo quantità deve essere un numero',
             'description.string' => 'Il campo descrizione deve essere una stringa',
+            'description_en.string' => 'Il campo descrizione inglese deve essere una stringa',
         ];
     }
 }
