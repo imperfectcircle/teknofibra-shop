@@ -66,6 +66,15 @@
             <span> Spese di Spedizione </span>
         </router-link>
         <router-link
+            :to="{ name: 'app.discount-codes' }"
+            class="flex items-center py-1 px-2 rounded transition-colors hover:bg-black/30"
+        >
+            <span class="mr-2">
+                <ReceiptPercentIcon class="w-6" />
+            </span>
+            <span> Codici Sconto </span>
+        </router-link>
+        <router-link
             :to="{ name: 'reports.orders' }"
             class="flex items-center py-1 px-2 rounded transition-colors hover:bg-black/30"
         >
@@ -87,6 +96,7 @@ import {
     ChartBarIcon,
     ClipboardDocumentListIcon,
     TicketIcon,
+    ReceiptPercentIcon,
 } from "@heroicons/vue/24/outline";
 </script>
 

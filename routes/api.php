@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\ShippingCostController;
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -51,6 +52,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::get('/shipping-costs', 'index');
         Route::post('/shipping-costs-update', 'update');
     });
+
+    Route::apiResource('discount-codes', DiscountController::class)->except('show');
 });
 
 Route::post('/login', [AuthController::class, 'login']);
