@@ -76,7 +76,7 @@ $categoryList = \App\Models\Category::getActiveAsTree();
                 </div>
                 <div class="flex flex-col items-center md:block space-y-5">
                     <h2 class="text-2xl font-semibold mb-3">{{ __('footer.furtherinfo') }}</h2>
-                    <a href="" class="block">{{ __('footer.customerservice') }}</a>
+                    <a href="{{ route('support') }}" class="block">{{ __('footer.customerservice') }}</a>
                     <a href="" class="block">{{ __('footer.shipping') }}</a>
                     <a href="" class="block">{{ __('footer.cookie') }}</a>
                     <a href="" class="block">{{ __('footer.privacy') }}</a>

@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\SupportController;
 
 Route::middleware(['guestOrVerified'])->group(function () {
     Route::controller(ProductController::class)->group(function () {
@@ -24,6 +25,11 @@ Route::middleware(['guestOrVerified'])->group(function () {
             Route::post('/remove/{product:slug}', 'remove')->name('remove');
             Route::post('/update-quantity/{product:slug}', 'updateQuantity')->name('update-quantity');
         });
+    });
+    
+    Route::controller(SupportController::class)->group(function () {
+        Route::get('/support', 'index')->name('support');
+        Route::post('/support/submit', 'submit')->name('support.submit');
     });
 });
 
