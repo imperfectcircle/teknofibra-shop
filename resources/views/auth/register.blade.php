@@ -2,7 +2,7 @@
     <form
         action="{{ route('register') }}"
         method="post"
-        class="w-[400px] mx-auto p-6 my-16"
+        class="max-w-[400px] mx-auto p-6 my-16"
       >
       @csrf
         <h2 class="text-2xl font-semibold text-center mb-4">{{ __('register.create_new_account') }}</h2>
