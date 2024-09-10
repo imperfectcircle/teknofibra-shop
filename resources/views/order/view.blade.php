@@ -23,17 +23,24 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-bold py-1 px-2">{{ __('orders.order_subtotal') }}</td>
-                    <td>€ {{ $order->total_price }}</td>
-                </tr>
-                <tr>
                     <td class="font-bold py-1 px-2">{{ __('cart.shipping_costs') }}</td>
                     <td>€ {{ $order->shipping_cost }}</td>
                 </tr>
+                @if($order->discount > 0)
+                <tr>
+                    <td class="font-bold py-1 px-2">{{ __('cart.discount') }}</td>
+                    <td>- € {{ $order->discount }}</td>
+                </tr>
+                @endif
                 <tr>
                     <td class="font-bold py-1 px-2">{{ __('cart.total') }}</td>
-                    <td>€ {{ $order->shipping_cost + $order->total_price }}</td>
+                    <td>€ {{ $order->total_price }}</td>
                 </tr>
+                
+                {{-- <tr>
+                    <td class="font-bold py-1 px-2">{{ __('cart.total') }}</td>
+                    <td>€ {{ $order->shipping_cost + $order->total_price }}</td>
+                </tr> --}}
                 </tbody>
             </table>
 

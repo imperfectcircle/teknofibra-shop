@@ -10,4 +10,5 @@ return [
     'payment' => 'Proceed to Checkout',
     'no_items' => 'You have no items in your cart',
     'login_to_continue' => 'Login to Continue',
+    'discount' => 'Discount Applied',
 ];
