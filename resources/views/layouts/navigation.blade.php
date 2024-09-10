@@ -11,6 +11,9 @@
         <a href="{{ route('home') }}" class="block py-navbar-item pl-5"> 
           <img class="w-[250px]" src="/img/logo.png" alt="Teknofibra Logo">
         </a>
+        <a href="{{ route('home') }}" class="hidden md:block py-navbar-item pl-5"> 
+          Home
+        </a>
         <x-locale lang='it' nation='it' />
         <x-locale lang='en' nation='gb' />
       </div>
@@ -20,6 +23,9 @@
         :class="mobileMenuOpen ? 'left-0' : '-left-[220px]'"
       >
         <ul>
+          <a href="{{ route('home') }}" class="block py-navbar-item pl-5"> 
+            Home
+          </a>
         @if (!Auth::guest())
           <li x-data="{open: false}" class="relative">
             <a

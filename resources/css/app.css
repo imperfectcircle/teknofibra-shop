@@ -113,45 +113,47 @@ body {
     top: 0;
 }
 
-.card {
-    transition: transform 500ms ease;
-    overflow: hidden;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-.card-content {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    border-radius: 0.5rem;
-    left: 0;
-    background: linear-gradient(
-        hsl(0 0% 0% / 0),
-        hsl(0 0% 0% / 0.3) 20%,
-        hsl(0 0% 0% / 1)
-    );
-}
-
-@media (hover) {
-    .card-content {
+@media screen and (min-width: 768px) {
+    .card {
         transition: transform 500ms ease;
-        transform: translateY(100%);
+        overflow: hidden;
     }
 
-    .card-content > * {
-        opacity: 0;
-        transition: opacity 500ms linear;
+    .card:hover {
+        transform: scale(1.05);
     }
 
-    .card:hover .card-content {
-        transform: translateY(0);
+    .card-content {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        border-radius: 0.5rem;
+        left: 0;
+        background: linear-gradient(
+            hsl(0 0% 0% / 0),
+            hsl(0 0% 0% / 0.3) 20%,
+            hsl(0 0% 0% / 1)
+        );
     }
 
-    .card:hover .card-content > * {
-        opacity: 1;
+    @media (hover) {
+        .card-content {
+            transition: transform 500ms ease;
+            transform: translateY(100%);
+        }
+
+        .card-content > * {
+            opacity: 0;
+            transition: opacity 500ms linear;
+        }
+
+        .card:hover .card-content {
+            transform: translateY(0);
+        }
+
+        .card:hover .card-content > * {
+            opacity: 1;
+        }
     }
 }
 
