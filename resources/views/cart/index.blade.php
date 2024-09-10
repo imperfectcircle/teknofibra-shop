@@ -29,6 +29,7 @@
                 return this.cartItems.reduce((accum, next) => accum + next.price * next.quantity, 0).toFixed(2)
             },
             shippingCost: {{ $shippingCost }},
+            
         }" class="bg-white p-4 rounded-lg shadow">
         <h2 class="title">Cart</h2>
             <!-- Product Items -->
@@ -76,35 +77,58 @@
                     </template>
                     <!-- Product Item -->
 
+                    <!-- Aggiungi il componente per il codice sconto -->
+                    @auth
+                    <div id="discount-code-component" class="mb-4">
+                        <div class="flex items-center justify-between mb-2 text-black">
+                            <input type="text" id="discount-code-input" placeholder="Inserisci il codice sconto" class="border rounded px-2 py-1 w-2/3">
+                            <button id="apply-discount-btn" class="btn-primary">Applica</button>
+                        </div>
+                        <p id="discount-message" class="text-sm"></p>
+                    </div>
+                    @endauth
+
                     <div class="border-t border-gray-300 pt-4">
                         <div class="flex justify-between text-black">
                             <span class="font-semibold">{{ __('cart.subtotal') }}</span>
                             <span id="cartSubtotal" class="text-xl" x-text="`€${cartTotal}`"></span>
                         </div>
+                        <div id="discount-amount" class="flex justify-between mt-2 text-black" style="display: none;">
+                            <span class="font-semibold">Sconto</span>
+                            <span id="discountValue" class="text-xl text-green-600 font-semibold"></span>
+                        </div>
+                        @auth
                         <div class="flex justify-between mt-2 text-black">
                             <span class="font-semibold">{{ __('cart.shipping_costs') }}</span>
                             <span id="shippingCost" class="text-xl" x-text="`€${shippingCost.toFixed(2)}`"></span>
                         </div>
                         <div class="flex justify-between mt-2 mb-3 text-black">
                             <span class="font-semibold">{{ __('cart.total') }}</span>
-                            <span id="cartTotal" class="text-xl" x-text="`€${(parseFloat(cartTotal) + parseFloat(shippingCost)).toFixed(2)}`"></span>
+                            <span id="cartTotal" class="text-xl font-semibold" x-text="`€${(parseFloat(cartTotal) + parseFloat(shippingCost)).toFixed(2)}`"></span>
                         </div>
                         <form action="{{ route('checkout') }}" method="post">
                             @csrf
+                            <input type="hidden" name="discount_code" id="discount-code-hidden">
                             <button type="submit" class="btn-primary w-full py-3 text-lg">
                                 {{ __('cart.payment') }}
                             </button>
                         </form>
+                        @else
+                        <a class="text-center inline-block btn-primary w-full py-3 text-lg mt-5" href="{{ route('login') }}">Accedi per Continuare</a>
+                        @endauth
+                        
                     </div>
                 </div>
                 <!--/ Product Items -->
             </template>
             <template x-if="!cartItems.length">
                 <div class="text-center py-8 text-gray-500">
-                    Non hai articoli nel carrello
+                    {{ __('cart.no_items') }}
                 </div>
             </template>
 
         </div>
     </div>
+
+    
 </x-app-layout>

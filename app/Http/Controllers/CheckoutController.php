@@ -10,6 +10,7 @@ use App\Models\OrderItem;
 use App\Enums\OrderStatus;
 use App\Mail\NewOrderEmail;
 use App\Enums\PaymentStatus;
+use App\Models\DiscountCode;
 use App\Models\ShippingCost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +55,9 @@ class CheckoutController extends Controller
 
         foreach ($products as $product) {
             $quantity = $cartItems[$product->id]['quantity'];
-            $totalPrice += $product->price * $quantity;
+            $productTotal = $product->price * $quantity;
+            $totalPrice += $productTotal;
+
             $lineItems[] = [
                 'price_data' => [
                 'currency' => 'eur',
@@ -62,7 +65,7 @@ class CheckoutController extends Controller
                     'name' => $product->title,
                     'images' => $product->image ? [$product->image] : [],
                 ],
-                'unit_amount_decimal' => $product->price * 100,
+                'unit_amount' => round($product->price * 100), // Arrotondiamo e convertiamo in centesimi
                 ],
                 'quantity' => $quantity,
             ];
@@ -81,6 +84,7 @@ class CheckoutController extends Controller
         }
 
         $shippingCost = $this->calculateShippingCost($customer->shippingAddress->country_code);
+        $totalPrice += $shippingCost;
         
 
         // Aggiungiamo le spese di spedizione come un elemento separato in Stripe
@@ -90,10 +94,25 @@ class CheckoutController extends Controller
                 'product_data' => [
                     'name' => 'Spese di spedizione',
                 ],
-                'unit_amount_decimal' => $shippingCost * 100,
+                'unit_amount' => round($shippingCost * 100), // Arrotondiamo e convertiamo in centesimi
             ],
             'quantity' => 1,
         ];
+
+        $discountCode = $request->input('discount_code');
+        $discount = 0;
+        if ($discountCode) {
+            $discountModel = DiscountCode::where('code', $discountCode)
+                ->where('is_active', true)
+                ->first();
+            if ($discountModel) {
+                $discount = round(($totalPrice * $discountModel->percentage) / 100, 2);
+                $totalPrice -= $discount;
+            }
+        }
+
+        // Assicurati che il totale non sia negativo e converti in centesimi
+        $totalPriceInCents = max(round($totalPrice * 100), 0);
 
         $checkout_session = $stripe->checkout->sessions->create([
             'line_items' => $lineItems,
@@ -101,6 +120,9 @@ class CheckoutController extends Controller
             'success_url' => route('checkout.success', [], true).'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout.failure', [], true),
             'customer_creation' => 'always',
+            'discounts' => $discount > 0 ? [
+                ['coupon' => $this->createStripeCoupon(round($discount * 100))] // Converti lo sconto in centesimi
+            ] : [],
         ]);
 
             $orderData = [
@@ -318,5 +340,18 @@ class CheckoutController extends Controller
     {
         $shippingCost = ShippingCost::where('country_code', $countryCode)->first();
         return $shippingCost ? $shippingCost->cost : 0;
+    }
+
+    private function createStripeCoupon($discountAmountInCents)
+    {
+        $stripe = new \Stripe\StripeClient(getenv('STRIPE_SECRET_KEY'));
+
+        $coupon = $stripe->coupons->create([
+            'amount_off' => $discountAmountInCents,
+            'currency' => 'eur',
+            'duration' => 'once',
+        ]);
+
+        return $coupon->id;
     }
 }

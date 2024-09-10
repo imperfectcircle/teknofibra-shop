@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiscountController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\CartController;
@@ -42,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/orders', 'index')->name('orders.index');
         Route::get('/orders/view/{order}', 'view')->name('order.view');
     });
+
+    Route::post('/apply-discount', [DiscountController::class, 'apply']);
 });
 
 Route::post('/lang/{locale}', [LangController::class, 'lang'])->name('public.lang');

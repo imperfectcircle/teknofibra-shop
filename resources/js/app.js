@@ -2,6 +2,7 @@ import "./bootstrap";
 import "flowbite";
 import "./tab";
 import "./scrollToTop";
+import "./discount";
 // import "./transparentNav";
 
 import Alpine from "alpinejs";

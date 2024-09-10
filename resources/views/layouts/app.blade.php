@@ -120,5 +120,6 @@
     </div>
   @endif
   <x-footer />
+  
   </body>
 </html>
