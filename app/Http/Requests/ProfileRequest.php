@@ -32,14 +32,14 @@ class ProfileRequest extends FormRequest
             'shipping.city' => ['required'],
             'shipping.state' => ['required'],
             'shipping.zipcode' => ['required'],
-            'shipping.country_code' => ['required', 'exists:countries,code'],
+            'shipping.country_code' => ['required', 'exists:countries,code,active,1'],
 
             'billing.address1' => ['required'],
             'billing.address2' => ['required'],
             'billing.city' => ['required'],
             'billing.state' => ['required'],
             'billing.zipcode' => ['required'],
-            'billing.country_code' => ['required', 'exists:countries,code'],
+            'billing.country_code' => ['required', 'exists:countries,code,active,1'],
 
         ];
     }

@@ -16,6 +16,7 @@
                         <th class="py-2 px-4 border-b">Codice</th>
                         <th class="py-2 px-4 border-b">Nome</th>
                         <th class="py-2 px-4 border-b">Stati</th>
+                        <th class="py-2 px-4 border-b">Stato</th>
                         <th class="py-2 px-4 border-b">Azioni</th>
                     </tr>
                 </thead>
@@ -36,11 +37,32 @@
                             }}
                         </td>
                         <td class="py-2 px-4 border-b">
+                            <span
+                                :class="
+                                    country.active
+                                        ? 'text-green-500'
+                                        : 'text-red-500'
+                                "
+                            >
+                                {{ country.active ? "Attivo" : "Inattivo" }}
+                            </span>
+                        </td>
+                        <td class="py-2 px-4 border-b">
                             <button
                                 @click="editCountry(country)"
                                 class="text-blue-500 mr-2"
                             >
                                 Modifica
+                            </button>
+                            <button
+                                @click="toggleCountryStatus(country)"
+                                :class="
+                                    country.active
+                                        ? 'text-red-500'
+                                        : 'text-green-500'
+                                "
+                            >
+                                {{ country.active ? "Disattiva" : "Attiva" }}
                             </button>
                         </td>
                     </tr>
@@ -82,7 +104,7 @@ const loadCountries = async () => {
 };
 
 const showAddModal = () => {
-    selectedCountry.value = { code: "", name: "", states: null };
+    selectedCountry.value = { code: "", name: "", states: null, active: true };
     showModal.value = true;
 };
 
@@ -120,6 +142,23 @@ const saveCountry = async (country) => {
             "showToast",
             error.response?.data?.message || "Errore nel salvataggio del paese"
         );
+    }
+};
+
+const toggleCountryStatus = async (country) => {
+    try {
+        const updatedCountry = { ...country, active: !country.active };
+        await axiosClient.put(`/countries/${country.code}`, updatedCountry);
+        await loadCountries();
+        store.commit(
+            "showToast",
+            `Paese ${
+                updatedCountry.active ? "attivato" : "disattivato"
+            } con successo`
+        );
+    } catch (error) {
+        console.error("Errore nel cambio di stato del paese:", error);
+        store.commit("showToast", "Errore nel cambio di stato del paese");
     }
 };
 </script>

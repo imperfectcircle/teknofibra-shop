@@ -19,6 +19,7 @@ class CountryController extends Controller
             'code' => 'required|string|max:3|unique:countries,code',
             'name' => 'required|string|max:255',
             'states' => 'nullable|json',
+            'active' => 'boolean',
         ]);
 
         $country = Country::create($validatedData);
@@ -33,6 +34,7 @@ class CountryController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'states' => 'nullable|json',
+            'active' => 'boolean',
         ]);
 
         $country->update($validatedData);

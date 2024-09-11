@@ -58,6 +58,18 @@
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             ></textarea>
                         </div>
+                        <div class="mb-4">
+                            <label class="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    v-model="countryData.active"
+                                    class="form-checkbox h-5 w-5 text-indigo-600"
+                                />
+                                <span class="ml-2 text-sm text-gray-700"
+                                    >Attivo</span
+                                >
+                            </label>
+                        </div>
                     </div>
                     <div
                         class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
@@ -91,7 +103,7 @@ const props = defineProps({
 
 const emit = defineEmits(["close", "save"]);
 
-const countryData = ref({ code: "", name: "", states: null });
+const countryData = ref({ code: "", name: "", states: null, active: true });
 
 watch(
     () => props.country,
