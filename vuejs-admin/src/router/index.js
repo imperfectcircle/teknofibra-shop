@@ -19,6 +19,7 @@ import CustomersReport from "../views/Reports/CustomersReport.vue";
 import ProductForm from "../views/Products/ProductForm.vue";
 import ShippingCosts from "../views/ShippingCosts/ShippingCosts.vue";
 import DiscountCodes from "../views/DiscountCodes/DiscountCodes.vue";
+import Countries from "../views/Countries/Countries.vue";
 
 const routes = [
     {
@@ -90,6 +91,11 @@ const routes = [
                 path: "shipping-costs",
                 name: "app.shipping-costs",
                 component: ShippingCosts,
+            },
+            {
+                path: "countries",
+                name: "app.countries",
+                component: Countries,
             },
             {
                 path: "discount-codes",

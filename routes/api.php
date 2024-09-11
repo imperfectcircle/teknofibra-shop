@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\DiscountController;
@@ -54,6 +55,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     });
 
     Route::apiResource('discount-codes', DiscountController::class)->except('show');
+
+    Route::apiResource('countries', CountryController::class);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

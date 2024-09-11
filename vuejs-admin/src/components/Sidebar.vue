@@ -57,6 +57,15 @@
             <span> Clienti </span>
         </router-link>
         <router-link
+            :to="{ name: 'app.countries' }"
+            class="flex items-center py-1 px-2 rounded transition-colors hover:bg-black/30"
+        >
+            <span class="mr-2">
+                <GlobeEuropeAfricaIcon class="w-6" />
+            </span>
+            <span> Gestione Paesi </span>
+        </router-link>
+        <router-link
             :to="{ name: 'app.shipping-costs' }"
             class="flex items-center py-1 px-2 rounded transition-colors hover:bg-black/30"
         >
@@ -97,6 +106,7 @@ import {
     ClipboardDocumentListIcon,
     TicketIcon,
     ReceiptPercentIcon,
+    GlobeEuropeAfricaIcon,
 } from "@heroicons/vue/24/outline";
 </script>
 
