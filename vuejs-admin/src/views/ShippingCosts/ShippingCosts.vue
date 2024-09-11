@@ -7,7 +7,7 @@
         <form v-else @submit.prevent="saveShippingCosts">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div
-                    v-for="country in countries"
+                    v-for="country in activeCountries"
                     :key="country.code"
                     class="mb-4"
                 >
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axiosClient from "../../axios";
 import Spinner from "../../components/core/Spinner.vue";
 import { useStore } from "vuex";
@@ -56,6 +56,10 @@ const store = useStore();
 const countries = ref([]);
 const shippingCosts = ref({});
 const loading = ref(true);
+
+const activeCountries = computed(() => {
+    return countries.value.filter((country) => country.active);
+});
 
 onMounted(async () => {
     try {
