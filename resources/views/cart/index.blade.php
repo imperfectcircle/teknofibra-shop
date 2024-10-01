@@ -99,7 +99,10 @@
                         </div>
                         @auth
                         <div class="flex justify-between mt-2 text-black">
-                            <span class="font-semibold">{{ __('cart.shipping_costs') }}</span>
+                            <div class="flex items-center">
+                                <span class="font-semibold">{{ __('cart.shipping_costs') }}</span>
+                                <img class="w-10 h-10" src="/img/fedex.png" alt="">
+                            </div>
                             <span id="shippingCost" class="text-xl" x-text="`€${shippingCost.toFixed(2)}`"></span>
                         </div>
                         <div class="flex justify-between mt-2 mb-3 text-black">
