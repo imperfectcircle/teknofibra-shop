@@ -15,6 +15,7 @@
     <!-- Scripts -->
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 
     <style>
       [x-cloak] {

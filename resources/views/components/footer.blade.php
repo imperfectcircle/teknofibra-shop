@@ -78,9 +78,17 @@ $categoryList = \App\Models\Category::getActiveAsTree();
                     <h2 class="text-2xl font-semibold mb-3">{{ __('footer.furtherinfo') }}</h2>
                     <a href="{{ route('support') }}" class="block">{{ __('footer.customerservice') }}</a>
                     <!-- <a href="" class="block">{{ __('footer.shipping') }}</a> -->
-                    <a href="" class="block">{{ __('footer.cookie') }}</a>
-                    <a href="" class="block">{{ __('footer.privacy') }}</a>
-                    <a href="" class="block">{{ __('footer.terms') }}</a>
+                    <!-- <a href="" class="block">{{ __('footer.cookie') }}</a> -->
+                    @if (request()->session()->get('locale') === 'it')
+                        <a class='block' href="https://www.iubenda.com/privacy-policy/82606974" class="iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe " title="Privacy Policy ">{{ __('footer.privacy') }}</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+                    @else
+                        <a href="https://www.iubenda.com/privacy-policy/72210443" class="iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe " title="Privacy Policy ">{{ __('footer.privacy') }}</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+                    @endif
+
+                    @if (request()->session()->get('locale') === 'it')
+                        <a href="https://www.iubenda.com/termini-e-condizioni/82606974" class="iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe " title="Termini e Condizioni ">{{ __('footer.terms') }}</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+                    @else
+                        <a href="https://www.iubenda.com/terms-and-conditions/72210443" class="iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe " title="Terms and Conditions ">{{ __('footer.terms') }}</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
                 </div>
             </div>
         </div>
