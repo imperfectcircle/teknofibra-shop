@@ -78,7 +78,6 @@ $categoryList = \App\Models\Category::getActiveAsTree();
                     <h2 class="text-2xl font-semibold mb-3">{{ __('footer.furtherinfo') }}</h2>
                     <a href="{{ route('support') }}" class="block">{{ __('footer.customerservice') }}</a>
                     <!-- <a href="" class="block">{{ __('footer.shipping') }}</a> -->
-                    <a href="" class="block">{{ __('footer.cookie') }}</a>
                     @if (request()->session()->get('locale') === 'it')
                         <a href="https://www.iubenda.com/privacy-policy/82606974/cookie-policy" class="iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe block" title="Cookie Policy ">{{ __('footer.cookie') }}</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
                         
