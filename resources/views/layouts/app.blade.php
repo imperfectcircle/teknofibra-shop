@@ -15,6 +15,23 @@
     <!-- Scripts -->
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (request()->session()->get('locale') === 'en')
+        <script type="text/javascript">
+            var _iub = _iub || [];
+            _iub.csConfiguration = {"siteId":3784824,"cookiePolicyId":72210443,"lang":"en","storage":{"useSiteId":true}};
+            </script>
+            <script type="text/javascript" src="https://cs.iubenda.com/autoblocking/3784824.js"></script>
+            <script type="text/javascript" src="//cdn.iubenda.com/cs/gpp/stub.js"></script>
+            <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
+        @else
+        <script type="text/javascript">
+            var _iub = _iub || [];
+            _iub.csConfiguration = {"siteId":3784824,"cookiePolicyId":82606974,"lang":"it","storage":{"useSiteId":true}};
+            </script>
+            <script type="text/javascript" src="https://cs.iubenda.com/autoblocking/3784824.js"></script>
+            <script type="text/javascript" src="//cdn.iubenda.com/cs/gpp/stub.js"></script>
+            <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
+        @endif
     
 
     <style>
