@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td class="font-bold py-1 px-2">SubTotale</td>
-                        <td>${{ order.total_price }}</td>
+                        <td>€{{ order.total_price }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -142,7 +142,7 @@
                                 Qty: {{ item.quantity }}
                             </div>
                             <span class="text-lg font-semibold">
-                                ${{ item.unit_price }}
+                                €{{ item.unit_price }}
                             </span>
                         </div>
                     </div>
