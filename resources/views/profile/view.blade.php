@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | Profile</x-slot:title>
+    <x-slot:description>Gestisci facilmente i tuoi dati di spedizione e fatturazione e aggiorna la tua password su questa pagina. Inserisci nuovi indirizzi o modifica quelli esistenti per una consegna rapida e sicura. Mantieni le tue informazioni aggiornate e assicurati un'esperienza d'acquisto comoda e personalizzata.</x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/profile</x-slot:canonical>
     <div x-data="{
             flashMessage: '{{\Illuminate\Support\Facades\Session::get('flash_message')}}',
             init() {

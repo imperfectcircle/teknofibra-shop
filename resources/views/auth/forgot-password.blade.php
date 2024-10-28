@@ -1,4 +1,7 @@
 <x-app-layout>
+  <x-slot:title>Teknofibra Shop | Forgot Password</x-slot:title>
+  <x-slot:description></x-slot:description>
+  <x-slot:canonical>https://shop.teknofibra.it/forgot-password</x-slot:canonical>
     <form action="{{ route('password.email') }}" method="post" class="w-[400px] mx-auto p-6 my-16">
         @csrf
         <h2 class="text-2xl font-semibold text-center mb-5">
@@ -13,7 +16,7 @@
           >
         </p>
 
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        <x-auth-session-status class="mb-4 text-white" :status="session('status')" />
 
         <div class="mb-3">
           <x-text-input

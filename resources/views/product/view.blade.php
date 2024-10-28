@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | {{ $product->title }}</x-slot:title>
+    <x-slot:description>{{ $product->description }}</x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/{{ $product->slug }}</x-slot:canonical>
     <div class="pt-10" x-data="productItem({{ json_encode([
                     'id' => $product->id,
                     'slug' => $product->slug,

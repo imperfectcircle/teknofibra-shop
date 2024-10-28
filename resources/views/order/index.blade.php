@@ -3,6 +3,9 @@
 ?>
 
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | Orders</x-slot:title>
+    <x-slot:description>Consulta il riepilogo dei tuoi ordini in un'unica pagina. Visualizza dettagli su ogni acquisto, verifica lo stato di spedizione e accedi a informazioni aggiornate per ogni ordine. Gestisci comodamente il tuo storico acquisti per un’esperienza di shopping sempre sotto controllo e senza sorprese.</x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/orders</x-slot:canonical>
     <h2 class="title">Orders</h2>
     <div class="container mx-auto lg:w-2/3 p-5">
         <h1 class="text-3xl font-bold mb-2">{{ __('orders.my_orders') }}</h1>

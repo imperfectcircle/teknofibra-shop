@@ -1,5 +1,7 @@
 <x-app-layout>
-
+    <x-slot:title>Teknofibra Shop | Order Details</x-slot:title>
+    <x-slot:description>Esamina i dettagli completi del tuo ordine, inclusi i prodotti acquistati, i prezzi, lo stato di spedizione e le informazioni di consegna. Accedi a tutti i dati necessari per monitorare il progresso del tuo ordine e gestire eventuali richieste di assistenza. Mantieni il controllo sui tuoi acquisti con una panoramica chiara e aggiornata per ogni transazione.</x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/orders/views/{{ $order->id }}</x-slot:canonical>
     <div class="container mx-auto lg:w-2/3 p-5">
         <h1 class="text-3xl font-bold mb-2">{{ __('orders.order_number') }} {{$order->id}}</h1>
         <div class="bg-white rounded-lg p-3">

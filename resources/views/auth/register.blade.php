@@ -1,4 +1,7 @@
 <x-app-layout>
+  <x-slot:title>Teknofibra Shop | Register</x-slot:title>
+  <x-slot:description>Registrati per creare il tuo account e accedere a vantaggi esclusivi: monitoraggio degli ordini, gestione degli indirizzi, e un'esperienza di acquisto personalizzata. Completa la registrazione per un accesso rapido e sicuro alle tue informazioni e promozioni riservate.</x-slot:description>
+  <x-slot:canonical>https://shop.teknofibra.it/register</x-slot:canonical>
     <form
         action="{{ route('register') }}"
         method="post"

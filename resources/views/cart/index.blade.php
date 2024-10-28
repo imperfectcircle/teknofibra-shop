@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | Shopping Cart</x-slot:title>
+    <x-slot:description>Rivedi i prodotti selezionati nel carrello, aggiorna le quantità o rimuovi articoli prima del checkout. Assicurati che il tuo ordine sia completo e pronto per l'acquisto con un riepilogo dettagliato dei costi e delle opzioni di spedizione. Procedi in sicurezza verso la fase di pagamento per un’esperienza di acquisto rapida e senza intoppi.</x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/cart</x-slot:canonical>
     <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
         <h1 class="text-3xl font-bold mb-6">{{ __('cart.title') }}</h1>
 

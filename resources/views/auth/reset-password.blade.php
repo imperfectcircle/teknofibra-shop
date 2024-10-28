@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | Reset Password</x-slot:title>
+    <x-slot:description></x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/reset-password</x-slot:canonical>
     <div class="w-[400px] mx-auto my-16">
         <h2 class="text-2xl font-semibold text-center mb-5">
             {{ __('reset.enter_new_password') }}

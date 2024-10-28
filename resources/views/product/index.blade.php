@@ -5,12 +5,9 @@ $categoryList = \App\Models\Category::getActiveAsTree();
 ?>
 
 <x-app-layout>
-
-    {{-- <div class="hero w-full grid place-items-center -m-5">
-        
-
-    </div> --}}
-    
+    <x-slot:title>Teknofibra Shop</x-slot:title>
+    <x-slot:description>Ci sono materiali diversi, ma Teknofibra si distingue. Teknofibra scelta da chi vuole il meglio per i propri progetti.</x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it</x-slot:canonical>
     <div id="controls-carousel" class="relative w-full" data-carousel="static">
         <!-- Carousel wrapper -->
         <div class="relative h-[50vh] overflow-hidden md:min-h-[65vh] bg-center bg-no-repeat bg-cover bg-custom-gradient-image -mt-5 -mb-5 -ml-5 -mr-5 grid place-items-center z-10">

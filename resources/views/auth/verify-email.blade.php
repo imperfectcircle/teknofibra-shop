@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | Verify Email</x-slot:title>
+    <x-slot:description></x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/verify-email</x-slot:canonical>
     <div class="w-[400px] mx-auto my-32 text-white">
         <div class="mb-4">
             {{ __('verify.message') }}

@@ -1,4 +1,7 @@
 <x-app-layout>
+  <x-slot:title>Teknofibra Shop | Login</x-slot:title>
+  <x-slot:description>Accedi per effettuare i tuoi acquisti</x-slot:description>
+  <x-slot:canonical>https://shop.teknofibra.it/login</x-slot:canonical>
     <form action="{{ route('login') }}" method="post" class="max-w-[400px] mx-auto p-6 my-16">
         @csrf
         <h2 class="text-2xl font-semibold text-center mb-5">

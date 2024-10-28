@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | Support</x-slot:title>
+    <x-slot:description>Contatta il nostro team di supporto tramite il modulo di contatto per ricevere assistenza rapida e dedicata. Compila la tua richiesta e ottieni risposte alle domande su ordini, spedizioni, resi o qualsiasi altra necessità. Siamo qui per aiutarti a risolvere ogni problema per una migliore esperienza di acquisto</x-slot:description>
+    <x-slot:canonical>https://shop.teknofibra.it/support</x-slot:canonical>
     <section class="min-h-screen max-h-fit grid place-items-center">
         <h2 class="title">Support</h2>
         <h1 class="text-6xl font-bold">{{ __('support.title') }}</h1>

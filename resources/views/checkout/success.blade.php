@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot:title>Teknofibra Shop | Order Succefully Completed</x-slot:title>
+    <x-slot:description></x-slot:description>
+    <x-slot:canonical></x-slot:canonical>
     <div class="w-full min-h-fit grid place-items-center bg-white pb-5">
         <img src="/img/check.png" alt="">
         <p class="text-4xl text-emerald-600">Grazie {{ $customer->name }},</p>
