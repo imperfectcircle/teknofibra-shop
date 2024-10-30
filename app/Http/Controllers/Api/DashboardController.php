@@ -32,7 +32,11 @@ class DashboardController extends Controller
     public function paidOrders()
     {
         $fromDate = $this->getFromDate();
-        $query = Order::query()->where('status', OrderStatus::Paid->value);
+        $query = Order::query()->whereIn('status', [
+            OrderStatus::Paid->value,
+            OrderStatus::Shipped->value,
+            OrderStatus::Completed->value,
+        ]);
 
         if ($fromDate) {
             $query->where('created_at', '>', $fromDate);
@@ -44,7 +48,11 @@ class DashboardController extends Controller
     public function totalIncome()
     {
         $fromDate = $this->getFromDate();
-        $query = Order::query()->where('status', OrderStatus::Paid->value);
+        $query = Order::query()->whereIn('status', [
+            OrderStatus::Paid->value,
+            OrderStatus::Shipped->value,
+            OrderStatus::Completed->value,
+        ]);
 
         if ($fromDate) {
             $query->where('created_at', '>', $fromDate);
@@ -60,7 +68,11 @@ class DashboardController extends Controller
             ->join('users', 'created_by', '=', 'users.id')
             ->join('customer_addresses AS a', 'users.id', '=', 'a.customer_id')
             ->join('countries AS c', 'a.country_code', '=', 'c.code')
-            ->where('status', OrderStatus::Paid->value)
+            ->whereIn('status', [
+                OrderStatus::Paid->value,
+                OrderStatus::Shipped->value,
+                OrderStatus::Completed->value,
+            ])
             ->where('a.type', AddressType::Billing->value)
             ->groupBy('c.name');
 
@@ -91,7 +103,11 @@ class DashboardController extends Controller
                 ->from('orders AS o')
                 ->join('order_items AS oi', 'oi.order_id', '=', 'o.id')
                 ->join('customers AS c', 'c.user_id', '=', 'o.created_by')
-                ->where('o.status', OrderStatus::Paid->value)
+                ->whereIn('o.status', [
+                    OrderStatus::Paid->value,
+                    OrderStatus::Shipped->value,
+                    OrderStatus::Completed->value,
+                ])
                 ->limit(10)
                 ->orderBy('o.created_at', 'desc')
                 ->groupBy('o.id', 'o.total_price', 'o.created_at', 'c.user_id', 'c.first_name', 'c.last_name')
