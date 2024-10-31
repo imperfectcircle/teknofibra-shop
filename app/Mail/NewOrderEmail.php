@@ -30,7 +30,7 @@ class NewOrderEmail extends Mailable
     {
         return new Envelope(
             from: new Address('shop@teknofibra.it'),
-            subject: 'Nuovo Ordine Creato',
+            subject: 'New Order Created',
         );
     }
 

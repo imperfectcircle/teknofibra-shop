@@ -12,24 +12,24 @@
         </td>
     </tr>
     <tr>
-        <th>Stato dell'Ordine</th>
+        <th>Order Status</th>
         <td>{{ $order->status }}</td>
     </tr>
     <tr>
-        <th>Prezzo dell'Ordine</th>
+        <th>Total Price</th>
         <td>€ {{$order->total_price}}</td>
     </tr>
     <tr>
-        <th>Data Ordine</th>
+        <th>Order Date</th>
         <td>{{$order->created_at}}</td>
     </tr>
 </table>
 <table>
     <tr>
-        <th>Imagine</th>
-        <th>Titolo</th>
-        <th>Prezzo</th>
-        <th>Quantità</th>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Quantity</th>
     </tr>
     @foreach($order->items as $item)
         <tr>

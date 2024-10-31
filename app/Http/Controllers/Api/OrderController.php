@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\OrderListResource;
+use App\Mail\ReviewMail;
 
 class OrderController extends Controller
 {
@@ -61,6 +62,10 @@ class OrderController extends Controller
                         $product->save();
                     }
                 }
+            }
+
+            if ($status === OrderStatus::Completed->value) {
+                Mail::to($order->user)->send(new ReviewMail());
             }
             Mail::to($order->user)->send(new OrderUpdateEmail($order));
         } catch (\Exception $e) {
