@@ -133,22 +133,6 @@ const routes = [
         component: Login,
     },
     {
-        path: "/request-password",
-        name: "requestPassword",
-        meta: {
-            requiresGuest: true,
-        },
-        component: RequestPassword,
-    },
-    {
-        path: "/reset-password/:token",
-        name: "resetPassword",
-        meta: {
-            requiresGuest: true,
-        },
-        component: ResetPassword,
-    },
-    {
         path: "/:pathMatch(.*)",
         name: "notfound",
         component: NotFound,

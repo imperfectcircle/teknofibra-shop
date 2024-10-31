@@ -70,7 +70,6 @@
                     </label>
                 </div>
             </div>
-
             <div>
                 <button
                     type="submit"
