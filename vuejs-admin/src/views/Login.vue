@@ -69,15 +69,6 @@
                         Ricordami
                     </label>
                 </div>
-
-                <div class="text-sm">
-                    <router-link
-                        :to="{ name: 'requestPassword' }"
-                        class="font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                        Password dimenticata?
-                    </router-link>
-                </div>
             </div>
 
             <div>
