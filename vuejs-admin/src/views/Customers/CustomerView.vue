@@ -35,7 +35,7 @@
                     :errors="errors.status"
                 />
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <h2
                             class="text-xl font-semibold mt-6 pb-2 border-b border-gray-300"
@@ -142,7 +142,7 @@
                             />
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <footer
                 class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
@@ -201,40 +201,39 @@ const customer = ref({
 });
 const loading = ref(false);
 
-const countries = computed(() =>
-    store.state.countries.map((c) => ({ key: c.code, text: c.name }))
-);
-const billingCountry = computed(() =>
-    store.state.countries.find(
-        (c) => c.code === customer.value.billingAddress.country_code
-    )
-);
-const billingStateOptions = computed(() => {
-    if (!billingCountry.value || !billingCountry.value.states) return [];
+// const countries = computed(() =>
+//     store.state.countries.map((c) => ({ key: c.code, text: c.name }))
+// );
+// const billingCountry = computed(() =>
+//     store.state.countries.find(
+//         (c) => c.code === customer.value.billingAddress.country_code
+//     )
+// );
+// const billingStateOptions = computed(() => {
+//     if (!billingCountry.value || !billingCountry.value.states) return [];
 
-    return Object.entries(billingCountry.value.states).map((c) => ({
-        key: c[0],
-        text: c[1],
-    }));
-});
-const shippingCountry = computed(() =>
-    store.state.countries.find(
-        (c) => c.code === customer.value.shippingAddress.country_code
-    )
-);
-const shippingStateOptions = computed(() => {
-    if (!shippingCountry.value || !shippingCountry.value.states) return [];
+//     return Object.entries(billingCountry.value.states).map((c) => ({
+//         key: c[0],
+//         text: c[1],
+//     }));
+// });
+// const shippingCountry = computed(() =>
+//     store.state.countries.find(
+//         (c) => c.code === customer.value.shippingAddress.country_code
+//     )
+// );
+// const shippingStateOptions = computed(() => {
+//     if (!shippingCountry.value || !shippingCountry.value.states) return [];
 
-    return Object.entries(shippingCountry.value.states).map((c) => ({
-        key: c[0],
-        text: c[1],
-    }));
-});
+//     return Object.entries(shippingCountry.value.states).map((c) => ({
+//         key: c[0],
+//         text: c[1],
+//     }));
+// });
 
 function onSubmit() {
     loading.value = true;
     if (customer.value.id) {
-        console.log(customer.value.status);
         customer.value.status = !!customer.value.status;
         store
             .dispatch("updateCustomer", customer.value)
