@@ -7,10 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Buongiorno, hai ricevuto un messaggio da {{$contact['name']}}</h2>
+    <h2>Buongiorno, hai ricevuto una richiesta di reso da {{$contact['name']}}</h2>
     <p>{{ $contact['email'] }}</p>
     <p>Numero Ordine: {{ $contact['order_number'] }}</p>
-    <p>Questo è il messaggio:</p>
-    <p>{{$contact['message']}}</p>
+    <p>Data di acquisto: {{ $contact['order_date'] }}</p>
+    <p>Data di ricevimento: {{ $contact['received_date'] }}</p>
+    <p>Descrizione prodotto:</p>
+    <p>{{$contact['description']}}</p>
 
 </body>

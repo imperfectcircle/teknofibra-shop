@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SupportRequest extends FormRequest
+class ReturnRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,10 @@ class SupportRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'email' => 'required|email',
-            'order_number' => 'nullable|string',
-            'message' => 'required',
+            'order_number' => 'required|string',
+            'order_date' => 'required|date',
+            'received_date' => 'required|date',
+            'description' => 'required',
             'privacy' => 'required',
         ];
     }

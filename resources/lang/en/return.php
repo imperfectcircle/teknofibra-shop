@@ -1,0 +1,9 @@
+<?php
+
+return [
+  'title' => 'Return Policy',
+  'text' => '<h2 class="text-2xl font-semibold">Right of Withdrawal</h2><p class="text-xl">If you purchased a product from our e-commerce and wish to return it, you can exercise your right of withdrawal within <strong>14 business days</strong> from the date of receipt of the product, without providing any reason.</p><p class="text-xl">To exercise the right of withdrawal, you must:</p><p class="text-xl">Fill out the form below specifying:<ul class="list-disc ml-5"><li>Full Name</li><li>Order Number</li><li>Description of the product to be returned</li><li>Purchase date and product receipt date</li></ul></p><p class="text-xl">Wait for our confirmation with the return instructions.</p><h2 class="text-2xl font-semibold">Return Conditions</h2><ul class="list-disc ml-5"><li>The product must be returned in the same condition in which it was received: it must not have been used, damaged, or show signs of wear. It must also be returned in its original packaging, complete with all labels and accessories included.</li><li>The return shipping cost is the customer\'s responsibility, except in cases of defective or incorrect products, where the shipping costs will be covered by us.</li><li>The product must be shipped to the address provided in our return confirmation.</li></ul><h2 class="text-2xl font-semibold">Refunds</h2><ul class="list-disc ml-5"><li>Once the product is received and inspected, we will notify you via email of the approval or rejection of your return.</li><li>If approved, the refund will be processed within <strong>14 business days</strong> from the receipt of the return, using the same payment method used for the purchase.</li></ul>',
+  'order_date' => 'Purchase date',
+  'order_received' => 'Receipt date',
+  'description' => 'Product Description',
+];

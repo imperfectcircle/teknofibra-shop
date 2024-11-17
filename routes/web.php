@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\SupportController;
 
 Route::middleware(['guestOrVerified'])->group(function () {
@@ -30,6 +31,11 @@ Route::middleware(['guestOrVerified'])->group(function () {
     Route::controller(SupportController::class)->group(function () {
         Route::get('/support', 'index')->name('support');
         Route::post('/support/submit', 'submit')->name('support.submit');
+    });
+
+    Route::controller(ReturnController::class)->group(function() {
+        Route::get('/return-policy', 'index')->name('return');
+        Route::post('/return/submit', 'submit')->name('return.submit');
     });
 });
 

@@ -15,12 +15,13 @@ class SupportController extends Controller
 
     public function submit(SupportRequest $request) {
         $data = $request->validated();
-        $name = $data['name'];
-        $email = $data['email'];
-        $message = $data['message'];
-
-        $contact = compact('name', 'email', 'message');
+        $contact = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'order_number' => $data['order_number'] ?? '',
+            'message' => $data['message'],
+        ];
         Mail::to('shop@teknofibra.it')->send(new SupportMail($contact));
-        return redirect()->back()->with('message', 'Email Inviata con Successo. Sarai ricontattato a breve.');
+        return redirect()->back()->with('message', __('messages.support'));
     }
 }

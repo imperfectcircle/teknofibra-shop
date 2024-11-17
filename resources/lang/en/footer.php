@@ -8,7 +8,7 @@ return [
     'contacts' => 'Contacts:',
     'furtherinfo' => 'Further Info:',
     'customerservice' => 'Customer Service',
-    'shipping' => 'Shipping & Returns',
+    'return' => 'Return Policy',
     'cookie' => 'Cookie Policy',
     'privacy' => 'Privacy Policy',
     'terms' => 'Terms & Conditions',
