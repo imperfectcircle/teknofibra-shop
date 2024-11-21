@@ -58,6 +58,15 @@
       }
     </style>
   </head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-57V4PWBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GT-57V4PWBG');
+</script>
   <body>
     @include('layouts.navigation')
 
