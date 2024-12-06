@@ -39,8 +39,19 @@ class NewOrderEmail extends Mailable
      */
     public function content(): Content
     {
+        $billingAddress = $this->order->user->customer->billingAddress;
+        $shippingAddress = $this->order->user->customer->shippingAddress;
+        $name = $this->order->user->name;
+
         return new Content(
             view: 'mail.new-order',
+            with: [
+                'order' => $this->order,
+                'name' => $name,
+                'billingAddress' => $billingAddress,
+                'shippingAddress' => $shippingAddress,
+                'isAdmin' => $this->forAdmin
+            ]
         );
     }
 

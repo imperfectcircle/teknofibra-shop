@@ -42,3 +42,23 @@
         </tr>
     @endforeach
 </table>
+<div>
+    <h3>Nome e Cognome</h3>
+    <p>{{ $name }}</p>
+</div>
+<div>
+    <h3>Indirizzo di Fatturazione:</h3>
+    <p>{{ $billingAddress->address1 }}</p>
+    <p>{{ $billingAddress->address2 }}</p>
+    <p>{{ $billingAddress->city }}, {{ $billingAddress->state }} {{ $billingAddress->zipcode }}</p>
+    <p>{{ $billingAddress->country }}</p>
+</div>
+
+<!-- Indirizzo di spedizione esistente -->
+<div>
+    <h3>Indirizzo di Spedizione:</h3>
+    <p>{{ $shippingAddress->address1 }}</p>
+    <p>{{ $shippingAddress->address2 }}</p>
+    <p>{{ $shippingAddress->city }}, {{ $shippingAddress->state }} {{ $shippingAddress->zipcode }}</p>
+    <p>{{ $shippingAddress->country }}</p>
+</div>

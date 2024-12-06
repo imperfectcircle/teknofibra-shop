@@ -348,6 +348,8 @@ class CheckoutController extends Controller
 
             $order = $payment->order;
 
+            $order->load(['user.customer.billingAddress', 'user.customer.shippingAddress']);
+
             $order->status = OrderStatus::Paid->value;
             $order->update();
 
