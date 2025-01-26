@@ -17,7 +17,7 @@
         @endif
         <h2 class="title">Profile</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-            <div class="bg-white p-3 shadow rounded-lg md:col-span-2">
+            <div class="bg-white text-black p-3 shadow rounded-lg md:col-span-2">
                 <form x-data="{
                     countries: {{ json_encode($countries) }},
                     billingAddress: {{ json_encode([
@@ -55,9 +55,11 @@
                     <h2 class="text-xl font-semibold mb-5 text-black">{{ __('profile.profile_details') }}</h2>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div class="">
+                            <label for="first_name">{{ __('profile.profile_name') }}</label>
                             <x-text-input
                             type="text"
                             name="first_name"
+                            id="first_name"
                             value="{{old('first_name', $customer->first_name)}}"
                             placeholder="{{ __('profile.profile_name') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -65,9 +67,11 @@
                             <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
                         </div>
                         <div class="">
+                            <label for="last_name">{{ __('profile.profile_lastname') }}</label>
                             <x-text-input
                             type="text"
                             name="last_name"
+                            id="last_name"
                             value="{{old('last_name', $customer->last_name)}}"
                             placeholder="{{ __('profile.profile_lastname') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -76,9 +80,11 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="email">{{ __('profile.profile_email') }}</label>
                         <x-text-input
                             type="text"
                             name="email"
+                            id="email"
                             value="{{old('email', $user->email)}}"
                             placeholder="{{ __('profile.profile_email') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -86,22 +92,52 @@
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     <div class="mb-3">
+                        <label for="phone">{{ __('profile.profile_phone') }}</label>
                         <x-text-input
                             type="text"
                             name="phone"
+                            id="phone"
                             value="{{old('phone', $customer->phone)}}"
                             placeholder="{{ __('profile.profile_phone') }}"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
-
+                    <div class="flex">
+                        <div class="mr-3">
+                            <label for="vat[countryCode]">{{ __('profile.profile_country_code') }}</label>
+                            <x-text-input
+                                type="text"
+                                name="vat[countryCode]"
+                                id="vat[countryCode]"
+                                value="{{old('vat[countryCode]', $customer->vat_country_code)}}"
+                                placeholder="{{ __('profile.profile_country_code') }}"
+                                class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
+                            />
+                            <x-input-error :messages="$errors->get('vat.countryCode')" class="mt-2" />
+                        </div>
+    
+                        <div>
+                            <label for="vat[vatNumber]">{{ __('profile.profile_vat_number') }}</label>
+                            <x-text-input
+                            type="text"
+                            name="vat[vatNumber]"
+                            id="vat[vatNumber]"
+                            value="{{old('vat[vatNumber]', $customer->vat_number)}}"
+                            placeholder="{{ __('profile.profile_vat_number') }}"
+                            class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
+                            />
+                            <x-input-error :messages="$errors->get('vat.vatNumber')" class="mt-2" />
+                        </div>
+                    </div>
                     <h2 class="text-xl mt-6 font-semibold mb-2 text-black">{{ __('profile.billing_address') }}</h2>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
+                            <label for="billing[address1]">{{ __('profile.profile_address') }}</label>
                             <x-text-input
                                 type="text"
                                 name="billing[address1]"
+                                id="billing[address1]"
                                 x-model="billingAddress.address1"
                                 placeholder="{{ __('profile.profile_address') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -109,9 +145,11 @@
                             <x-input-error :messages="$errors->get('billing.address1')" class="mt-2" />
                         </div>
                         <div>
+                            <label for="billing[address2]">{{ __('profile.profile_number') }}</label>
                             <x-text-input
                                 type="text"
                                 name="billing[address2]"
+                                id="billing[address2]"
                                 x-model="billingAddress.address2"
                                 placeholder="{{ __('profile.profile_number') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -121,9 +159,11 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
+                            <label for="billing[city]">{{ __('profile.profile_city') }}</label>
                             <x-text-input
                                 type="text"
                                 name="billing[city]"
+                                id="billing[city]"
                                 x-model="billingAddress.city"
                                 placeholder="{{ __('profile.profile_city') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -131,9 +171,11 @@
                             <x-input-error :messages="$errors->get('billing.city')" class="mt-2" />
                         </div>
                         <div>
+                            <label for="billing[zipcode]">{{ __('profile.profile_zipcode') }}</label>
                             <x-text-input
                                 type="text"
                                 name="billing[zipcode]"
+                                id="billing[zipcode]"
                                 x-model="billingAddress.zipcode"
                                 placeholder="{{ __('profile.profile_zipcode') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -144,9 +186,10 @@
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
                             <x-text-input type="select"
-                                     name="billing[country_code]"
-                                     x-model="billingAddress.country_code"
-                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+                                    name="billing[country_code]"
+                                    id="billing[country_code]"
+                                    x-model="billingAddress.country_code"
+                                    class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
                                 <option value="">{{ __('profile.profile_country') }}</option>
                                 <template x-for="country of countries" :key="country.code">
                                     <option :selected="country.code === billingAddress.country_code"
@@ -159,6 +202,7 @@
                             <template x-if="billingCountryStates">
                                 <x-text-input type="select"
                                         name="billing[state]"
+                                        id="billing[state]"
                                         x-model="billingAddress.state"
                                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
                                     <option value="">{{ __('profile.profile_state') }}</option>
@@ -171,9 +215,11 @@
                                 <x-input-error :messages="$errors->get('billing.state')" class="mt-2" />
                             </template>
                             <template x-if="!billingCountryStates">
+                                
                                 <x-text-input
                                     type="text"
                                     name="billing[state]"
+                                    id="billing[province]"
                                     x-model="billingAddress.state"
                                     placeholder="{{ __('profile.profile_province') }}"
                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -193,9 +239,11 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
+                            <label for="shipping[address1]">{{ __('profile.profile_address') }}</label>
                             <x-text-input
                                 type="text"
                                 name="shipping[address1]"
+                                id="shipping[address1]"
                                 x-model="shippingAddress.address1"
                                 placeholder="{{ __('profile.profile_address') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -203,9 +251,11 @@
                             <x-input-error :messages="$errors->get('shipping.address1')" class="mt-2" />
                         </div>
                         <div>
+                            <label for="shipping[address2]">{{ __('profile.profile_number') }}</label>
                             <x-text-input
                                 type="text"
                                 name="shipping[address2]"
+                                id="shipping[address2]"
                                 x-model="shippingAddress.address2"
                                 placeholder="{{ __('profile.profile_number') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -215,9 +265,11 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
+                            <label for="shipping[city]">{{ __('profile.profile_city') }}</label>
                             <x-text-input
                                 type="text"
                                 name="shipping[city]"
+                                id="shipping[city]"
                                 x-model="shippingAddress.city"
                                 placeholder="{{ __('profile.profile_city') }}"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -225,8 +277,10 @@
                             <x-input-error :messages="$errors->get('shipping.city')" class="mt-2" />
                         </div>
                         <div>
+                            <label for="shipping[zipcode]">{{ __('profile.profile_zipcode') }}</label>
                             <x-text-input
                                 name="shipping[zipcode]"
+                                id="shipping[zipcode]"
                                 x-model="shippingAddress.zipcode"
                                 type="text"
                                 placeholder="{{ __('profile.profile_zipcode') }}"

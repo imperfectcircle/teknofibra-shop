@@ -44,9 +44,9 @@ class CheckoutController extends Controller
             $quantity = $cartItems[$product->id]['quantity'];
             if ($product->quantity !== null && $product->quantity < $quantity) {
                 $message = match ($product->quantity) {
-                    0 => 'Il Prodotto "'.$product->title.'" è terminato',
-                    1 => 'È rimasto un solo articolo del Prodotto "'.$product->title,
-                    default => 'Ci sono solo ' . $product->quantity . ' articoli rimasti per il Prodotto "'.$product->title,
+                    0 => "Il Prodotto $product->title è terminato",
+                    1 => "È rimasto un solo articolo del Prodotto $product->title",
+                    default => "Ci sono solo $product->quantity articoli rimasti per il Prodotto .$product->title",
                 };
                 return redirect()->back()->with('error', $message);
             }
@@ -61,7 +61,7 @@ class CheckoutController extends Controller
                         'name' => $product->title,
                         'images' => $product->image ? [$product->image] : [],
                     ],
-                    'unit_amount' => round($product->price * 100),
+                    'unit_amount' => !empty($customer->vat_number) ? round(($product->price * 100) / 1.22) : $product->price * 100,
                 ],
                 'quantity' => $quantity,
             ];
@@ -75,7 +75,7 @@ class CheckoutController extends Controller
             // Update product quantity
             $product->quantity -= $quantity;
             if ($product->quantity < 0) {
-                throw new \Exception('Quantità non sufficiente per il prodotto "'.$product->title.'"');
+                throw new \Exception("Quantità non sufficiente per il prodotto $product->title.");
             }
             $product->save();
         }
@@ -97,7 +97,10 @@ class CheckoutController extends Controller
         }
 
         // Aggiungi le spese di spedizione dopo aver applicato lo sconto
-        $totalPrice = $subtotal + $shippingCost;
+        !empty($customer->vat_number) ? $totalPrice = ($subtotal + $shippingCost) / 1.22 : $totalPrice = $subtotal + $shippingCost;
+        
+
+        
 
         // Aggiungiamo le spese di spedizione come un elemento separato in Stripe
         $lineItems[] = [
@@ -106,13 +109,10 @@ class CheckoutController extends Controller
                 'product_data' => [
                     'name' => 'Spese di spedizione',
                 ],
-                'unit_amount' => round($shippingCost * 100),
+                'unit_amount' => !empty($customer->vat_number) ? round(($shippingCost * 100) / 1.22) : $shippingCost * 100,
             ],
             'quantity' => 1,
         ];
-
-        // Assicurati che il totale non sia negativo e converti in centesimi
-        $totalPriceInCents = max(round($totalPrice * 100), 0);
 
         $checkout_session = $stripe->checkout->sessions->create([
             'line_items' => $lineItems,
@@ -128,11 +128,11 @@ class CheckoutController extends Controller
         DB::beginTransaction();
         try {
             $orderData = [
-                'total_price' => $totalPrice,
+                'total_price' => !empty($customer->vat_number) ? round($subtotal / 1.22) : $subtotal,
                 'status' => OrderStatus::Unpaid,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
-                'shipping_cost' => $shippingCost,
+                'shipping_cost' => !empty($customer->vat_number) ? round($shippingCost / 1.22) : $shippingCost,
                 'discount' => $discount,
             ];
 
@@ -225,12 +225,15 @@ class CheckoutController extends Controller
     public function checkoutOrder(Order $order, Request $request)
     {
         \Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
+        /** @var |App\Models\User $user */
+        $user = $request->user();
+        $customer = $user->customer;
 
         $lineItems = [];
         $subtotal = 0;
 
         foreach ($order->items as $item) {
-            $subtotal += $item->unit_price * $item->quantity;
+            $subtotal += !empty($customer->vat_number) ? ($item->unit_price * $item->quantity) / 1.22 : $item->unit_price * $item->quantity;
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'eur',
@@ -238,7 +241,7 @@ class CheckoutController extends Controller
                         'name' => $item->product->title,
                         //'images' => [$item->product->image]
                     ],
-                    'unit_amount' => round($item->unit_price * 100),
+                    'unit_amount' => !empty($customer->vat_number) ? round(($item->unit_price * 100) / 1.22) : $item->unit_price * 100,
                 ],
                 'quantity' => $item->quantity,
             ];
@@ -262,7 +265,7 @@ class CheckoutController extends Controller
                     'product_data' => [
                         'name' => 'Spese di spedizione',
                     ],
-                    'unit_amount' => round($order->shipping_cost * 100),
+                    'unit_amount' => $order->shipping_cost * 100,
                 ],
                 'quantity' => 1,
             ];
@@ -274,9 +277,6 @@ class CheckoutController extends Controller
             $discountInCents = round($discountAmount * 100);
             $discounts[] = ['coupon' => $this->createStripeCoupon($discountInCents)];
         }
-
-        // Assicurati che il totale non sia negativo e converti in centesimi
-        $totalAmountInCents = max(round($totalAmount * 100), 0);
 
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $lineItems,

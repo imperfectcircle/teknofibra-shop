@@ -26,7 +26,8 @@ class ProfileRequest extends FormRequest
             'last_name' => ['required'],
             'phone' => ['required', 'min:7'],
             'email' => ['required', 'email'],
-
+            'vat.countryCode' => ['required', 'string', 'min:2'],
+            'vat.vatNumber' => ['required', 'string'],
             'shipping.address1' => ['required'],
             'shipping.address2' => ['required'],
             'shipping.city' => ['required'],
@@ -47,6 +48,8 @@ class ProfileRequest extends FormRequest
     public function attributes()
     {
         return [
+            'vat.countryCode' => 'Codice Paese',
+            'vat.vatNumber' => 'Numero Partita IVA',
             'billing.address1' => 'Indirizzo',
             'billing.address2' => 'Num. Civico',
             'billing.city' => 'Città',

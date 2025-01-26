@@ -21,4 +21,6 @@ return [
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
     'same_as' => 'Same as billing address',
+    'profile_country_code' => 'Country Code',
+    'profile_vat_number' => 'VAT/TVA/MWST Number',
 ];

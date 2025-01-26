@@ -21,4 +21,6 @@ return [
     'new_password' => 'Nuova Password',
     'confirm_password' => 'Conferma Password',
     'same_as' => 'Uguale all\'indirizzo di fatturazione',
+    'profile_country_code' => 'Codice Paese',
+    'profile_vat_number' => 'Numero Partita IVA',
 ];
