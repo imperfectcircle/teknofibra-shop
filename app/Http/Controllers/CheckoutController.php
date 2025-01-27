@@ -22,6 +22,11 @@ use Stripe\Stripe;
 
 class CheckoutController extends Controller
 {
+    protected $euCountries;
+
+    public function __construct() {
+        $this->euCountries = ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'EL', 'ES', 'FI', 'FR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK', 'GER'];
+    }
     public function checkout(Request $request)
     {
         /** @var |App\Models\User $user */
@@ -61,7 +66,7 @@ class CheckoutController extends Controller
                         'name' => $product->title,
                         'images' => $product->image ? [$product->image] : [],
                     ],
-                    'unit_amount' => !empty($customer->vat_number) ? round(($product->price * 100) / 1.22) : $product->price * 100,
+                    'unit_amount' => $this->isVatExempt($customer) ? round(($product->price * 100) / 1.22) : $product->price * 100,
                 ],
                 'quantity' => $quantity,
             ];
@@ -97,7 +102,7 @@ class CheckoutController extends Controller
         }
 
         // Aggiungi le spese di spedizione dopo aver applicato lo sconto
-        !empty($customer->vat_number) ? $totalPrice = ($subtotal + $shippingCost) / 1.22 : $totalPrice = $subtotal + $shippingCost;
+        $this->isVatExempt($customer) ? $totalPrice = ($subtotal + $shippingCost) / 1.22 : $totalPrice = $subtotal + $shippingCost;
         
 
         
@@ -109,7 +114,7 @@ class CheckoutController extends Controller
                 'product_data' => [
                     'name' => 'Spese di spedizione',
                 ],
-                'unit_amount' => !empty($customer->vat_number) ? round(($shippingCost * 100) / 1.22) : $shippingCost * 100,
+                'unit_amount' => $this->isVatExempt($customer) ? round(($shippingCost * 100) / 1.22) : $shippingCost * 100,
             ],
             'quantity' => 1,
         ];
@@ -128,11 +133,11 @@ class CheckoutController extends Controller
         DB::beginTransaction();
         try {
             $orderData = [
-                'total_price' => !empty($customer->vat_number) ? round($subtotal / 1.22) : $subtotal,
+                'total_price' => $this->isVatExempt($customer) ? round($subtotal / 1.22) : $subtotal,
                 'status' => OrderStatus::Unpaid,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
-                'shipping_cost' => !empty($customer->vat_number) ? round($shippingCost / 1.22) : $shippingCost,
+                'shipping_cost' => $this->isVatExempt($customer) ? round($shippingCost / 1.22) : $shippingCost,
                 'discount' => $discount,
             ];
 
@@ -233,7 +238,7 @@ class CheckoutController extends Controller
         $subtotal = 0;
 
         foreach ($order->items as $item) {
-            $subtotal += !empty($customer->vat_number) ? ($item->unit_price * $item->quantity) / 1.22 : $item->unit_price * $item->quantity;
+            $subtotal += $this->isVatExempt($customer) ? ($item->unit_price * $item->quantity) / 1.22 : $item->unit_price * $item->quantity;
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'eur',
@@ -241,7 +246,7 @@ class CheckoutController extends Controller
                         'name' => $item->product->title,
                         //'images' => [$item->product->image]
                     ],
-                    'unit_amount' => !empty($customer->vat_number) ? round(($item->unit_price * 100) / 1.22) : $item->unit_price * 100,
+                    'unit_amount' => $this->isVatExempt($customer) ? round(($item->unit_price * 100) / 1.22) : $item->unit_price * 100,
                 ],
                 'quantity' => $item->quantity,
             ];
@@ -375,5 +380,9 @@ class CheckoutController extends Controller
     {
         $shippingCost = ShippingCost::where('country_code', $countryCode)->first();
         return $shippingCost ? $shippingCost->cost : 0;
+    }
+
+    private function isVatExempt($customer) {
+        return !empty($customer->vat_number) && strtoupper($customer->vat_country_code) !== 'IT' || !in_array(strtoupper($customer->billingAddress->country_code), $this->euCountries);
     }
 }
