@@ -50,17 +50,17 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        $user = $this->user();
-        $customer = $user->customer;
-        if ($customer->status !== CustomerStatus::Active->value) {
-            Auth::guard('web')->logout();
-            $this->session()->invalidate();
-            $this->session()->regenerateToken();
+        //$user = $this->user();
+        //$customer = $user->customer;
+        //if ($customer->status !== CustomerStatus::Active->value) {
+        //    Auth::guard('web')->logout();
+        //    $this->session()->invalidate();
+        //    $this->session()->regenerateToken();
 
-            throw ValidationException::withMessages([
-                'email' => 'Il tuo account è stato disabilitato.',
-            ]);
-        }
+        //    throw ValidationException::withMessages([
+        //        'email' => 'Il tuo account è stato disabilitato.',
+        //    ]);
+        //}
 
         RateLimiter::clear($this->throttleKey());
     }

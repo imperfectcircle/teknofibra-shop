@@ -15,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Helpers\CartHelper as Cart;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Password;
 use PhpParser\Node\Stmt\TryCatch;
 
 class RegisteredUserController extends Controller
@@ -37,7 +38,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
         ]);
 
         DB::beginTransaction();

@@ -9,4 +9,5 @@ return [
     'password' => 'Password',
     'confirm_password' => 'Ripeti la Password',
     'register' => 'Registrati',
+    'rules' => 'La password deve essere lunga almeno 8 caratteri, contenere una lettera minuscola, una maiuscola, un numero ed un simbolo',
 ];

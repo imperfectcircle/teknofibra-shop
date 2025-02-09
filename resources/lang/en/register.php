@@ -9,4 +9,5 @@ return [
     'password' => 'Password',
     'confirm_password' => 'Confirm Password',
     'register' => 'Register',
+    'rules' => 'The password must be at least 8 characters long and contain a lowercase letter, an uppercase letter, a number, and a symbol',
 ];

@@ -59,6 +59,7 @@
           />
           <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+        <p class="text-sm mb-2">{{ __('register.rules') }}</p>
 
         <button
           class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full"
